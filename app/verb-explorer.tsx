@@ -6,6 +6,7 @@ import { FORM_KEYS, FORM_LABELS, type VerbEntry } from "../lib/verb-types";
 
 const LEVELS: Level[] = ["A2", "B1", "B2", "C1"];
 const PAGE_SIZE = 28;
+const EXPLORER_SESSION = "nordljud-vibe-explorer-ui-v1";
 
 type Props = {
   level: Level;
@@ -31,16 +32,52 @@ export default function VerbExplorer({
   const [selectedVerb, setSelectedVerb] = useState("arbeta");
   const [limit, setLimit] = useState(PAGE_SIZE);
   const [entries, setEntries] = useState<VerbEntry[]>([]);
+  const [loadedLevel, setLoadedLevel] = useState<Level | null>(null);
+  const [restored, setRestored] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [englishVisible, setEnglishVisible] = useState(true);
   const cache = useRef<Partial<Record<Level, VerbEntry[]>>>({});
+
+  // Remember the chosen verb when the learner navigates away or returns from OAuth.
+  useEffect(() => {
+    try {
+      const raw = sessionStorage.getItem(EXPLORER_SESSION);
+      if (raw) {
+        const value = JSON.parse(raw) as {
+          query?: string;
+          selectedVerb?: string;
+          onlyFavorites?: boolean;
+          englishVisible?: boolean;
+        };
+        if (typeof value.query === "string") setQuery(value.query);
+        if (typeof value.selectedVerb === "string") setSelectedVerb(value.selectedVerb);
+        if (typeof value.onlyFavorites === "boolean") setOnlyFavorites(value.onlyFavorites);
+        if (typeof value.englishVisible === "boolean") setEnglishVisible(value.englishVisible);
+      }
+    } catch {
+      // Session storage may be blocked. The explorer is still usable.
+    }
+    setRestored(true);
+  }, []);
+
+  useEffect(() => {
+    if (!restored) return;
+    try {
+      sessionStorage.setItem(EXPLORER_SESSION, JSON.stringify({
+        query, selectedVerb, onlyFavorites, englishVisible
+      }));
+    } catch {
+      // Storage permissions never block the lessons.
+    }
+  }, [restored, query, selectedVerb, onlyFavorites, englishVisible]);
 
   useEffect(() => {
     let mounted = true;
     const previous = cache.current[level];
     if (previous) {
       setEntries(previous);
+      setLoadedLevel(level);
       setLoading(false);
       setError("");
       return () => { mounted = false; };
@@ -58,6 +95,7 @@ export default function VerbExplorer({
         if (!mounted) return;
         cache.current[level] = data.verbs;
         setEntries(data.verbs);
+        setLoadedLevel(level);
       } catch (cause) {
         if (!mounted || controller.signal.aborted) return;
         setError("Could not load the " + level + " library. Please try again. " +
@@ -70,23 +108,30 @@ export default function VerbExplorer({
     return () => { mounted = false; controller.abort(); };
   }, [level]);
 
+  // Never display a previous level's examples as if they belonged to the new level.
+  const visibleEntries = loadedLevel === level ? entries : [];
+
   const filtered = useMemo(() => {
     const needle = normalize(query);
-    return entries.filter((entry) => {
+    return visibleEntries.filter((entry) => {
       if (onlyFavorites && !favorites.includes(entry.v)) return false;
       if (!needle) return true;
       return [entry.v, entry.meaning, ...FORM_KEYS.flatMap((k) => [
         entry.forms[k]?.word ?? "", entry.forms[k]?.sv ?? "", entry.forms[k]?.en ?? ""
       ])].some((part) => normalize(part).includes(needle));
     });
-  }, [entries, query, onlyFavorites, favorites]);
+  }, [visibleEntries, query, onlyFavorites, favorites]);
 
-  const selected = filtered.find((entry) => entry.v === selectedVerb) ?? filtered[0] ?? null;
+  // The same base verbs exist at all four levels. Keep the selected verb fixed
+  // while switching levels; only its example sentences and level label change.
+  const selected = (selectedVerb
+    ? visibleEntries.find((entry) => entry.v === selectedVerb)
+    : undefined) ?? filtered[0] ?? null;
 
   function chooseLevel(next: Level) {
     onLevelChange(next);
     setLimit(PAGE_SIZE);
-    setSelectedVerb("arbeta");
+    // Do not reset selectedVerb. This was the source of the reported bug.
   }
 
   return (
@@ -103,7 +148,7 @@ export default function VerbExplorer({
           <span className="search-icon" aria-hidden="true">⌕</span>
           <input
             id="verb-search" type="search" value={query}
-            onChange={(e) => { setQuery(e.target.value); setLimit(PAGE_SIZE); }}
+            onChange={(e) => { setQuery(e.target.value); setSelectedVerb(""); setLimit(PAGE_SIZE); }}
             placeholder="Search Swedish or English…" autoComplete="off"
           />
         </label>
@@ -115,7 +160,7 @@ export default function VerbExplorer({
         </label>
         <label className="favorite-filter">
           <input type="checkbox" checked={onlyFavorites}
-            onChange={(event) => { setOnlyFavorites(event.target.checked); setLimit(PAGE_SIZE); }}/>
+            onChange={(event) => { setOnlyFavorites(event.target.checked); setSelectedVerb(""); setLimit(PAGE_SIZE); }}/>
           Favorites ({favorites.length})
         </label>
       </div>
@@ -123,14 +168,14 @@ export default function VerbExplorer({
       <div className="explorer-grid">
         <div className="verb-results">
           <div className="results-heading">
-            <strong>{loading ? "Loading…" : filtered.length + " verbs"}</strong>
+            <strong>{(loading || loadedLevel !== level) ? "Loading…" : filtered.length + " verbs"}</strong>
             <small>Tap a verb to study its five forms</small>
           </div>
           {error && <p role="alert" className="feedback warning">{error}</p>}
-          {!loading && !error && filtered.length === 0 && (
+          {!loading && loadedLevel === level && !error && filtered.length === 0 && (
             <p className="empty-state">No matching verbs. Try another search or turn off Favorites.</p>
           )}
-          {filtered.slice(0, limit).map((entry) => (
+          {visibleEntries.length > 0 && filtered.slice(0, limit).map((entry) => (
             <div key={entry.v} className={"verb-result " + (selected?.v === entry.v ? "is-selected" : "")}>
               <button className="verb-select" onClick={() => setSelectedVerb(entry.v)}
                 aria-pressed={selected?.v === entry.v}>
@@ -192,7 +237,7 @@ export default function VerbExplorer({
               {voiceMessage && <p role="status" className="feedback warning">{voiceMessage}</p>}
               <p className="micro-copy">These sentences come from the recovered teaching dataset and still require teacher review. Audio uses your browser&apos;s Swedish voice.</p>
             </>
-          ) : <p className="empty-state">{loading ? "Loading verb details…" : "Choose a verb to see examples."}</p>}
+          ) : <p className="empty-state">{(loading || loadedLevel !== level) ? "Loading verb details…" : "Choose a verb to see examples."}</p>}
         </article>
       </div>
     </section>
