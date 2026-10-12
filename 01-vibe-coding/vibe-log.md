@@ -67,3 +67,22 @@ This is only an initial Vibe implementation increment. Do **not** mark Condition
 **Infrastructure:** Existing Supabase project `Nordlyd-3B` has an active browser-safe publishable key; configured `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as encrypted **Preview-only** environment variables in Vercel. No service-role secrets were put in application code. These public browser credentials must not be confused with Google Cloud Client ID and secret; Google provider authorization and redirect allowlist must still be verified.
 
 **Verification:** Vercel builds and browser OAuth sign-in, navigation, search, favorite persistence and isolation still require manual validation at the time of this log. A button reaching the Supabase OAuth method does **not** by itself prove Google login is enabled in the Supabase Dashboard. Email/password accounts are identified by email; a separate unique username identity was not implemented or promised as complete.
+
+
+## Session continuation — real user-found consistency and Google OAuth failures (13 October 2026)
+
+**User evidence:** After personally opening Explore, selecting a verb, and changing the level A2 → C1, the learner reported that the UI jumped to a different verb, violating continuity. The user also reported that **Continue with Google** navigates to a separate error page, does not log in, and Back navigation loses the previous context. This was observed from the user's report; the actual external OAuth error text was **not** supplied. Do not invent its exact code or cause.
+
+**Root cause for verb switch confirmed by code inspection:** The handler in `app/verb-explorer.tsx` explicitly executed `setSelectedVerb("arbeta")` after every level change. The component also chose the first matching entry if the selected verb was not in the current filter.
+
+**Corrections performed:**
+- Removed the forced selection reset on CEFR level change, retained the verb identity across all four datasets, and ensured entries only display when tagged for the currently selected level. Preserve selected term/search/favorites settings in sessionStorage so reopening the explorer on the same browser origin restores context. Git commit: `59f38f0e294ef8c9797de7fd40f94bbabef18e33`.
+- Added `/api/auth-status` to read Supabase's public provider status safely without returning credentials; show in-app explanatory text and disable the Google button if the public settings identify the provider as disabled. Git commit: `4c390b72a7e783df2cca16f58d2b00e8449e5373`.
+- Preserved the learner's current navigation tab and CEFR level when navigating away and returning. Handle `error_description` from OAuth URL or fragment inside Nordljud. Send the current tab and level in OAuth `redirectTo` query parameters, for a user returning across browser navigation. Git commit: `61a442bc6f30451e5e5f64515a163de93b26b378`.
+- Prevented a premature Google click while the provider-status check is running. Commit: `44798bf99174858dd2fa351c7fc4bd9c1153c905`.
+- Added source-data regression assertions proving the 456 verb identities exist in the same order across all four levels and that `arbeta` preserves its identity while example complexity changes. Commit: `0fb3a1622396446867da451a8888f712dfd9b58b`.
+- Documented Google Cloud Client ID/Secret setup, the correct Supabase OAuth callback, and Vercel preview redirect allowlisting in `01-vibe-coding/GOOGLE_AUTH_SETUP.md`.
+
+**Outstanding verification:** The new Vercel preview needs actual browser confirmation that switching A2/C1 keeps the verb and that OAuth provider status is reported correctly. A **Google sign-in success is still NOT VERIFIED**. Google login may require external Google Cloud and Supabase Dashboard configuration which cannot be inferred from JavaScript code or a READY build. Credential values are not committed to GitHub.
+
+**Research value:** These real user-found issues demonstrate the difference between a technically successful deployment and verified behavior. They are part of the Vibe condition's genuine iteration/rework record, not evidence manufactured after the fact.
