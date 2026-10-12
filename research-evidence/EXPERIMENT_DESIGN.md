@@ -26,7 +26,7 @@ H0/alternatives: Explicit SDD may improve traceability, validation and completen
 
 ## Controlled inputs
 
-- Exactly the Git commit `a9fc8da579c24284e3dacd79660c5324b15fb5cd`.
+- Exactly the Git commit `1afd635324a788f18db19f83f338ad89ade54e33`.
 - The unchanged `shared-content` JSON data, `mission-seeds.json` and `PRODUCT_BRIEF.md`.
 - Same model/version and AI coding tools where feasible; record differences.
 - Same human operator and available technical resources.
