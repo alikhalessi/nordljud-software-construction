@@ -12,6 +12,8 @@ const GUEST_KEY = "nordljud-vibe-guest-v1";
 const CLOUD_KEY = "nordljud_vibe_v1";
 const CLOUD_FAVORITES_KEY = "nordljud_vibe_favorites_v1";
 const GUEST_FAVORITES_KEY = "nordljud-vibe-guest-favorites-v1";
+const NAV_SESSION_KEY = "nordljud-vibe-navigation-v1";
+type GoogleStatus = "checking" | "enabled" | "disabled" | "unknown";
 const LEVELS: Level[] = ["A2", "B1", "B2", "C1"];
 const empty: Score = { comprehension: false, verb: false };
 
@@ -19,6 +21,8 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
   const [level, setLevel] = useState<Level>("A2");
   const [activeTab, setActiveTab] = useState<"today" | "explore" | "learning">("today");
   const [exploreLevel, setExploreLevel] = useState<Level>("A2");
+  const [navRestored, setNavRestored] = useState(false);
+  const [googleStatus, setGoogleStatus] = useState<GoogleStatus>("checking");
   const [favorites, setFavorites] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
@@ -43,6 +47,85 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
     return !!(s?.comprehension && s?.verb);
   }).length;
 
+  // Keep the learner's current screen when navigating to Google or pressing Back.
+  useEffect(() => {
+    const legalTabs = ["today", "explore", "learning"] as const;
+    const legalLevels: Level[] = ["A2", "B1", "B2", "C1"];
+    try {
+      const stored = sessionStorage.getItem(NAV_SESSION_KEY);
+      if (stored) {
+        const value = JSON.parse(stored) as {
+          tab?: "today" | "explore" | "learning";
+          level?: Level;
+          exploreLevel?: Level;
+        };
+        if (value.tab && legalTabs.includes(value.tab)) setActiveTab(value.tab);
+        if (value.level && legalLevels.includes(value.level)) setLevel(value.level);
+        if (value.exploreLevel && legalLevels.includes(value.exploreLevel)) {
+          setExploreLevel(value.exploreLevel);
+        }
+      }
+    } catch {
+      // The app still works if session storage is blocked.
+    }
+
+    // Supabase can return authentication errors as URL query or hash parameters.
+    // Surface them on our page instead of silently returning to the first mission.
+    const query = new URLSearchParams(window.location.search);
+    const hash = new URLSearchParams(window.location.hash.slice(1));
+    const authError = query.get("error_description") || hash.get("error_description")
+      || query.get("error") || hash.get("error");
+    if (authError) {
+      setAuthMessage("Google sign-in could not finish: " + authError.replace(/\+/g, " "));
+      setActiveTab("learning");
+    } else if (query.get("auth_return") === "google") {
+      const targetTab = query.get("tab");
+      if (targetTab && legalTabs.some((x) => x === targetTab)) {
+        setActiveTab(targetTab as "today" | "explore" | "learning");
+      }
+      const targetLevel = query.get("explore_level");
+      if (targetLevel && legalLevels.some((x) => x === targetLevel)) {
+        setExploreLevel(targetLevel as Level);
+      }
+      setAuthMessage("Checking your Google sign-in…");
+    }
+    setNavRestored(true);
+
+    // Browsers sometimes restore a page from the back-forward cache.
+    const onPageShow = () => setAuthBusy(false);
+    window.addEventListener("pageshow", onPageShow);
+    return () => window.removeEventListener("pageshow", onPageShow);
+  }, []);
+
+  useEffect(() => {
+    if (!navRestored) return;
+    try {
+      sessionStorage.setItem(NAV_SESSION_KEY, JSON.stringify({
+        tab: activeTab, level, exploreLevel
+      }));
+    } catch {
+      // Session storage is optional.
+    }
+  }, [navRestored, activeTab, level, exploreLevel]);
+
+  // Read only a sanitized provider status: never fetch or expose OAuth secrets.
+  useEffect(() => {
+    let active = true;
+    fetch("/api/auth-status", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) throw new Error("Provider status unavailable");
+        return response.json() as Promise<{ google?: string }>;
+      })
+      .then((value) => {
+        if (!active) return;
+        if (value.google === "enabled" || value.google === "disabled") {
+          setGoogleStatus(value.google);
+        } else setGoogleStatus("unknown");
+      })
+      .catch(() => { if (active) setGoogleStatus("unknown"); });
+    return () => { active = false; };
+  }, []);
+
   useEffect(() => {
     function loadGuestData() {
       try {
@@ -65,10 +148,21 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
     async function initialize() {
       const { data, error } = await supabase!.auth.getUser();
       if (!active) return;
-      if (error && error.status !== 400) setAuthMessage(error.message);
+      if (error && error.status !== 400 && error.name !== "AuthSessionMissingError") {
+        setAuthMessage(error.message);
+      }
       setUser(data.user ?? null);
-      if (data.user) await fetchProgress(data.user);
-      else loadGuestData();
+      if (data.user) {
+        await fetchProgress(data.user);
+        if (window.location.search.includes("auth_return=google")) {
+          setAuthMessage("Google sign-in successful. Welcome back!");
+        }
+      } else {
+        loadGuestData();
+        if (window.location.search.includes("auth_return=google")) {
+          setAuthMessage("Google sign-in has not completed. Please check the provider configuration or try again.");
+        }
+      }
       setAuthReady(true);
     }
 
@@ -130,17 +224,33 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
 
   async function signInWithGoogle() {
     if (!supabase || authBusy) return;
+    if (googleStatus === "disabled") {
+      setAuthMessage(
+        "Google sign-in is currently disabled in the Supabase project. The project owner must enable Google under Authentication → Providers and set the redirect URLs."
+      );
+      return;
+    }
     setAuthBusy(true);
     setAuthMessage("");
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin + "/" }
-    });
-    if (error) {
-      setAuthMessage("Google sign-in failed: " + error.message);
+    const callback = new URL("/", window.location.origin);
+    callback.searchParams.set("auth_return", "google");
+    callback.searchParams.set("tab", activeTab);
+    callback.searchParams.set("explore_level", exploreLevel);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: { redirectTo: callback.toString() }
+      });
+      if (error) {
+        setAuthMessage("Google sign-in failed: " + error.message);
+        setAuthBusy(false);
+      }
+      // A successful response redirects via Supabase to Google's consent screen.
+    } catch (error) {
+      setAuthMessage("Google sign-in failed: " +
+        (error instanceof Error ? error.message : "Unknown browser error"));
       setAuthBusy(false);
     }
-    // Successful OAuth leaves this page for Google's consent screen.
   }
 
   async function signOut() {
@@ -471,7 +581,7 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
           </div>
           <div className="auth-box">
             <button type="button" className="google-button"
-              disabled={!supabase || !authReady || authBusy}
+              disabled={!supabase || !authReady || authBusy || googleStatus === "disabled"}
               onClick={() => void signInWithGoogle()}>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 48 48">
                 <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -481,6 +591,12 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
               </svg>
               Continue with Google
             </button>
+            {googleStatus === "disabled" && (
+              <p className="feedback warning" role="status">
+                Google login is disabled in Supabase. The project owner must enable the Google provider before this button can work.
+              </p>
+            )}
+            {googleStatus === "checking" && <p className="micro-copy">Checking Google sign-in availability…</p>}
             <p className="auth-divider"><span>or use email and password</span></p>
             <div className="auth-tabs">
               <button className={authMode==="signin"?"selected":""} onClick={()=>setAuthMode("signin")}>Sign in</button>
