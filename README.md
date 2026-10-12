@@ -1,33 +1,55 @@
 # Nordljud — Swedish You Can Use
 
-Nordljud is an English-language, mission-based Swedish learning application, initially covering CEFR levels **A2, B1, B2, and C1**.
+Nordljud is an English-to-Swedish, mission-based learning web application with four sentence levels (**A2, B1, B2, C1**) and a recovered verb library.
 
-## Academic Project
+## Start Here — Three Independent Implementations
 
-This repository supports the Åbo Akademi Software Construction comparative experience report, investigating three independent AI-assisted software development approaches:
+**Important:** The three numbered folders visible on the default `main` branch are **navigation indexes**. The full, pushed source code of each experimental condition lives at the **root of its own Git branch**, so each project can be built independently. This is intentional, not a missing push.
 
-1. **Vibe Coding** — iterative human–AI collaboration.
-2. **God Mode Agentic Coding** — a capable AI coding agent given a strong master prompt and engineering autonomy.
-3. **Specification-Driven Development (SDD)** — explicit specification-first engineering, provisionally using GitHub Spec Kit.
+| Condition | Main-branch index | Complete code branch | Current evidence/status |
+|---|---|---|---|
+| A — Vibe Coding | [01-vibe-coding/](./01-vibe-coding/) | [condition/vibe](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/vibe) | Public pilot [nordljud.vercel.app](https://nordljud.vercel.app); learner confirmed it works |
+| B — God Mode | [02-god-mode/](./02-god-mode/) | [condition/god-mode](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/god-mode) | Independent app; GitHub CI [PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764); detailed browser auth tests outstanding |
+| C — Spec-Driven Development | [03-spec-driven/](./03-spec-driven/) | [condition/spec-driven](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/spec-driven) | Real Spec Kit CLI initialized; CI [PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38320127745); Vercel publication blocked by daily API quota |
 
-## Experimental Guardrails
+### How to find the files
 
-- Each condition starts from the **same shared baseline**, not the output of another condition.
-- Shared learning content, MVP scope, evaluation tests, and technology constraints must be consistent across conditions.
-- Keep honest timestamps, prompts, iterations, test results, Git commits, and evidence.
-- Historical Nordlyd code and the Vercel deployment are *reference/recovery assets*, not completed experimental implementations.
-- No test outcome or performance result is assumed in advance.
-- This repository initially contains only folder scaffolding and documentation; no application code has been implemented here yet.
+1. Click the implementation branch above, or use the GitHub **branch selector** to switch away from `main`.
+2. Each branch has its own root `app/`, `package.json`, app-specific source modules, tests and the relevant numbered-method folder.
+3. For artifacts and direct source links, open the corresponding `01`/`02`/`03` index on `main`. Those now point to the actual program source and evidence.
 
-## Directories
+**Do not merge all three app roots into main.** Each contains different versions of `app/`, `package.json` and config. Merging these roots would overwrite implementations, violate the planned separation and disrupt reproducibility. A final read-only archive or comparison branch may be created later if useful, but the branches remain the canonical sources.
 
-- `shared-content/` — common Swedish–English learning content and static assets.
-- `01-vibe-coding/` — Condition A: literature-grounded iterative Vibe Coding.
-- `02-god-mode/` — Condition B: maximally capable agent-structured development.
-- `03-spec-driven/` — Condition C: explicit Specification-Driven Development.
-- `evaluation/` — shared tests, measurement protocol, and analysis.
-- `research-evidence/` — prompts, observations, screenshots/log references, and reflections.
+## Purpose and Experiment Design
 
-## Current Status
+This project supports the Åbo Akademi Software Construction experience report on three AI-assisted development approaches:
 
-**Preparation only.** Recover and review existing Nordlyd learning content, freeze the common scope and baseline, and document the method for each condition *before* beginning the experiment.
+- **Vibe Coding (A):** iterative human–AI prompting, real browser feedback and fixes.
+- **God Mode (B):** a strong master prompt, autonomous engineering choices; the agent may create plans and tests voluntarily.
+- **Specification-Driven Development (C):** explicit pre-code constitution, spec, clarify, architecture/plan, tasks, analyze, implement and convergence stages; official GitHub Spec Kit 1.1.3 scaffold.
+
+### Frozen Common Starting Point
+
+All three experiment branches and `baseline-v1` began from Git commit `1afd635324a788f18db19f83f338ad89ade54e33`.
+
+The **shared teaching input** under [shared-content/](./shared-content/) is reused; application implementation code from one experimental condition is **not** copied to the others. The user-requested late scope expansion for the verb explorer, favorites and login is documented rather than retroactively written into the baseline; see [SCOPE_CHANGE_01.md](./research-evidence/SCOPE_CHANGE_01.md).
+
+The static corpus contains **456 sense records per level** but **455 unique written verb lemmas** because `sticka` has two senses, `knit` and `sting/prick/leave`. The full original teaching data remains unchanged.
+
+## Evidence and Reporting
+
+- [Common independent evaluation checklist — F01–F14](./evaluation/TEST_PLAN.md)
+- [Experimental design, conditions and validity limitations](./research-evidence/EXPERIMENT_DESIGN.md)
+- [University report rubric mapping](./research-evidence/COURSE_RUBRIC_ALIGNMENT.md)
+- [Course-first decision: defer startup scaling](./research-evidence/COURSE_FIRST_DECISION_2026-10-13.md)
+- [God Mode preregistered master prompt](./research-evidence/GOD_MODE_MASTER_PROMPT.md)
+- [Vibe public beta release record](./research-evidence/VIBE_PILOT_RELEASE_2026-10-13.md)
+- [Evidence-based draft experience report (not yet a final student submission)](./research-evidence/EXPERIENCE_REPORT_DRAFT_2026-10-13.md)
+
+## Current Limitations
+
+A Vercel READY build or passing automated CI does **not** guarantee browser speech, OAuth redirect or cross-user persistence. Google Login was configured externally for Vibe and the learner reported successful use; B and C still require careful end-to-end tests. Condition C's live deployment was blocked by Vercel's API quota at the time of its CI PASS.
+
+The ordered A→B→C comparison has carryover/learning effects and a user-driven scope increase during A. The report must disclose them. No wall-clock timings should be invented.
+
+**Scope remains university coursework first.** No commercial payments, scalability project or product launch work is planned before the course is completed.
