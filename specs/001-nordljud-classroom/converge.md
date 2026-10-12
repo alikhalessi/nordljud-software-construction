@@ -1,0 +1,49 @@
+# Nordljud SDD — Convergence Audit
+
+**Audit date:** 2026-10-13  
+**Method:** Official GitHub Spec Kit v1.1.3 CLI scaffold + assistant-authored gated SDD documents and independent implementation.  
+**Condition branch:** `condition/spec-driven`, initially created at shared baseline commit `1afd635324a788f18db19f83f338ad89ade54e33`.
+
+## Verification performed
+
+| Gate | Evidence | Result |
+|---|---|---|
+| Real Spec Kit CLI initialized | GitHub Actions `38319369671` successfully ran `specify-cli==1.1.3 specify init --here --force --non-interactive --integration copilot --ignore-agent-tools --script sh` | **PASS** |
+| Constitution + prioritized functional specification before code | `.specify/memory/constitution.md`; `spec.md`; ten clarifications; technical plan, domain contract, 20 tracked tasks and `analyze.md` committed before `package.json` and program source | **PASS** |
+| Shared input consistency | CI tested 456 source records per level / 455 unique spellings; `sticka` has two inflections | **PASS, 4 tests** |
+| Four mission seeds and unchanged examples | CI seed invariants, source tests | **PASS** |
+| Strict TypeScript compilation | GitHub Actions `38320127745`, step `TypeScript strict check` | **PASS** |
+| Optimized production build | Same run, step `Production build` | **PASS** |
+| Real browser layout and interactions | No SDD live deployment yet | **NOT TESTED** |
+| Google OAuth on SDD origin | App integration code exists; separate SDD preview URL not deployed or allowlisted | **NOT TESTED** |
+| User-specific state restored on actual sign-out/in | Code implemented using `nordljud_sdd_v1` JSONB namespace and Supabase RLS | **NOT TESTED** |
+| Two signed-in users see only personal data | Existing Supabase RLS policies verified externally; no two-person black-box test on SDD yet | **NOT TESTED** |
+| Swedish voices on real learner devices | Browser `speechSynthesis` implementation present; no SDD browser run | **NOT TESTED** |
+| Public/preview hosting | Vercel project `nordljud-sdd-lab` created and public Preview Supabase variables configured | **BLOCKED** |
+
+## Deployment blocker
+
+An explicit Vercel API deployment request for `nordljud-sdd-lab` returned HTTP **402 payment_required**, code `api-deployments-free-per-day`, reporting a **100 API deployments per rolling day** free-plan limit and an estimated 24-hour retry. This is **not** a Next.js compile error. Do not automatically upgrade or pay, do not confuse a created Vercel project with a successfully hosted app, and do not invent a URL.
+
+The user can continue code inspection and CI tests while this external quota is exhausted. Retry once permitted and then do manual F01–F14 verification using the same checklist as other methods.
+
+## Requirement-to-result classification
+
+- **Source-and-build verified**: FR-001–FR-003 basic source structure, FR-008 source counts/sense identity, FR-009 content-level identity invariant, FR-010 missing examples, FR-019 public-only client credentials (manual code inspection), FR-020 independent source branch.
+- **Implemented, live behavior unverified**: FR-004–FR-007 (translation/audio/questions); FR-011 (favorites); FR-012–FR-013 (account/Google); FR-014–FR-016 (private persistence); FR-017–FR-018 (error UX/mobile responsiveness).
+- **No requirement removed** to make a build green.
+
+## Convergence verdict
+
+**PARTIAL / NOT YET CONVERGED.** The code passes 4 source invariants, strict type checks and Next production build, but real browser acceptance and OAuth/account persistence are incomplete because deployment was blocked by a provider quota. “Successful CI” and “successful user acceptance” must remain distinct statements.
+
+## Traceability / future verification
+
+After Vercel quota resets:
+1. Deploy `condition/spec-driven` to `nordljud-sdd-lab` Preview. Keep public Vibe `https://nordljud.vercel.app` untouched.
+2. In Supabase Authentication URL Configuration allow the specific SDD Preview origin for OAuth. Never expose client secret.
+3. Ask learner to test all four study levels, both `sticka` meanings and mobile/audio controls.
+4. Test account sign-in with two different identities and check persistence and isolation.
+5. Attach real screenshots/logs, update tests table and this verdict without retroactively hiding failures.
+
+**Research limitations:** single developer and app; condition order A→B→C, known defect carryover, differing code construction and deployment conditions; not a controlled randomized comparison. Exact elapsed times were not instrumented and must not be invented.
