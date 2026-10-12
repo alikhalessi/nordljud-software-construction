@@ -4,16 +4,22 @@ import { useEffect, useState, type FormEvent } from "react";
 import type { User } from "@supabase/supabase-js";
 import type { Level, Mission } from "../lib/missions";
 import { getSupabase } from "../lib/supabase";
+import VerbExplorer from "./verb-explorer";
 
 type Score = { comprehension: boolean; verb: boolean };
 type Progress = Record<string, Score>;
 const GUEST_KEY = "nordljud-vibe-guest-v1";
 const CLOUD_KEY = "nordljud_vibe_v1";
+const CLOUD_FAVORITES_KEY = "nordljud_vibe_favorites_v1";
+const GUEST_FAVORITES_KEY = "nordljud-vibe-guest-favorites-v1";
 const LEVELS: Level[] = ["A2", "B1", "B2", "C1"];
 const empty: Score = { comprehension: false, verb: false };
 
 export default function LearningClient({ missions }: { missions: Mission[] }) {
   const [level, setLevel] = useState<Level>("A2");
+  const [activeTab, setActiveTab] = useState<"today" | "explore" | "learning">("today");
+  const [exploreLevel, setExploreLevel] = useState<Level>("A2");
+  const [favorites, setFavorites] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(null);
   const [authReady, setAuthReady] = useState(false);
   const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
@@ -38,13 +44,19 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
   }).length;
 
   useEffect(() => {
-    if (!supabase) {
+    function loadGuestData() {
       try {
         const saved = localStorage.getItem(GUEST_KEY);
-        if (saved) setProgress(JSON.parse(saved) as Progress);
+        const storedFavorites = localStorage.getItem(GUEST_FAVORITES_KEY);
+        setProgress(saved ? JSON.parse(saved) as Progress : {});
+        setFavorites(storedFavorites ? JSON.parse(storedFavorites) as string[] : []);
       } catch {
-        // Browser storage may be unavailable. The lessons still work in memory.
+        setProgress({});
+        setFavorites([]);
       }
+    }
+    if (!supabase) {
+      loadGuestData();
       setAuthReady(true);
       return;
     }
@@ -56,6 +68,7 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
       if (error && error.status !== 400) setAuthMessage(error.message);
       setUser(data.user ?? null);
       if (data.user) await fetchProgress(data.user);
+      else loadGuestData();
       setAuthReady(true);
     }
 
@@ -67,7 +80,9 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
         if (!error) {
           const state = data?.state as Record<string, unknown> | null | undefined;
           const saved = state?.[CLOUD_KEY] as Progress | undefined;
-          setProgress(saved && typeof saved === "object" ? saved : {});
+          const cloudFavorites = state?.[CLOUD_FAVORITES_KEY] as string[] | undefined;
+          setProgress(saved && typeof saved === "object" && !Array.isArray(saved) ? saved : {});
+          setFavorites(Array.isArray(cloudFavorites) ? cloudFavorites.filter((x) => typeof x === "string") : []);
         } else {
           setSaveError("Could not load your saved progress: " + error.message);
         }
@@ -84,7 +99,7 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
         // synchronously inside the auth state callback.
         Promise.resolve().then(() => { if (active) void fetchProgress(session.user); });
       } else {
-        setProgress({});
+        loadGuestData();
       }
     });
     return () => {
@@ -113,14 +128,63 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
     setAuthBusy(false);
   }
 
+  async function signInWithGoogle() {
+    if (!supabase || authBusy) return;
+    setAuthBusy(true);
+    setAuthMessage("");
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.origin + "/" }
+    });
+    if (error) {
+      setAuthMessage("Google sign-in failed: " + error.message);
+      setAuthBusy(false);
+    }
+    // Successful OAuth leaves this page for Google's consent screen.
+  }
+
   async function signOut() {
     if (!supabase) return;
     const { error } = await supabase.auth.signOut();
     if (error) setAuthMessage(error.message);
     else {
       setProgress({});
+      setFavorites([]);
       setAuthMessage("You signed out.");
     }
+  }
+
+  async function toggleFavorite(verb: string) {
+    const next = favorites.includes(verb)
+      ? favorites.filter((item) => item !== verb)
+      : [...favorites, verb];
+    setFavorites(next);
+    setSaveError("");
+    if (!supabase || !user) {
+      try {
+        localStorage.setItem(GUEST_FAVORITES_KEY, JSON.stringify(next));
+      } catch {
+        setSaveError("Favorites could not be saved on this browser.");
+      }
+      return;
+    }
+    setSaving(true);
+    const { data, error: readError } = await supabase.from("learner_states")
+      .select("state").eq("user_id", user.id).maybeSingle();
+    if (readError) {
+      setSaveError("Could not load favorites for saving: " + readError.message);
+      setSaving(false);
+      return;
+    }
+    const priorState = data?.state && typeof data.state === "object"
+      ? data.state as Record<string, unknown> : {};
+    const { error } = await supabase.from("learner_states").upsert({
+      user_id: user.id,
+      state: { ...priorState, [CLOUD_FAVORITES_KEY]: next },
+      updated_at: new Date().toISOString()
+    }, { onConflict: "user_id" });
+    if (error) setSaveError("Favorites could not be synced: " + error.message);
+    setSaving(false);
   }
 
   async function saveAnswer(which: keyof Score, correct: boolean) {
@@ -233,7 +297,7 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
     setQuestionMessage("");
     setVoiceMessage("");
     setTranslationShown(true);
-    setExplore(false);
+    setActiveTab("today");
   }
 
   return (
@@ -246,7 +310,13 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
         </div>
         <div className="top-actions">
           <span className="pilot-label">LEARNING PILOT · A2—C1</span>
-          {user && <button className="small-button" onClick={() => void signOut()}>Sign out</button>}
+          {user ? <>
+            <span className="user-email">{user.user_metadata?.full_name || user.email || "Signed in"}</span>
+            <button className="small-button" onClick={() => void signOut()}>Sign out</button>
+          </> : <button className="small-button" onClick={() => {
+            setActiveTab("learning");
+            document.getElementById("account-panel")?.scrollIntoView({ behavior: "smooth" });
+          }}>Sign in</button>}
         </div>
       </header>
 
@@ -267,7 +337,19 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
           </div>
         </section>
 
-        <div className="workspace">
+        <nav className="main-nav" aria-label="Main learning navigation">
+          <button aria-current={activeTab === "today" ? "page" : undefined}
+            className={activeTab === "today" ? "selected" : ""}
+            onClick={() => setActiveTab("today")}>Today · Missions</button>
+          <button aria-current={activeTab === "explore" ? "page" : undefined}
+            className={activeTab === "explore" ? "selected" : ""}
+            onClick={() => setActiveTab("explore")}>Explore · 456 Verbs</button>
+          <button aria-current={activeTab === "learning" ? "page" : undefined}
+            className={activeTab === "learning" ? "selected" : ""}
+            onClick={() => setActiveTab("learning")}>My Learning</button>
+        </nav>
+
+        {activeTab === "today" && <div className="workspace">
           <aside className="sidebar">
             <div className="side-title">LEARNING PATH</div>
             <p className="side-description">Select your Swedish level.</p>
@@ -342,15 +424,64 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
               {saveError && <p className="feedback warning" role="alert">{saveError}</p>}
             </div>
           </section>
-        </div>
+        </div>}
 
-        {!user && <section className="account-panel">
+        {activeTab === "explore" && (
+          <VerbExplorer
+            level={exploreLevel}
+            onLevelChange={setExploreLevel}
+            favorites={favorites}
+            onToggleFavorite={(verb) => void toggleFavorite(verb)}
+            onPlay={playSwedish}
+            voiceMessage={voiceMessage}
+          />
+        )}
+
+        {activeTab === "learning" && <section className="learning-dashboard">
+          <div className="section-heading"><span className="eyebrow">YOUR SWEDISH LEARNING</span>
+            <span className="mission-meta">{favorites.length} favorite verbs</span></div>
+          <h2>My Learning</h2>
+          <p className="lesson-intro">Track your completed missions and revisit your favorite Swedish verbs.</p>
+          <div className="progress-grid">
+            {missions.map((item) => {
+              const value = progress[item.id];
+              const steps = Number(!!value?.comprehension) + Number(!!value?.verb);
+              return <button className="progress-card" key={item.id}
+                onClick={() => chooseLevel(item.level)}>
+                <strong>{item.level} · {item.title}</strong>
+                <small>{steps} of 2 exercises completed</small>
+                <span className="meter light"><span style={{width: steps * 50 + "%"}} /></span>
+              </button>;
+            })}
+          </div>
+          <div className="favorite-summary">
+            <div><h3>★ My favorite verbs</h3>
+              <p>{favorites.length ? favorites.slice(0, 18).join(" · ") : "Your favorites will appear here when you star verbs in Explore."}</p>
+            </div>
+            <button className="small-button" onClick={() => setActiveTab("explore")}>Explore verbs</button>
+          </div>
+          {saveError && <p className="feedback warning" role="alert">{saveError}</p>}
+        </section>}
+
+        {!user && <section className="account-panel" id="account-panel">
           <div><div className="eyebrow">YOUR LEARNING ACCOUNT</div><h2>Keep your progress with you.</h2>
-            <p>{supabase ? "Create an account or sign in to sync your mission results." : "Guest preview is available. To enable accounts, configure the Supabase environment variables in your own deployment."}</p>
+            <p>{supabase ? "Use Google for a quick sign-in, or create an account using your email and password. Signed-in learners can sync missions and favorites." : "Guest mode is available. To enable Google and email sign-in, configure the Supabase connection in Vercel."}</p>
             <button className="text-button" onClick={() => setExplore(!explore)} aria-expanded={explore}>What is saved? {explore ? "−" : "+"}</button>
-            {explore && <p className="micro-copy">Only your mission completion results are stored. Guest mode uses this browser; signed-in mode uses the Supabase table protected by row-level security.</p>}
+            {explore && <p className="micro-copy">Mission completion and favorite verbs are stored locally in Guest mode. Signed-in mode uses Supabase with per-user row-level security. Guest data is not automatically merged into an account.</p>}
           </div>
           <div className="auth-box">
+            <button type="button" className="google-button"
+              disabled={!supabase || !authReady || authBusy}
+              onClick={() => void signInWithGoogle()}>
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 48 48">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.27 5.48-4.79 7.18l7.73 6C44.39 38.03 46.98 31.85 46.98 24.55z"/>
+                <path fill="#FBBC05" d="M10.53 28.59A14.4 14.4 0 0 1 9.75 24c0-1.59.27-3.13.76-4.59l-7.98-6.2A23.86 23.86 0 0 0 0 24c0 3.87.93 7.52 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.91-5.8l-7.73-6C30.03 37.64 27.29 38.5 24 38.5c-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              </svg>
+              Continue with Google
+            </button>
+            <p className="auth-divider"><span>or use email and password</span></p>
             <div className="auth-tabs">
               <button className={authMode==="signin"?"selected":""} onClick={()=>setAuthMode("signin")}>Sign in</button>
               <button className={authMode==="signup"?"selected":""} onClick={()=>setAuthMode("signup")}>Create account</button>
