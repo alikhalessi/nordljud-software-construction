@@ -34,3 +34,23 @@ for (const level of levels) {
     assert.ok(alternatives.size >= 2);
   });
 }
+
+
+test("all four CEFR levels contain the same 456 verbs in the same order", () => {
+  const base = load("verb-library/A2.json");
+  const lemmas = base.map((entry) => entry.v);
+  for (const level of levels.slice(1)) {
+    const alternate = load("verb-library/" + level + ".json");
+    assert.deepEqual(alternate.map((entry) => entry.v), lemmas,
+      "switching CEFR level must preserve the selected verb identity");
+  }
+});
+
+test("arbeta stays available while its example changes between A2 and C1", () => {
+  const a2 = load("verb-library/A2.json").find((entry) => entry.v === "arbeta");
+  const c1 = load("verb-library/C1.json").find((entry) => entry.v === "arbeta");
+  assert.ok(a2 && c1, "the same verb must exist on both levels");
+  assert.equal(a2.v, c1.v);
+  assert.notEqual(a2.forms.Pres.sv, c1.forms.Pres.sv,
+    "switching levels should replace the example, not the selected word");
+});
