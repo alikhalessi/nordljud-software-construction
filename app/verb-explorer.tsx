@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Level } from "../lib/missions";
-import { FORM_KEYS, FORM_LABELS, type VerbEntry } from "../lib/verb-library";
+import { FORM_KEYS, FORM_LABELS, type VerbEntry } from "../lib/verb-types";
 
 const LEVELS: Level[] = ["A2", "B1", "B2", "C1"];
 const PAGE_SIZE = 28;
