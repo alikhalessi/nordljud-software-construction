@@ -14,7 +14,14 @@ const sets = Object.fromEntries(levels.map((level) => [
 test("The exact same 456 lemma identities exist at all four CEFR levels", () => {
   const reference = sets.A2.map((entry) => entry.v);
   assert.equal(reference.length, 456);
-  assert.equal(new Set(reference).size, 456);
+  // The frozen source contains 456 entries, but 'sticka' appears twice for
+  // two distinct senses and inflections: stickar (knit) and sticker (sting).
+  // Reject lost entries or invented data instead of changing the shared input.
+  assert.equal(new Set(reference).size, 455);
+  assert.deepEqual(
+    sets.A2.filter((entry) => entry.v === "sticka").map((entry) => entry.meaning),
+    ["knit", "sting, prick; to leave (colloquial)"]
+  );
   for(const level of levels.slice(1)) {
     assert.deepEqual(sets[level].map((entry) => entry.v), reference);
   }
