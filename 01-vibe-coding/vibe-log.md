@@ -54,3 +54,16 @@ This is only an initial Vibe implementation increment. Do **not** mark Condition
 **Vercel history:** First import deployed the `main` branch and failed (`No Next.js version detected`); subsequently a preview deployment from `condition/vibe`, commit `20255231b715774240d640341dfa7066c30e7fa0`, reached READY and displayed the app. Both failures and corrective actions are preserved in Vercel/ Git history.
 
 **Pending evidence:** Rebuild result and manual retest of revised audio code; confirm whether the user's browser actually exposes a `sv-SE` voice; test comprehension and verb exercises; separate cloud auth and RLS validation. No claim of a functioning Swedish voice should be made until the learner hears it.
+
+
+## Session continuation — Scope Change 01: Verb Library and login (13 October 2026)
+
+**Actual user request (translated from Persian):** Restore the former view containing all ~456 verbs and add account login with username/password, especially Google one-click sign-in. The user explicitly endorsed the proposed Explore/Verb Library and My Learning design. The coordinator recorded `research-evidence/SCOPE_CHANGE_01.md` on `main` to give Conditions B and C the same expanded objective later. This expanded requirement came **after Condition A had started**.
+
+**Implemented in Condition A:** An authenticated route `/api/verbs/[level]` (educational content is public; authentication is not required to read it); lazy level-specific retrieval of the recovered 456 verbs; search over Swedish verbs and English meanings/example sentences; all five inflection forms and A2/B1/B2/C1 level switch; Swedish audio; Favorites and My Learning progress view. Added OAuth button calling `supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + "/" } })`. Existing email/password forms remain.
+
+**Engineering correction:** First client explorer imported form labels from a file that also imported all four large verb JSON datasets; refactored into lightweight `lib/verb-types.ts` and server-only dataset module `lib/verb-library.ts` to avoid bundling all Swedish examples in the browser's initial JS.
+
+**Infrastructure:** Existing Supabase project `Nordlyd-3B` has an active browser-safe publishable key; configured `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` as encrypted **Preview-only** environment variables in Vercel. No service-role secrets were put in application code. These public browser credentials must not be confused with Google Cloud Client ID and secret; Google provider authorization and redirect allowlist must still be verified.
+
+**Verification:** Vercel builds and browser OAuth sign-in, navigation, search, favorite persistence and isolation still require manual validation at the time of this log. A button reaching the Supabase OAuth method does **not** by itself prove Google login is enabled in the Supabase Dashboard. Email/password accounts are identified by email; a separate unique username identity was not implemented or promised as complete.
