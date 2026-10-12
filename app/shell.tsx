@@ -23,6 +23,9 @@ function validRecord(value: unknown): LearnerRecord {
   };
 }
 
+// A lexicon entry is a sense, not just a spelling. "sticka" has two meanings.
+function senseId(item: SwedishVerb): string { return item.v + "::" + item.meaning; }
+
 function useSpeech() {
   const [message, setMessage] = useState("");
   const speak = (text: string) => {
@@ -219,7 +222,7 @@ export default function AppShell({ lessons }: { lessons: Lesson[] }) {
   const availableVerbs = vocabLoaded === lexiconLevel ? vocabulary : [];
   const normalized = search.trim().toLocaleLowerCase("sv-SE");
   const matches = useMemo(() => availableVerbs.filter((item) => {
-    if (onlySaved && !record.favorites.includes(item.v)) return false;
+    if (onlySaved && !record.favorites.includes(senseId(item))) return false;
     if (!normalized) return true;
     const text = [item.v, item.meaning, ...FORMS.flatMap((tense) => [
       item.forms[tense].word, item.forms[tense].sv, item.forms[tense].en
@@ -227,7 +230,7 @@ export default function AppShell({ lessons }: { lessons: Lesson[] }) {
     return text.includes(normalized);
   }), [availableVerbs, normalized, onlySaved, record.favorites]);
 
-  const chosen = matches.find((item) => item.v === lemma) ?? matches[0] ?? null;
+  const chosen = matches.find((item) => senseId(item) === lemma || item.v === lemma) ?? matches[0] ?? null;
 
   async function commitRecord(next: LearnerRecord) {
     setRecord(next);
@@ -399,19 +402,19 @@ export default function AppShell({ lessons }: { lessons: Lesson[] }) {
             <b>{vocabStatus==="loading" || vocabLoaded!==lexiconLevel ? "Loading..." : matches.length+" verbs"}</b>
             <small>Select a word to view its forms</small></div>
             {vocabStatus==="error"&&<p className="notification">Could not load the Swedish words. Try another level and return.</p>}
-            {vocabLoaded===lexiconLevel&&matches.map((item)=><div className={"word-item "+(item.v===chosen?.v?"selected":"")} key={item.v}>
-              <button onClick={()=>setLemma(item.v)}><b>{item.v}</b><small>{item.meaning}</small></button>
-              <button className="star" aria-pressed={record.favorites.includes(item.v)}
-                aria-label={"Toggle favorite "+item.v} onClick={()=>favorite(item.v)}>
-                {record.favorites.includes(item.v)?"★":"☆"}</button>
+            {vocabLoaded===lexiconLevel&&matches.map((item)=><div className={"word-item "+(item===chosen?"selected":"")} key={senseId(item)}>
+              <button onClick={()=>setLemma(senseId(item))}><b>{item.v}</b><small>{item.meaning}</small></button>
+              <button className="star" aria-pressed={record.favorites.includes(senseId(item))}
+                aria-label={"Toggle favorite "+item.v} onClick={()=>favorite(senseId(item))}>
+                {record.favorites.includes(senseId(item))?"★":"☆"}</button>
             </div>)}
             {vocabLoaded===lexiconLevel && matches.length===0 &&<p className="notification">No matching words.</p>}
           </div>
           <article className="panel word-details">
             {vocabLoaded!==lexiconLevel?<p>Loading {lexiconLevel} examples…</p>:chosen?<><div className="word-heading">
               <div><span className="subhead">{lexiconLevel} VERB FORMS</span><h3>{chosen.v}</h3><p>{chosen.meaning}</p></div>
-              <button className="star big" aria-label="Toggle favorite" onClick={()=>favorite(chosen.v)}>
-                {record.favorites.includes(chosen.v)?"★":"☆"}</button>
+              <button className="star big" aria-label="Toggle favorite" onClick={()=>favorite(senseId(chosen))}>
+                {record.favorites.includes(senseId(chosen))?"★":"☆"}</button>
             </div>
             <button className="outline" onClick={()=>setShowTranslation(!showTranslation)}>
               {showTranslation?"Hide English":"Show English"}</button>
@@ -447,7 +450,7 @@ export default function AppShell({ lessons }: { lessons: Lesson[] }) {
               </button>;
             })}
             <h3>Favorite verbs</h3><p className="description">
-              {record.favorites.length?record.favorites.join(" · "):"Select stars in the library to save words here."}</p>
+              {record.favorites.length?record.favorites.map((id) => id.replace("::", " — ")).join(" · "):"Select stars in the library to save words here."}</p>
             <button className="outline" onClick={()=>setScreen("dictionary")}>Open verb library</button>
           </section>
           <section className="panel account-panel">
