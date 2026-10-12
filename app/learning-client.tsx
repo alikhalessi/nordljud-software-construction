@@ -175,18 +175,57 @@ export default function LearningClient({ missions }: { missions: Mission[] }) {
       setVoiceMessage("Audio is unavailable in this browser.");
       return;
     }
-    const voices = window.speechSynthesis.getVoices();
-    const swedish = voices.find((voice) => voice.lang.toLowerCase().startsWith("sv"));
-    if (voices.length && !swedish) {
-      setVoiceMessage("No Swedish voice was detected. Your browser may use a fallback.");
+    const synth = window.speechSynthesis;
+    const swedishVoice = () =>
+      synth.getVoices().find((voice) => voice.lang.toLowerCase().startsWith("sv"));
+
+    function startPlayback() {
+      const selected = swedishVoice();
+      if (!selected) {
+        setVoiceMessage(
+          "No Swedish text-to-speech voice is available. Install a Swedish speech voice in your operating system, restart Chrome, and try again."
+        );
+        return;
+      }
+      synth.cancel();
+      const utterance = new SpeechSynthesisUtterance(sentence);
+      utterance.lang = "sv-SE";
+      utterance.voice = selected;
+      utterance.rate = 0.87;
+      utterance.onstart = () => setVoiceMessage("");
+      utterance.onerror = (event: SpeechSynthesisErrorEvent) => {
+        // Rapidly selecting another example cancels or interrupts the old one.
+        // Do not present that normal user interaction as an audio failure.
+        if (event.error === "canceled" || event.error === "interrupted") return;
+        const message = event.error === "language-unavailable" || event.error === "voice-unavailable"
+          ? "Swedish voice could not be started. Check Swedish text-to-speech voice installation."
+          : "Playback failed (" + event.error + "). Check browser speech settings.";
+        setVoiceMessage(message);
+      };
+      try {
+        synth.speak(utterance);
+      } catch (error) {
+        const reason = error instanceof Error ? error.message : "unknown error";
+        setVoiceMessage("Browser audio could not start: " + reason);
+      }
     }
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(sentence);
-    utterance.lang = "sv-SE";
-    if (swedish) utterance.voice = swedish;
-    utterance.rate = 0.87;
-    utterance.onerror = () => setVoiceMessage("Playback failed. Check browser speech settings.");
-    window.speechSynthesis.speak(utterance);
+
+    if (synth.getVoices().length > 0) {
+      startPlayback();
+    } else {
+      // Chrome often populates Web Speech voices asynchronously after page load.
+      setVoiceMessage("Checking Swedish voice availability…");
+      let started = false;
+      const whenVoicesLoad = () => {
+        if (started) return;
+        started = true;
+        synth.removeEventListener("voiceschanged", whenVoicesLoad);
+        window.clearTimeout(waitTimer);
+        startPlayback();
+      };
+      synth.addEventListener("voiceschanged", whenVoicesLoad);
+      const waitTimer = window.setTimeout(whenVoicesLoad, 1500);
+    }
   }
 
   function chooseLevel(next: Level) {
