@@ -41,3 +41,16 @@ Context: previous conversation approved creating Nordljud as three independent i
 ### Research integrity
 
 This is only an initial Vibe implementation increment. Do **not** mark Condition A finished or freeze it as a successful MVP yet. Keep any genuine failures, prompts, later corrections, screenshots, timings and working links. The elapsed time has not been reliably instrumented; do not invent a 120-minute result. Conditions B and C have not been touched.
+
+
+## Session 1 continuation — first real browser observation, 12 October 2026
+
+**Observed evidence:** The learner opened Vercel's preview deployment of the Vibe branch in Chrome and supplied a screenshot. The screenshot visibly confirms that the landing/dashboard layout, A2 mission, four selected verb examples, English translations, and level picker render. Progress reads `0/4` in **Guest** mode. The screenshot alone does not demonstrate a working sign-in flow, completed quiz, persistence, or C1 mission.
+
+**First surfaced user-visible defect:** After testing the speaker, the A2 page displayed `Playback failed. Check browser speech settings.`. This is a **failed audio acceptance check** until a successful replay is observed. A Swedish text-to-speech voice missing on the learner's Windows/Chrome machine is a plausible cause, **not yet a proven root cause**.
+
+**Follow-up engineering iteration (not a proven audio fix):** Changed `app/learning-client.tsx` to wait briefly for asynchronous Chrome `voiceschanged`, check for an available Swedish-language voice, report actionable missing-voice guidance, and preserve the exact browser audio error code rather than hiding it. Ignore canceled/interrupted audio when a different sentence is selected. Git commit: `17e32e6666ce7526a58eb3394e00999c2b8872bb`.
+
+**Vercel history:** First import deployed the `main` branch and failed (`No Next.js version detected`); subsequently a preview deployment from `condition/vibe`, commit `20255231b715774240d640341dfa7066c30e7fa0`, reached READY and displayed the app. Both failures and corrective actions are preserved in Vercel/ Git history.
+
+**Pending evidence:** Rebuild result and manual retest of revised audio code; confirm whether the user's browser actually exposes a `sv-SE` voice; test comprehension and verb exercises; separate cloud auth and RLS validation. No claim of a functioning Swedish voice should be made until the learner hears it.
