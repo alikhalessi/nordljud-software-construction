@@ -1,0 +1,87 @@
+name: Independent three-way guest browser audit
+
+# This tests each frozen method's genuine UI locally with Chromium, without
+# touching public deployments, user accounts or the three method branches.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'evaluation/browser/**'
+      - '.github/workflows/independent-guest-browser-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    name: Browser ${{ matrix.method }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 23
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - method: Vibe
+            ref: condition/vibe
+          - method: God_Mode
+            ref: condition/god-mode
+          - method: SDD
+            ref: condition/spec-driven
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: evaluator
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+          path: source
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install source application
+        run: npm install --no-audit --no-fund
+        working-directory: source
+      - name: Install evaluator runtime in isolated folder
+        run: npm install --no-save --no-package-lock --no-audit --no-fund @playwright/test@1.56.1
+        working-directory: evaluator
+      - name: Install Chromium
+        run: ./node_modules/.bin/playwright install --with-deps chromium
+        working-directory: evaluator
+      - name: Test guest experience without credentials
+        id: guest
+        continue-on-error: true
+        working-directory: evaluator
+        env:
+          NORDLJUD_METHOD: ${{ matrix.method }}
+        run: ./node_modules/.bin/playwright test --config evaluation/browser/playwright.config.ts
+      - name: Publish factual audit outcomes
+        if: always()
+        env:
+          METHOD: ${{ matrix.method }}
+          SOURCE: ${{ matrix.ref }}
+          RESULT: ${{ steps.guest.outcome }}
+        run: |
+          {
+            echo "### $METHOD guest-browser audit"
+            echo ""
+            echo "Original branch: `$SOURCE`"
+            echo ""
+            echo "**Chromium result: $RESULT**"
+            echo ""
+            echo "The two tests cover: A2/B1/B2/C1 missions and independently selectable"
+            echo "knit/sting senses of `sticka`. A failed test is preserved as FAIL,"
+            echo "not erased or rewritten. No Google OAuth, browser voice or database"
+            echo "isolation is simulated. See raw Playwright step logs for individual cases."
+          } >> "$GITHUB_STEP_SUMMARY"
+      - name: Archive Playwright failure traces, if any
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-${{ matrix.method }}
+          path: evaluator/test-results
+          if-no-files-found: ignore
+          retention-days: 10
