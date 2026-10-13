@@ -42,7 +42,7 @@ const missions: Array<[string, string]> = [
   ["C1", "påverka"]
 ];
 
-test("F03/F04/F05 guest missions: all four CEFR levels show correct target and Swedish examples", async ({ page }) => {
+test("F03/F04/F05 guest missions: all four CEFR levels show correct target and Swedish examples", async ({ page }, testInfo) => {
   await page.goto("/");
   for (const [level, lemma] of missions) {
     const button = page.locator(levelButton[method!]).filter({
@@ -52,10 +52,14 @@ test("F03/F04/F05 guest missions: all four CEFR levels show correct target and S
     await button.click();
     await expect(page.locator(selectedTarget[method!])).toHaveText(lemma);
     await expect(page.locator('main p[lang="sv"]').first()).toBeVisible();
+    if (level === "A2") {
+      // Clean, unauthenticated guest screenshot for the coursework report.
+      await page.screenshot({ path: testInfo.outputPath(method + "-A2-mission.png"), fullPage: true });
+    }
   }
 });
 
-test("G03 lexicon preserves both meanings of homograph sticka as selectable senses", async ({ page }) => {
+test("G03 lexicon preserves both meanings of homograph sticka as selectable senses", async ({ page }, testInfo) => {
   await page.goto("/");
   await page.getByRole("button", { name: libraryNavigation[method!], exact: true }).click();
   const input = page.locator('input[type="search"]').first();
@@ -70,5 +74,8 @@ test("G03 lexicon preserves both meanings of homograph sticka as selectable sens
   await rows.nth(0).locator("button").first().click();
   await expect(page.locator(senseMeaning[method!])).toContainText("knit");
   await rows.nth(1).locator("button").first().click();
+  // Capture the actual selected detail BEFORE asserting: Vibe's failing
+  // right-side pane is then preserved without reconstructing a fake screen.
+  await page.screenshot({ path: testInfo.outputPath(method + "-sticka-second-sense.png"), fullPage: true });
   await expect(page.locator(senseMeaning[method!])).toContainText("sting");
 });
