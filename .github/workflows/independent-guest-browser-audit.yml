@@ -84,4 +84,4 @@ jobs:
           name: playwright-${{ matrix.method }}
           path: evaluator/test-results
           if-no-files-found: ignore
-          retention-days: 10
+          retention-days: 30
