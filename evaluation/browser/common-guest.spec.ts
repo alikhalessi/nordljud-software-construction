@@ -79,3 +79,37 @@ test("G03 lexicon preserves both meanings of homograph sticka as selectable sens
   await page.screenshot({ path: testInfo.outputPath(method + "-sticka-second-sense.png"), fullPage: true });
   await expect(page.locator(senseMeaning[method!])).toContainText("sting");
 });
+
+
+test("F07/F08 guest-only exercise completion and browser reload", async ({ page }, testInfo) => {
+  await page.goto("/");
+  const groupSelector = method === "God_Mode" ? ".answers" : ".choices";
+  const groups = page.locator(groupSelector);
+  await expect(groups).toHaveCount(2);
+
+  for (let question = 0; question < 2; question++) {
+    const buttons = groups.nth(question).locator("button");
+    const count = await buttons.count();
+    expect(count).toBeGreaterThanOrEqual(3);
+    // We do not assume which deterministic answer index an AI version used.
+    // Try available choices until its correct-answer completion state disables
+    // the choice buttons. This verifies a successful answer path, NOT whether
+    // incorrect-answer messages were pedagogically appropriate.
+    for (let index = 0; index < count; index++) {
+      if (await buttons.first().isDisabled()) break;
+      await buttons.nth(index).click();
+    }
+    await expect(buttons.first()).toBeDisabled();
+  }
+
+  await page.screenshot({
+    path: testInfo.outputPath(method + "-guest-A2-exercises-complete.png"),
+    fullPage: true
+  });
+
+  await page.reload();
+  await expect(page.locator(groupSelector)).toHaveCount(2);
+  for (let question = 0; question < 2; question++) {
+    await expect(page.locator(groupSelector).nth(question).locator("button").first()).toBeDisabled();
+  }
+});
