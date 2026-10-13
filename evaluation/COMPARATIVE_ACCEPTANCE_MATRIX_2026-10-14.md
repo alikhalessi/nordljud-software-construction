@@ -27,9 +27,9 @@ Source code is separate in each branch; the educational input is inherited from 
 |---|---|---|---|---|
 | F01 | Email/password account registration | NOT TESTED (source implemented) | NOT TESTED (source implemented) | NOT TESTED (source implemented) |
 | F02 | Sign in/reload/sign out; invalid credentials rejected | PARTIAL: Google login reportedly working; invalid password untested | NOT TESTED: separate God login not confirmed | PARTIAL: Google sign-out/re-login confirmed [learner], invalid credentials untested |
-| F03 | Four visible levels A2–C1 | PENDING Chromium cross-method guest audit; UI levels implemented | PENDING Chromium cross-method guest audit | PENDING Chromium cross-method guest audit |
-| F04 | Four correct seeded missions | Source checks pass for four seed mappings; guest-browser PENDING | Source tests PASS; guest-browser PENDING | Source tests PASS; guest-browser PENDING |
-| F05 | Source Swedish and English examples match | Source invariants partly pass; live UI text PENDING | Source invariants PASS; live UI text PENDING | Source invariants PASS; live UI text PENDING |
+| F03 | Four visible levels A2–C1 | PASS [Chromium guest audit] — A2/B1/B2/C1 level buttons | PASS [Chromium guest audit] | PASS [Chromium guest audit] |
+| F04 | Four correct seeded missions | PASS [Chromium guest audit] + original checks of four seed targets | PASS [Chromium guest audit] + source tests | PASS [Chromium guest audit] + source tests |
+| F05 | Source Swedish and English examples match | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared |
 | F06 | Swedish speech or graceful fallback | PASS [learner, historical Vibe feedback]; not audited on multiple devices | NOT TESTED on learner device | NOT TESTED on learner device |
 | F07 | Meaning/comprehension correctness feedback | NOT TESTED independently, code present | NOT TESTED independently, code present | NOT TESTED independently, code present |
 | F08 | Verb-form correctness feedback | NOT TESTED independently, code present | NOT TESTED independently, code present | NOT TESTED independently, code present |
@@ -46,7 +46,7 @@ Source code is separate in each branch; the educational input is inherited from 
 |---|---|---|---|---|
 | G01 | Google OAuth returns signed in to actual deployment | PASS [learner] after external provider setup | NOT TESTED on separate God Mode origin | PASS [learner] after correcting Supabase redirect allowlist |
 | G02 | Favorites independently persist after reload/re-login | NOT TESTED as exact separate scenario | NOT TESTED as exact separate scenario | NOT TESTED as exact separate scenario; user's aggregate “stored data remains” is insufficient |
-| G03 | Two meanings of `sticka` independently selectable/favoritable | **Potential FAIL from code inspection:** selection, React list key and favorites use spelling `entry.v`; guest-browser audit PENDING | Composite `senseId` implemented after data-identity CI defect; guest-browser audit PENDING | Composite `senseKey` explicitly planned from source specification; guest-browser audit PENDING |
+| G03 | Two meanings of `sticka` independently selectable/favoritable | **FAIL [Chromium]:** selecting the second `sticka` sense leaves detail meaning on `knit`; spelling-only keys confirmed in source | **PASS [Chromium]** composite `senseId` selects both `sticka` meanings | **PASS [Chromium]** composite `senseKey` selects both `sticka` meanings |
 | G04 | Auth entry point findable from initial screen | Explicit Sign in code in Vibe; detailed guest-browser test not run | Explicit Sign in code in God Mode; detailed guest-browser test not run | **Initial FAIL** (Chromium RED 2/2); **post-fix PASS** (Chromium GREEN 3/3) |
 | G05 | Account progress namespace isolation between experiments | Unique namespace coded; no cross-app concurrency test | Unique namespace coded; no cross-app concurrency test | Unique namespace coded; no cross-app concurrency test |
 
@@ -70,7 +70,15 @@ The original Vibe action was blocked by its test before reaching TypeScript or b
 1. F03/F04/F05: A2 `arbeta`, B1 `förklara`, B2 `föreslå`, C1 `påverka`; source Swedish examples visible.
 2. G03: both `sticka` meanings independently selectable and reflected in detail pane.
 
-**Result:** PENDING at initial matrix creation. Update status from exact Chromium run and logs; do not infer outcomes from implementation inspection.
+**Actual result:** GitHub Actions run [38484033148](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484033148) executed real Chromium on the isolated original branches:
+
+| Method | F03/F04 guest mission targets + visible Swedish sentence | G03 two independently selectable `sticka` senses | Actual tests passed |
+|---|---|---|---|
+| Vibe | **PASS** | **FAIL** (second sense displays `knit`, expected `sting`) | **1/2** |
+| God Mode | **PASS** | **PASS** | **2/2** |
+| SDD | **PASS** | **PASS** | **2/2** |
+
+**Exact Vibe browser assertion:** `locator('.verb-heading p')` expected substring `"sting"`, received `"knit"`, after selecting the second of two visible `sticka` entries. See [independent defect analysis](./DEFECT_VIBE_HOMOGRAPH_2026-10-14.md). The evaluator has a small *workflow summary shell-quoting* issue (literal backticks were treated as command substitution) that did **not** affect the Chromium tests. An otherwise identical summary-quoting correction rerun was started; distinguish any automation infrastructure noise from actual application test failures.
 
 ## User acceptance, verified database policy and method validity
 
