@@ -31,3 +31,13 @@ Artifacts checked: constitution 1.0, spec with FR-001–FR-020, clarifications C
 **PASS — implementation may begin** with 20 planned tasks, 20 mapped FRs, no unaddressed blocking contradictions. Requirement quality is not a substitute for execution-time test evidence.
 
 **Process integrity caveat:** The official Spec Kit **CLI** v1.1.3 was genuinely initialized in GitHub Actions (run `38319369671`), placing its official templates and Copilot skills in this branch. The requirement documents are produced by the assistant following those templates and workflow stages, **not** by claiming that a separate Copilot agent successfully invoked every slash command. This is an important distinction for the experience report.
+
+---
+
+## Post-release gap analysis (13 October 2026) — Auth discoverability
+
+**Finding:** The original `FR-012` and `FR-013` defined available authentication methods, but not *where/how* users should find them on the landing page. T013 and T014 were checked based on handlers and account form implementation, while CI only exercised source-data invariants, types and build. The first deployed SDD showed generic `Guest learner` in the header and hid actual auth entry under `My learning`.
+
+**Gap classification:** Covered requirement ≠ usable, validated user journey. Add `FR-021` and `SC-009` in the dated post-release spec amendment and a real browser test before the corrective implementation. Formal SDD without stakeholder walkthrough and end-to-end convergence can still yield this class of defect. Explicit documentation is not a warranty of first-try completeness.
+
+**Status:** Before correction, independently verified in source; real-user evidence is the learner's report. A live DOM screenshot or successful/failed OAuth flow has not been retrieved by the assistant.

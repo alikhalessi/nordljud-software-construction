@@ -125,3 +125,32 @@ A signed-in learner returns later and sees their individual mission results and 
 - A/B implementation source must not be read or reused to implement Condition C; engineering decisions must be justified by this specification and common educational inputs.
 
 **Traceability source**: `shared-content/PRODUCT_BRIEF.md`, `shared-content/mission-seeds.json`, `research-evidence/SCOPE_CHANGE_01.md` on coordinating `main`, common evaluation `F01–F14`. The latter protocol is an evaluator artifact, not a substitute for this specification.
+
+---
+
+## Post-first-build Requirement Amendment CR-SDD-02 — Login Discoverability (13 October 2026)
+
+**Status:** Post-implementation defect response; *not part of the original pre-code specification*. Raised after the learner inspected the first live SDD deployment.
+
+**Observed learner feedback (translated from Persian):** "The Spec-Driven version still doesn't have the login section. I expected a detailed specification to make the agent build it completely from the beginning. Why did this happen? This is worth recording."
+
+**Code inspection before the fix:** Email/password and Google OAuth handlers and account forms exist in `app/experience.tsx`, but are rendered only when internal state `screen === "me"`. The landing header labels access as `Guest learner` rather than `Sign in`. A new user has to discover that **My learning** is the way to reach authentication. This is an observable discoverability defect, **not proof that the authentication implementation is absent or that OAuth actually works**.
+
+### Additional user story (P1 usability enhancement to existing P2 account story)
+
+As a signed-out visitor on a desktop or a narrow mobile browser, I want to see a clearly labeled **Sign in** action without navigating through unrelated learning sections, so I can create an account or log in using Google/email.
+
+**FR-021 — AUTH DISCOVERABILITY:** On the initial study view, a signed-out learner MUST see a prominent, keyboard-accessible, plainly labeled **Sign in** control without first opening `My learning`. Selecting it MUST present both the Google login option and email/password sign-in controls **with one interaction**. Signed-in users should instead see recognizable account access.
+
+**SC-009 — UI ACCEPTANCE:** A browser test at desktop and narrow-mobile widths MUST find a labeled "Sign in" button on the initially rendered page; clicking it exposes both "Continue with Google" and the email/password fields without reliance on live Google credentials. Separate manual tests are still required to prove real Google OAuth, account creation and cross-account saved progress.
+
+**Scope control:** Preserve the original specification and CI results as pre-fix evidence. Implement a focused corrective UI change only in Condition C; do not retroactively claim first-pass SDD correctness or copy another method's UI.
+
+### Post-fix acceptance examples
+
+1. **Given** a visitor not signed in, **when** they open the first screen, **then** a visible button labeled "Sign in" is present in the main header.
+2. **Given** the visitor selects Sign in, **when** the account panel opens, **then** "Continue with Google" and email/password options are visible.
+3. **Given** narrow 390px mobile width, **when** the initial screen loads, **then** the "Sign in" action is within the visible header and remains keyboard actionable.
+4. **Given** auth provider is unconfigured, **when** the account section is visible, **then** the UI does not claim that Google credentials are working; the existing configuration-error notice is preserved.
+
+**Research classification:** SDD specification-to-code coverage passed, but UI discovery was neither specified nor independently browser-tested. This is an **acceptance-gap/verification failure**, not evidence that formal SDD guarantees no initial bugs or that the auth API handlers were omitted.

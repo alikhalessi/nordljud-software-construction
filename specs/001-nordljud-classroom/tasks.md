@@ -68,3 +68,13 @@ T001–T002 precede T003–T007. T003 and T004 are independent source/test tasks
 **T019 BLOCKED** by Vercel deployment API HTTP 402 `api-deployments-free-per-day` (over 100 deployments within rolling 24-hour quota). Created empty `nordljud-sdd-lab` Vercel project and preview public Supabase env configuration, but no successful deployment. Do not label deployed. Never upgrade the plan or pay without user consent.
 
 **T020 IN PROGRESS:** completed `converge.md` on 13 October, but final browser verification remains outstanding. Each manual test not run stays NOT TESTED.
+
+---
+
+## Post-first-build corrective task, CR-SDD-02
+
+- [ ] **T021** [US3] First create and execute browser acceptance tests that prove a signed-out visitor cannot directly discover Sign in on desktop/mobile from initial page. Preserve failing run (RED).
+- [ ] **T022** [US3] Add unmistakable initial-page Sign in action in `app/experience.tsx` with accessible header/mobile styling in `app/globals.css`; account panel must retain Google and email/password. Validate the same tests PASS (GREEN).
+- [ ] **T023** [US3] Rebuild and redeploy the *SDD branch only*. Record user-visible verification and remaining OAuth/2-account blockers without erasing pre-fix evidence.
+
+**This is post-first-build rework**, not evidence of the original plan's execution. The task IDs and dated addendum are deliberately separated from T001–T020 to prevent retrospective contamination.
