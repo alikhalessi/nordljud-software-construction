@@ -37,3 +37,22 @@
 Two post-first-pass SDD issues were observable: hidden Login entry (missing discoverability acceptance criterion) and a Google redirect/integration dependency (missing real OAuth end-to-end acceptance). The student has now confirmed the **functional recovery**, but first-pass failure is preserved for the comparative experience report. Never rewrite the sequence to claim the initial AI agent delivered perfect authentication from the outset.
 
 **Future updates:** Add time/browser/screenshot only after the student supplies them; do not invent. Record two-user privacy, favorites and exact mission progress separately.
+
+
+---
+
+## Follow-up: Student reports successful two-account test (14 October 2026, Finland)
+
+After the assistant gave a four-step scenario requiring **two different Google accounts**, distinct mission and favorite actions and re-login of the first account, the student replied in Persian that it had been checked and **“worked very well”**, delegating subsequent project work to the assistant.
+
+**Current F10 classification: PASS — student-reported high-level two-account check.** This records the student’s confirmation in direct response to the two-account exercise; it is **not an independently automated cross-account API attack**, a browser capture, or proof that all four prescribed substeps were logged separately. Do not record the exact example verbs, favorite contents, browser version, account IDs or execution time as facts without a corresponding explicit test log.
+
+**Corroborating security design (independent read-only check):** Supabase database `public.learner_states` has PostgreSQL RLS enabled. Four policies apply only to `authenticated` and restrict **SELECT, INSERT, UPDATE and DELETE** to rows where `auth.uid() = user_id` (insert uses a matching `WITH CHECK`). This supports the intended per-user isolation but does not substitute for adversarial testing of the deployed app. `relforcerowsecurity=false` is normal and does not grant anonymous callers access; privileged service roles may bypass RLS and are not used in the browser.
+
+**Result reporting:**
+- G01 Google OAuth return to SDD — PASS, student-observed.
+- G02 same-user saved information after sign-out/re-login — PASS, student-observed at aggregate level.
+- F10 two-account separation — PASS, student-reported overall scenario; specific individual screenshots absent.
+- Email/password invalid-credentials path, exact saved favorite/mission flag snapshots, mobile speech, and independent API-level RLS penetration — NOT TESTED or PARTIAL as appropriate.
+
+No personally identifiable account data or tokens were retrieved or committed.
