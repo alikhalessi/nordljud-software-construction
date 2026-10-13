@@ -251,3 +251,21 @@ I propose a **risk-calibrated hybrid**: apply a minimal explicit spec for short,
 - Source recovery/provenance: `baseline-v1:shared-content/SOURCE_MANIFEST.md`
 
 **Status:** Evidence-based draft; human submission review and final verification pending. Do not imply this is the user's fully reviewed final report.
+
+---
+
+## Post-release empirical finding — SDD Login discoverability (13 October 2026)
+
+**New learner observation:** After viewing the first hosted Spec-Driven edition, the student reported that no Login section appeared to be present and questioned whether a complete specification should have prevented that problem on the first implementation. This is a substantive outcome for the comparative study, not a cosmetic complaint to conceal.
+
+**Source-code analysis:** The original SDD's `app/experience.tsx` actually contained email/password and Google OAuth functions and a login form, but these appeared only after clicking **My learning**. The top-level account button displayed **Guest learner** rather than the explicit action **Sign in**. The original FR-012/FR-013 specified available account methods but did not specify visible entry from the landing screen or one-click navigation to login. The prior automated tests checked the learning source data, TypeScript and Next.js compilation; they never tested whether a new learner could discover sign-in.
+
+**Pre-fix RED reproducible evidence:** A post-release specification amendment `CR-SDD-02` added FR-021 and SC-009, requiring an explicit accessible Sign in button immediately visible on desktop and mobile, opening the account form within one click. Before correcting UI, GitHub Actions [run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) installed Chromium and Playwright, then failed **2/2** browser tests: no Sign in button could be found on either initial screen. The old successful builds were therefore insufficient as user-acceptance evidence.
+
+**Post-fix GREEN evidence:** The SDD interface was minimally revised to show Sign in in the header plus a learning-progress sign-in CTA, while preserving the existing account form and third-party auth logic. The *same* two browser checks plus a third regression check of My learning passed **3/3** in GitHub Actions [run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). The standard source/type/build CI also passed [run 38377362015](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362015). Fixed UI code commit: `898b72b76ba720c6403ec30e114fa5351648a2c7`. Vercel Production deployment `dpl_7Gz2rhpsGZmrVPBaqNrpPTHMj1A8` confirmed **READY** with stable URL [nordljud-sdd-lab.vercel.app](https://nordljud-sdd-lab.vercel.app).
+
+**Scientific interpretation:** There is no evidence that SDD inherently means “the agent fully and correctly completes everything on the first try.” Specification-first engineering provides a process for writing requirements, tracing implementation, evaluating acceptance, and converging through corrections. The initial specification omitted a consequential usability criterion; the first-pass tests did not exercise the learner journey; and a perfectly compiling program can still fail that experience. That is a failure of specification **completeness** and validation **coverage** within this SDD case. It is not an absence of auth code, nor proof that actual Google OAuth worked. The experiment also used the official Spec Kit CLI scaffold but assistant-written spec/plan/task stages, not full executed Copilot slash commands; the report must keep this qualification.
+
+**Unresolved:** Real Google sign-in, account persistence, two-user RLS isolation and learner-specific cloud storage remain **NOT TESTED** on the updated SDD deployment. A Google auth return URL may have to be added to the Supabase redirect allowlist by the owner. A READY build is not a real-user OAuth result.
+
+**Direct research artifact:** [Condition C's documented, dated first-pass failure and red/green fix](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md). This appendix does not overwrite or retroactively rewrite the older report's frozen-phase findings.
