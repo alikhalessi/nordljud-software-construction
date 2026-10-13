@@ -281,3 +281,16 @@ Code inspection confirmed the SDD client uses `signInWithOAuth({ provider: "goog
 The narrowly scoped repair is to allow the SDD hosted origin `https://nordljud-sdd-lab.vercel.app/` in Supabase Auth URL Configuration and retest Google callback, then progress and favorites across sign-out/re-login. The shared Supabase Site URL and existing Vibe redirects must not be overwritten. This is a **second distinct SDD failure category**: the first defect was login **discoverability**, the second is **environment-specific OAuth integration**. Both reveal why written specifications and green builds are insufficient without realistic acceptance checks. Keep external configuration dependencies explicit.
 
 Evidence: `condition/spec-driven:specs/001-nordljud-classroom/DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md`. Exact OAuth browser/network trace and successful re-test remain pending.
+
+
+---
+
+## Post-defect user verification — SDD Google OAuth and saved state now work (13 October 2026)
+
+**Chronological update (does not erase initial failure):** Following the previously documented Google OAuth redirection to `localhost:3000`, and after receiving Supabase Redirect URLs configuration guidance, the student independently retried SDD. The student reports that Google login now works, and that saved information remains after sign-out and re-login. This is a **PASS (student-observed)** for real Google sign-in/callback and for restoration of at least some same-user data. It **supersedes** the earlier observation of currently failing Google login, while preserving the original failure as essential empirical evidence of the debugging loop.
+
+The precise Supabase URL allowlist value was not independently retrieved, so the hypothesized configuration cause is strongly supported but not definitively established from a dashboard capture. The student's report does not specify whether *both partial/completed* mission flags and Favorites separately survived re-login. A **second independent Google account** has not yet been tested for data isolation; F10 remains **NOT TESTED**. Email/password invalid-login, all four mission levels, cross-device behavior and full F01–F14 acceptance remain open.
+
+**Primary evidence:** `main:evaluation/SDD_USER_ACCEPTANCE_2026-10-13.md`; `condition/spec-driven:specs/001-nordljud-classroom/DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md`; user report in current conversation. No tokens, user emails or private personal learning state were copied into repository.
+
+**Interpretation:** The two SDD defects (auth entry discoverability and hosted OAuth callback) illustrate important gaps between written criteria, code/test success and operational acceptance. Recovering from both through explicit documented verification steps is part of the method's *convergence process*, not evidence of perfect first-pass generation.
