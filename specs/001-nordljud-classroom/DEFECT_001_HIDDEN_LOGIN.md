@@ -61,3 +61,18 @@ This RED run preserves the learner-observed defect reproducibly and will not be 
 - Show an explicit title "Sign in or create an account" in the account card.
 
 **Expected next evidence:** re-run the same Chromium acceptance tests (GREEN). The actual outcome is not yet claimed in this entry. Real Google OAuth and data isolation require separate testing.
+
+---
+
+## GREEN: repeated real browser tests passed — 13 October 2026
+
+The original tests were not edited to make the failure go away. Following the UI correction, GitHub Actions **38377362037** executed Chromium and reported **3/3 PASS**:
+1. Desktop initial screen exposes "Sign in"; clicking shows Google and email/password.
+2. 390px mobile initial screen exposes Sign in inside viewport; clicking shows auth methods.
+3. Existing My learning route still exposes the original account controls.
+
+The previous **38376988433** (2/2 FAIL) remains preserved as baseline defect evidence. The corrected source commit is `898b72b76ba720c6403ec30e114fa5351648a2c7`. Full standard CI **38377362015** also passed (source-data tests, TypeScript and Next.js build). A distinct Vercel Preview deployment for that commit was READY.
+
+**Not proven by these results:** successful third-party Google round-trip, same-account progress surviving sign-out/re-login, absence of cross-account leakage, or unrestricted public access. These need real accounts and external redirect configuration.
+
+**Corrected methodology interpretation:** SDD did create a source implementation of the stated FR-012/FR-013, but the original acceptance criteria missed discoverability, and CI lacked E2E browser coverage. After stakeholder feedback, the specification gained CR-SDD-02 and the implementation gained an accessible entry point. That is a legitimate SDD convergence cycle, not a flawless first attempt.
