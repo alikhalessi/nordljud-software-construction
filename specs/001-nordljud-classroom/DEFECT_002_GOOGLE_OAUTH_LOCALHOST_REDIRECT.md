@@ -3,7 +3,7 @@
 **Date reported:** 13 October 2026  
 **Environment:** Hosted Condition C, https://nordljud-sdd-lab.vercel.app  
 **Reported by:** Student (manual observation)  
-**Status:** OPEN — suspected configuration issue; needs Supabase dashboard confirmation and a new real OAuth sign-in test  
+**Status:** RESOLVED IN STUDENT RE-TEST — Google sign-in now works and saved information survives sign-out/re-login; actual Supabase configuration values not independently inspected.  
 **Severity:** BLOCKER for authenticated Google login in the SDD pilot, independent of working app build or sign-in UI.
 
 ## Reproduction supplied by the learner
@@ -53,4 +53,19 @@ The initial SDD specification correctly required Google sign-in, and `clarificat
 
 **Do not report OAuth PASS** until a user confirms real return to the hosted site and a signed-in session. The corrective action should be logged as a post-implementation environment step, not backdated as part of original specification or code.
 
-**Verification:** PENDING OWNER ACTION. After real user verification update the status and add date, browser/device, and test outcome.
+**Verification:** Student has now confirmed successful account entry and persisted information after sign-out/re-login. Browser/device and exact record details are not yet captured.
+
+
+---
+
+## User-confirmed recovery — 13 October 2026
+
+The student reports (translated from Persian): **“Great, it works. Everything responded correctly. It saves the information; when you sign out and come back, the stored information is still there.”** This is a new, favorable **manual user-acceptance result** after the earlier return to `localhost:3000`.
+
+**Now PASS (student-observed):** Google sign-in/callback to the SDD application, sign-out/re-entry and restoration of *some* saved authenticated data for the same user. There is no screenshot, HAR or captured API success transaction. Do not equate this with an independent automated OAuth test.
+
+**Probable remedy:** The owner acted after guidance to add `https://nordljud-sdd-lab.vercel.app/` under Authentication → Redirect URLs. The exact Supabase dashboard URL list was *not* exposed to connected tools and no screenshot proves which setting changed, so the missing allowlist remains the strongly supported but not independently confirmed original cause.
+
+**Still open:** Which specific mission flags and favorite senses were tested; email/password invalid-login behavior; a second independent learner's data isolation; browser/platform matrix. These must remain `PARTIAL` or `NOT TESTED`, not silently marked `PASS`.
+
+**Independent coordination note:** `main:evaluation/SDD_USER_ACCEPTANCE_2026-10-13.md` records the observation and exact evidence boundaries. The initial OAuth FAIL report above remains part of the valid chronological experimental record.

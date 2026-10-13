@@ -75,8 +75,13 @@ T001–T002 precede T003–T007. T003 and T004 are independent source/test tasks
 
 - [x] **T021** [US3] First create and execute browser acceptance tests that prove a signed-out visitor cannot directly discover Sign in on desktop/mobile from initial page. Preserve failing run (RED).
 - [x] **T022** [US3] Add unmistakable initial-page Sign in action in `app/experience.tsx` with accessible header/mobile styling in `app/globals.css`; account panel must retain Google and email/password. Validate the same tests PASS (GREEN).
-- [ ] **T023** [US3] Rebuild and redeploy the *SDD branch only*. Record user-visible verification and remaining OAuth/2-account blockers without erasing pre-fix evidence.
+- [x] **T023** [US3] Rebuild and redeploy the *SDD branch only*. Record user-visible verification and remaining OAuth/2-account blockers without erasing pre-fix evidence.
 
 **This is post-first-build rework**, not evidence of the original plan's execution. The task IDs and dated addendum are deliberately separated from T001–T020 to prevent retrospective contamination.
 
 **T021 RED evidence:** Chromium Playwright CI run 38376988433, 2/2 browser tests FAIL because the landing screen has no accessible Sign in button. **T022 code implemented**, GREEN rerun and live account sign-in still to be confirmed.
+
+
+## Acceptance update: T023 and actual Google OAuth (13 October 2026)
+
+T023 is now **completed for deployment + owner-reported login success**: corrected SDD UI released to `https://nordljud-sdd-lab.vercel.app`; Chromium checks GREEN 3/3; owner confirmed real Google login and re-login data restoration after adding redirect guidance. The earlier localhost return **remains a recorded FAILED observation before the fix**. F10 cross-user isolation, explicit Favorites retention and complete F01–F14 matrix remain to do. No new application feature is authorized by this status-only update.

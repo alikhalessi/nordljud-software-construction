@@ -72,3 +72,14 @@ After landing-page login discoverability was corrected (Chromium RED 2/2 -> GREE
 The client requests `redirectTo: window.location.origin + "/"`, and the production Supabase public credentials are configured. Supabase's published troubleshooting identifies an absent/mismatched allowed Redirect URL as the leading cause of return to localhost (default Site URL). Its exact project setting has not yet been inspected: log this as a **strong hypothesis**, not a confirmed configuration fact.
 
 Corrective plan: user adds `https://nordljud-sdd-lab.vercel.app/` to the project Authentication > URL Configuration > Redirect URLs. Keep all other app URLs and shared Site URL unchanged. Re-test real Google account selection, confirm return to Nordljud, complete a mission/favorite and verify persistence on re-login. See `DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md`. No source code patch is justified merely to work around Supabase's allowlist.
+
+
+---
+
+## User-acceptance recovery after OAuth redirect defect — 13 October 2026
+
+The student confirmed Google login is now successful and that saved learner information persists after signing out and back in. This **supersedes the previous current-status `FR-013 FAIL`** from the earlier localhost redirect report; **FR-013 is now PASS (student-observed on one account)**. Some same-user authenticated persistence is also **PASS (student-observed)**, but F09's distinction between *partial and completed* mission flags has not been separately detailed, and favorites persistence is not explicitly confirmed. The root cause is probably the Supabase redirect allowlist, but its actual dashboard values were not read.
+
+**Remaining convergence gates:** (a) Two separate user accounts with disjoint learning and favorites, and no leakage (F10), (b) detailed F01–F14 independent test matrix, including incorrect credentials and narrow/mobile audio, (c) evidence screenshots with private information hidden. A successful owner test does not establish two-user data isolation or independent RLS security proof.
+
+See `DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md` and `main:evaluation/SDD_USER_ACCEPTANCE_2026-10-13.md`. Prior failure is intentionally preserved as the chronological outcome of that version.
