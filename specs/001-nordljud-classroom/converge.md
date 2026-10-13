@@ -47,3 +47,16 @@ After Vercel quota resets:
 5. Attach real screenshots/logs, update tests table and this verdict without retroactively hiding failures.
 
 **Research limitations:** single developer and app; condition order A→B→C, known defect carryover, differing code construction and deployment conditions; not a controlled randomized comparison. Exact elapsed times were not instrumented and must not be invented.
+
+
+---
+
+## Post-audit update — 13 October 2026, 12:14+03:00 and later (Finland)
+
+**Vercel quota blocker RESOLVED for deployment.** After the earlier HTTP 402, a new explicit deployment targeting `condition/spec-driven` at commit `01281282400d6d441e29535b192a82f8ff4f72d1` succeeded and Vercel reported **READY** for deployment `dpl_7vZHDamMkLLkLYBiaHr4H18dZuVy`, URL `https://nordljud-sdd-lab.vercel.app` (alias). The previous quota error remains authentic historical evidence; it is no longer the current publication blocker.
+
+**Changed verdict:** SDD is now **built and deployed**, but **PARTIAL / NOT YET FUNCTIONALLY CONVERGED** because authenticated Google roundtrip, browser audio and two-user per-account persistence/isolation are still untested on this deployment. The SDD site is a Vercel Preview/test deployment and may require Vercel-account authorization to open; do not automatically enable public access.
+
+Vercel deployment protection for the experiment remains in place. A project Ignored Build Step command was also submitted to limit each Vercel project's Git deployment builds to its designated method branch; its behavior must be checked on later pushes.
+
+**Note:** This appendix updates hosting status only; all earlier sections reflect the historical state at the time they were written, and must not be silently erased.
