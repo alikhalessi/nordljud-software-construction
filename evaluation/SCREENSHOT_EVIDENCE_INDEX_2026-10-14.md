@@ -41,3 +41,18 @@ Separate student-reported real OAuth and two-account acceptance is documented in
 - [Evidence-graded F01–F14 comparison](./COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md)
 
 **Preservation rule:** Do not retouch a failure screenshot to make an experiment look better. Use the same visual evidence and same test logic for all three methods.
+
+
+---
+
+## Latest extended screenshot set — 14 October 2026 (30-day retention)
+
+The earlier 2-test screenshot archive above remains reproducible. The **newest** independent 3-test run is [GitHub Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). Download its three artifacts, which now additionally contain an **A2 exercise-completion screenshot** in each method's `test-results` output directory:
+
+| ZIP artifact | Artifact ID | Approximate size | Expiration UTC |
+|---|---:|---:|---|
+| `playwright-Vibe` | 11859415631 | 2.55 MB | 12 Nov 2026 23:35 |
+| `playwright-God_Mode` | 11860070225 | 0.91 MB | 12 Nov 2026 23:35 |
+| `playwright-SDD` | 11859011659 | 1.12 MB | 12 Nov 2026 23:35 |
+
+The repeated browser outcomes are Vibe **2/3**, God Mode **3/3**, SDD **3/3**; the failed Vibe detail screenshot is retained in its ZIP. These captures are real **guest** local-browser displays (not actual live Google account sessions), and must be labeled as such when used in the report. Download before their expiry; screenshots were not copied permanently into the repository.
