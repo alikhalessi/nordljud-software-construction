@@ -60,3 +60,15 @@ After Vercel quota resets:
 Vercel deployment protection for the experiment remains in place. A project Ignored Build Step command was also submitted to limit each Vercel project's Git deployment builds to its designated method branch; its behavior must be checked on later pushes.
 
 **Note:** This appendix updates hosting status only; all earlier sections reflect the historical state at the time they were written, and must not be silently erased.
+
+---
+
+## Live user-observed OAuth failure — 13 October 2026
+
+After landing-page login discoverability was corrected (Chromium RED 2/2 -> GREEN 3/3), the learner initiated **Continue with Google** from hosted SDD. Google displayed the account chooser, but on choosing an account the browser reached **localhost:3000**, not the hosted app.
+
+**Current result:** `FR-013` Google OAuth live acceptance **FAIL (user-observed)**, not merely NOT TESTED. A signed-in SDD session and cloud persistence are therefore not verified.
+
+The client requests `redirectTo: window.location.origin + "/"`, and the production Supabase public credentials are configured. Supabase's published troubleshooting identifies an absent/mismatched allowed Redirect URL as the leading cause of return to localhost (default Site URL). Its exact project setting has not yet been inspected: log this as a **strong hypothesis**, not a confirmed configuration fact.
+
+Corrective plan: user adds `https://nordljud-sdd-lab.vercel.app/` to the project Authentication > URL Configuration > Redirect URLs. Keep all other app URLs and shared Site URL unchanged. Re-test real Google account selection, confirm return to Nordljud, complete a mission/favorite and verify persistence on re-login. See `DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md`. No source code patch is justified merely to work around Supabase's allowlist.
