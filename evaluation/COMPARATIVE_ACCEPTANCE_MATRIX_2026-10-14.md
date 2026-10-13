@@ -31,8 +31,8 @@ Source code is separate in each branch; the educational input is inherited from 
 | F04 | Four correct seeded missions | PASS [Chromium guest audit] + original checks of four seed targets | PASS [Chromium guest audit] + source tests | PASS [Chromium guest audit] + source tests |
 | F05 | Source Swedish and English examples match | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared | PARTIAL: Swedish examples visible in guest Chromium; exact translations not compared |
 | F06 | Swedish speech or graceful fallback | PASS [learner, historical Vibe feedback]; not audited on multiple devices | NOT TESTED on learner device | NOT TESTED on learner device |
-| F07 | Meaning/comprehension correctness feedback | NOT TESTED independently, code present | NOT TESTED independently, code present | NOT TESTED independently, code present |
-| F08 | Verb-form correctness feedback | NOT TESTED independently, code present | NOT TESTED independently, code present | NOT TESTED independently, code present |
+| F07 | Meaning/comprehension correctness feedback | PARTIAL: correct-answer completion PASS in guest Chromium; incorrect feedback not asserted | PARTIAL: same | PARTIAL: same |
+| F08 | Verb-form correctness feedback | PARTIAL: correct-answer completion PASS in guest Chromium; incorrect feedback not asserted | PARTIAL: same | PARTIAL: same |
 | F09 | Partial/full progress persists after reload/re-login | NOT TESTED as exact compound test | NOT TESTED as exact compound test | PARTIAL: *some* stored learning information retained [learner], exact partial/full markers unspecified |
 | F10 | Account A cannot read/change B's progress | NOT TESTED through two accounts | NOT TESTED through two accounts | PASS [learner-reported two-account scenario]; PostgreSQL RLS policy independently inspected; no adversarial API test |
 | F11 | Desktop and mobile mission usability | NOT TESTED full viewport mission | NOT TESTED full viewport mission | PARTIAL: 390px mobile Sign in is tested in Chromium, not full mission |
@@ -98,3 +98,23 @@ The original Vibe action was blocked by its test before reaching TypeScript or b
 3. Run any remaining manual F01/F02/F06/F07/F08/F09/F11/F13 cases if feasible; otherwise mark NOT TESTED and discuss the limitation.
 4. Confirm current official Moodle rubric and course-specific AI-use policy before final submission. This file uses the learner-provided rubric correspondence, not a fresh Moodle lookup.
 5. Update the report's executive summary and seven required sections with **actual observations**, not an unsupported “SDD always wins” narrative.
+
+
+---
+
+## Extended shared guest browser evaluation — 14 October 2026
+
+The *same unchanged-source* Playwright evaluator was expanded with a third functional test. The added case starts in guest mode, selects correct answers to **both** A2 exercise groups (trying the available answer options until a completed state is reached), then reloads the page and verifies **both completion states remain disabled/completed** in the same browser. It **does not verify a separate wrong-answer message or real authenticated cloud persistence**. This is an independent test of the correct-answer guest flow and guest local storage only.
+
+[CI run 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) completed with the following **actual per-test** outcomes:
+
+| Browser scenario | Vibe | God Mode | SDD |
+|---|---|---|---|
+| Four CEFR missions and visible Swedish examples | **PASS** | **PASS** | **PASS** |
+| Independent second `sticka` meaning | **FAIL** (detail stayed `knit`) | **PASS** | **PASS** |
+| Both A2 quiz groups completed and remained completed after a guest reload | **PASS** | **PASS** | **PASS** |
+| **Total same three checks** | **2/3** | **3/3** | **3/3** |
+
+GitHub's overall workflow outcome is green because **the browser-test step deliberately continues after an assertion failure** to archive evidence from all conditions. **Never claim the Vibe guest suite passed**; its own logs report `RESULT: failure`. These outcomes reinforce a narrowly scoped difference in sense identity, not a general ranking of reliability, code maintainability or teaching quality.
+
+The run also attaches **real, unauthenticated screenshots** of A2 missions, chosen `sticka` details, and completed A2 exercises for each implementation. See [Screenshot Evidence Index](./SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). No user accounts, credentials or personal progress were accessed by this automated evaluator.
