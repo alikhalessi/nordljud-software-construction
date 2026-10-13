@@ -269,3 +269,15 @@ I propose a **risk-calibrated hybrid**: apply a minimal explicit spec for short,
 **Unresolved:** Real Google sign-in, account persistence, two-user RLS isolation and learner-specific cloud storage remain **NOT TESTED** on the updated SDD deployment. A Google auth return URL may have to be added to the Supabase redirect allowlist by the owner. A READY build is not a real-user OAuth result.
 
 **Direct research artifact:** [Condition C's documented, dated first-pass failure and red/green fix](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md). This appendix does not overwrite or retroactively rewrite the older report's frozen-phase findings.
+
+---
+
+## Post-release finding 2 — Google OAuth redirects to localhost in SDD (13 October 2026)
+
+After the previously reported hidden Login button was fixed and Chromium checks passed, the student attempted **a real Google account selection** on the hosted SDD page. They observed Google's account chooser, but after choosing their account the browser navigated to `localhost:3000`. Thus **Google OAuth end-to-end is currently FAILED by user observation**; it should no longer be labeled merely NOT TESTED or implied to work because the Google button is clickable. The independent source-data/type/build CI and UI-discoverability tests remain green, but they do not cover this external integration.
+
+Code inspection confirmed the SDD client uses `signInWithOAuth({ provider: "google", options: { redirectTo: window.location.origin + "/" } })`. Production/Preview Supabase public environment variables are present. Official Supabase troubleshooting documents that a `redirectTo` target not in Authentication's allowed Redirect URLs may cause fallback to the Site URL (often `http://localhost:3000`). The current Supabase project allowlist/Site URL could not be read or altered through connected tools, so this remains a **high-confidence diagnostic hypothesis** until owner verification.
+
+The narrowly scoped repair is to allow the SDD hosted origin `https://nordljud-sdd-lab.vercel.app/` in Supabase Auth URL Configuration and retest Google callback, then progress and favorites across sign-out/re-login. The shared Supabase Site URL and existing Vibe redirects must not be overwritten. This is a **second distinct SDD failure category**: the first defect was login **discoverability**, the second is **environment-specific OAuth integration**. Both reveal why written specifications and green builds are insufficient without realistic acceptance checks. Keep external configuration dependencies explicit.
+
+Evidence: `condition/spec-driven:specs/001-nordljud-classroom/DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md`. Exact OAuth browser/network trace and successful re-test remain pending.
