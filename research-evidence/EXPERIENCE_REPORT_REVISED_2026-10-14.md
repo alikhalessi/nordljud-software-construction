@@ -263,3 +263,20 @@ The authoritative evidence is the Git history, experiment files, CI logs and exp
 - [ ] Keep F01–F14 entries NOT TESTED where no actual run was performed. Decide with the instructor whether remaining user-authenticated tests are mandatory.
 - [ ] Add reliable timing metrics only if records actually support them; otherwise state time was not measured.
 - [ ] Keep no raw OAuth tokens, email addresses or other private user data in the submission.
+
+
+---
+
+## Addendum — Third independent guest-browser test (14 October 2026)
+
+After the revised report draft was prepared, an additional **identical** guest-only Chromium acceptance check was run on all three unchanged app roots. It tested whether users could complete both A2 question groups and whether the resulting guest completion flags remained after refreshing the same browser. The tests **did not** access Supabase accounts or check the correctness of wrong-answer messaging.
+
+- Vibe: A2 mission navigation PASS, two-`sticka` selection **FAIL**, A2 exercise completion + reload **PASS** — **2/3** common browser tests.
+- God Mode: all three checks **PASS — 3/3**.
+- SDD: all three checks **PASS — 3/3**.
+
+Evidence: [independent third-check Chromium run 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). Each method's job contains its individual actual test outcome; GitHub's overall green workflow indicator results from continuing after the Vibe assertion failure to preserve other checks. Therefore it **does not mean all three methods passed**.
+
+The same run produced guest-mode screenshots of the initial A2 mission, the result of selecting the second `sticka` sense, and A2 questions after completion. These can be downloaded from CI artifacts (see [Screenshot Evidence Index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md)) and are intended for authentic visuals in the final course submission. The artifacts are time-limited and are **not yet embedded as figure images** in this Markdown report.
+
+This extension strengthens the finding that all three programs can complete and recover guest exercises, whereas the frozen Vibe branch still conflates two homograph meanings. It does **not** verify Google's OAuth flow in B, invalid email passwords, F10 under adversarial requests, actual audio hardware, or overall pedagogical correctness.
