@@ -68,12 +68,12 @@ jobs:
           {
             echo "### $METHOD guest-browser audit"
             echo ""
-            echo "Original branch: `$SOURCE`"
+            printf 'Original branch: `%s`\n' "$SOURCE"
             echo ""
             echo "**Chromium result: $RESULT**"
             echo ""
             echo "The two tests cover: A2/B1/B2/C1 missions and independently selectable"
-            echo "knit/sting senses of `sticka`. A failed test is preserved as FAIL,"
+            echo 'knit/sting senses of `sticka`. A failed test is preserved as FAIL,'
             echo "not erased or rewritten. No Google OAuth, browser voice or database"
             echo "isolation is simulated. See raw Playwright step logs for individual cases."
           } >> "$GITHUB_STEP_SUMMARY"
