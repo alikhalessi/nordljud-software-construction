@@ -10,7 +10,7 @@ Nordljud is an English-to-Swedish, mission-based learning web application with f
 |---|---|---|---|
 | A — Vibe Coding | [01-vibe-coding/](./01-vibe-coding/) | [condition/vibe](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/vibe) | Public pilot [nordljud.vercel.app](https://nordljud.vercel.app); learner confirmed it works |
 | B — God Mode | [02-god-mode/](./02-god-mode/) | [condition/god-mode](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/god-mode) | Independent app; GitHub CI [PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764); detailed browser auth tests outstanding |
-| C — Spec-Driven Development | [03-spec-driven/](./03-spec-driven/) | [condition/spec-driven](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/spec-driven) | Real Spec Kit CLI initialized; CI [PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38320127745); Vercel publication blocked by daily API quota |
+| C — Spec-Driven Development | [03-spec-driven/](./03-spec-driven/) | [condition/spec-driven](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/spec-driven) | Real Spec Kit CLI initialized; CI [PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38320127745); Vercel Preview now READY; browser and OAuth acceptance still pending (initial daily quota blocker documented) |
 
 ### How to find the files
 
@@ -53,3 +53,8 @@ A Vercel READY build or passing automated CI does **not** guarantee browser spee
 The ordered A→B→C comparison has carryover/learning effects and a user-driven scope increase during A. The report must disclose them. No wall-clock timings should be invented.
 
 **Scope remains university coursework first.** No commercial payments, scalability project or product launch work is planned before the course is completed.
+
+
+## Deployment status update — 13 October 2026
+
+The earlier Vercel free-tier API quota has lifted. A deliberate SDD deployment (`dpl_7vZHDamMkLLkLYBiaHr4H18dZuVy`, starting commit `01281282400d6d441e29535b192a82f8ff4f72d1`) is READY at [nordljud-sdd-lab.vercel.app](https://nordljud-sdd-lab.vercel.app). The latest corrected God Mode branch (`308cccf1ed559b575dd17014b459ac11ecfd233c`) also reached READY at [its separate preview](https://nordljud-godmode-lab-git-condition-god-mode-aleksi9.vercel.app). Preview access remains protected, and neither Google OAuth nor per-user cloud persistence has yet been verified in the new builds. All three projects received Vercel Ignored Build Step filters intended to deploy only the matching condition branch; subsequent pushes must confirm filter behavior.
