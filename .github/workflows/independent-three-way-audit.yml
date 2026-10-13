@@ -1,0 +1,85 @@
+name: Independent A-B-C reproducibility audit
+
+# This coordinating workflow deliberately checks out the ORIGINAL source of each
+# method branch; it does not patch files, change data, merge branches, or deploy.
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/independent-three-way-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Audit ${{ matrix.method }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 22
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - method: Vibe
+            ref: condition/vibe
+          - method: God_Mode
+            ref: condition/god-mode
+          - method: SDD
+            ref: condition/spec-driven
+    steps:
+      - name: Check out unchanged method implementation
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.ref }}
+          persist-credentials: false
+      - name: Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Show method and exact source SHA
+        id: provenance
+        shell: bash
+        run: |
+          echo "COMMIT_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "Branch = ${{ matrix.ref }}"
+          echo "SHA = $(git rev-parse HEAD)"
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Source tests (record failure, but still check TypeScript and Build)
+        id: tests
+        continue-on-error: true
+        run: npm test
+      - name: Strict typecheck
+        id: types
+        continue-on-error: true
+        run: npm run typecheck
+      - name: Framework production build
+        id: build
+        continue-on-error: true
+        run: npm run build
+      - name: Annotate raw outcomes (do not reclassify failing tests as PASS)
+        if: always()
+        env:
+          METHOD: ${{ matrix.method }}
+          METHOD_BRANCH: ${{ matrix.ref }}
+          TEST_RESULT: ${{ steps.tests.outcome }}
+          TYPE_RESULT: ${{ steps.types.outcome }}
+          BUILD_RESULT: ${{ steps.build.outcome }}
+        shell: bash
+        run: |
+          {
+            echo "### Independent $METHOD evidence"
+            echo ""
+            echo "| Fact | Observed |"
+            echo "|---|---|"
+            echo "| Checked-out branch | `$METHOD_BRANCH` |"
+            echo "| Checked-out Git SHA | `$COMMIT_SHA` |"
+            echo "| Source tests | **$TEST_RESULT** |"
+            echo "| TypeScript | **$TYPE_RESULT** |"
+            echo "| Framework build | **$BUILD_RESULT** |"
+            echo ""
+            echo "Tests explicitly use continue-on-error ONLY to preserve evidence and allow"
+            echo "later check stages to run. A red original method test is NOT a PASS."
+            echo "This workflow performs no deployed Google sign-in or RLS isolation tests."
+          } >> "$GITHUB_STEP_SUMMARY"
