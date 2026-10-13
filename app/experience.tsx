@@ -357,8 +357,15 @@ export default function LearningExperience({ lessons }: { lessons: readonly Less
           <button aria-current={screen === "me" ? "page" : undefined}
             onClick={() => setScreen("me")}>My learning</button>
         </nav>
-        <button className="identity" onClick={() => setScreen("me")}>
-          {identity ? "● " : "○ "}{subtitle}
+        <button
+          className={"identity " + (identity ? "" : "login-action")}
+          aria-label={identity ? "Open my account" : "Sign in"}
+          onClick={() => {
+            setScreen("me");
+            if (!identity) setAuthMode("login");
+          }}
+        >
+          {identity ? "● " + subtitle : "Sign in"}
         </button>
       </header>
 
@@ -374,6 +381,10 @@ export default function LearningExperience({ lessons }: { lessons: readonly Less
           <p>Missions completed</p>
           <div className="progress-track"><span style={{ width: (completedMissions * 25) + "%" }} /></div>
           <small>{identity ? "Saved to your personal account" : "Stored on this browser as a guest"}</small>
+          {!identity && <button className="hero-account-link" onClick={() => {
+            setScreen("me");
+            setAuthMode("login");
+          }}>Sign in to save across devices →</button>}
         </div>
       </section>
 
@@ -549,7 +560,7 @@ export default function LearningExperience({ lessons }: { lessons: readonly Less
               <p>{identity.email || "Your Google account"}</p>
               <p>Your learning progress is saved to this personal account.</p>
               <button className="primary" onClick={() => void signOut()}>Sign out</button></>
-              : <><span className="eyebrow">MY ACCOUNT</span><h3>Keep your progress</h3>
+              : <><span className="eyebrow">MY ACCOUNT</span><h3>Sign in or create an account</h3>
                 <p>Try Nordljud as a guest, or sign in to sync your learning.</p>
                 <button className="google" disabled={!client || !authReady || authBusy}
                   onClick={() => void googleAuth()}>Continue with Google</button>

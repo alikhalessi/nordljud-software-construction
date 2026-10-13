@@ -23,3 +23,11 @@ test("SC-009 mobile: an explicit sign-in button is visible on initial view", asy
   await expect(page.getByRole("button", { name: "Continue with Google" })).toBeVisible();
   await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
 });
+
+test("Existing auth controls remain available in My learning", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "My learning" }).click();
+  await expect(page.getByRole("button", { name: "Continue with Google" })).toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Email" })).toBeVisible();
+  await expect(page.getByLabel("Password")).toBeVisible();
+});

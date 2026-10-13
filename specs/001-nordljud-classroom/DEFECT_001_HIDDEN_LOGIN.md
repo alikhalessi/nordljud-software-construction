@@ -38,3 +38,26 @@ Student reports that the "Spec-Driven" app has no visible Login section and ques
 "Spec-driven" means engineering is organized around explicit, testable specifications and controlled validation. It **does not mean** a specification or an AI agent guarantees a flawless, full product at the first deployment. Missing criteria in the spec, shallow testing, assumptions, and external integrations can fail at any stage. The failure here is exactly the kind of case a real SDD convergence loop should reveal and correct, not hide.
 
 **Status:** PRE-FIX evidence captured. Update with actual failing and passing CI run IDs after tests.
+
+---
+
+## Reproducible initial browser failure — RED (before any UI patch)
+
+GitHub Actions Playwright run **38376988433** at commit `7e9c467f75a65982c8168a2846ba8f61e8cc2a49` completed **FAIL** while rendering the unchanged pre-fix SDD UI in real Chromium. Both browser acceptance tests failed:
+- **Desktop:** `getByRole('button', { name: 'Sign in', exact: true })` not found / not visible.
+- **390px mobile:** same absence in initial page header.
+
+The runner installed Chromium, successfully launched Next.js, and executed the tests; the failures were not caused by missing browser dependencies or a failed build. The earlier original SDD source-dataset CI could still be green at the same time, illustrating different coverage.
+
+**Evidence:** https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433  
+This RED run preserves the learner-observed defect reproducibly and will not be overwritten or concealed.
+
+## Post-RED minimal UI correction
+
+- Give signed-out visitor an explicit top-header **Sign in** button, accessible by role/name at desktop and mobile widths.
+- Add a secondary "Sign in to save across devices" CTA on the learning snapshot.
+- Both controls open the existing My learning account panel with Google OAuth and email/password options in one click; no auth provider logic, account data, or source datasets are modified.
+- Keep the normal account button for signed-in learners.
+- Show an explicit title "Sign in or create an account" in the account card.
+
+**Expected next evidence:** re-run the same Chromium acceptance tests (GREEN). The actual outcome is not yet claimed in this entry. Real Google OAuth and data isolation require separate testing.

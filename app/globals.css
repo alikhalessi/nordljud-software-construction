@@ -15,3 +15,11 @@ footer{border-top:1px solid var(--line);color:#82958a;padding:26px 0 33px;font-s
 @media(max-width:1050px){.hero{grid-template-columns:1fr}.hero-progress{max-width:350px}.study-layout{grid-template-columns:1fr}.levels-card{position:static}.explore-grid{grid-template-columns:1fr}.lexicon-list{max-height:310px}}
 @media(max-width:700px){.site{padding:0 12px}.top-nav{flex-wrap:wrap;gap:10px;padding:15px 0}.brand-mark{width:39px;height:39px;font-size:24px}.brand b{font-size:21px}.nav-links{order:3;width:100%;justify-content:space-between}.nav-links button{padding:9px;font-size:12px}.identity{max-width:145px;font-size:11px}.hero{padding:29px 21px}.hero h1{font-size:37px}.surface{padding:20px 17px}.surface-top{flex-wrap:wrap}.example-row{grid-template-columns:minmax(0,1fr) 42px;gap:7px}.form-name{grid-column:1/-1}.form-name b,.form-name span{display:inline}.form-name span{margin-left:10px}.me-grid{grid-template-columns:1fr}.library,.me{padding-top:26px}.searchbar label:first-child{min-width:100%}.searchbar .checkbox-label{max-width:none}.featured{flex-wrap:wrap}.levels-card{padding:17px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* CR-SDD-02: Auth entry must be discoverable without guessing what "My learning" means.
+   A visible, explicit header action is retained at mobile and desktop widths. */
+.identity.login-action{color:#fff;background:var(--jade);border-color:var(--jade);font-weight:850;padding:11px 18px;box-shadow:0 5px 15px #1b756a24}
+.identity.login-action:hover{background:var(--jade-dark);border-color:var(--jade-dark)}
+.hero-account-link{margin-top:13px;background:transparent;color:#d7f6dd;border:1px solid #a8dcc7;border-radius:8px;padding:9px 11px;font-weight:750;font-size:12px;text-align:left}
+.hero-account-link:hover{background:#ffffff22}
+@media(max-width:700px){.identity.login-action{padding:10px 15px;min-width:78px;text-align:center}}

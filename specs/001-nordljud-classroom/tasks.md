@@ -73,8 +73,10 @@ T001–T002 precede T003–T007. T003 and T004 are independent source/test tasks
 
 ## Post-first-build corrective task, CR-SDD-02
 
-- [ ] **T021** [US3] First create and execute browser acceptance tests that prove a signed-out visitor cannot directly discover Sign in on desktop/mobile from initial page. Preserve failing run (RED).
-- [ ] **T022** [US3] Add unmistakable initial-page Sign in action in `app/experience.tsx` with accessible header/mobile styling in `app/globals.css`; account panel must retain Google and email/password. Validate the same tests PASS (GREEN).
+- [x] **T021** [US3] First create and execute browser acceptance tests that prove a signed-out visitor cannot directly discover Sign in on desktop/mobile from initial page. Preserve failing run (RED).
+- [x] **T022** [US3] Add unmistakable initial-page Sign in action in `app/experience.tsx` with accessible header/mobile styling in `app/globals.css`; account panel must retain Google and email/password. Validate the same tests PASS (GREEN).
 - [ ] **T023** [US3] Rebuild and redeploy the *SDD branch only*. Record user-visible verification and remaining OAuth/2-account blockers without erasing pre-fix evidence.
 
 **This is post-first-build rework**, not evidence of the original plan's execution. The task IDs and dated addendum are deliberately separated from T001–T020 to prevent retrospective contamination.
+
+**T021 RED evidence:** Chromium Playwright CI run 38376988433, 2/2 browser tests FAIL because the landing screen has no accessible Sign in button. **T022 code implemented**, GREEN rerun and live account sign-in still to be confirmed.
