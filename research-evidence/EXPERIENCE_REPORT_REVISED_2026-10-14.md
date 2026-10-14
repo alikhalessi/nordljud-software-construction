@@ -5,6 +5,8 @@
 **Course:** Software Construction, Åbo Akademi University  
 **Student:** Ali Khalessi  
 **Student contributors:** 1 (individual project)  
+
+**Team Details (individual project):** Ali Khalessi — Student ID: **pending confirmation** — Role: sole student, product owner, requirements decisions, human acceptance and academic submission — Student participation: **100%**. Individual-submission permission remains to be confirmed with the instructor; this participation percentage does not imply personally typing all AI-generated code.  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
 
 ## Executive Summary (200–300 words)
@@ -23,27 +25,27 @@ The evidence favors explicit requirements and real acceptance tests for traceabi
 
 ## 1. Introduction and Paradigm Shift (3 marks)
 
-### 1.1 Why I chose this experiment
+### 1.1 Project Overview & Objectives
 
-The interesting part of AI-assisted software construction is not simply whether an AI agent can produce code. It is what happens to requirements, hidden assumptions and verification when we change how the agent is instructed. A chatbot can generate a plausible application very quickly; plausibility and correctness are different things. I wanted one realistic application and three visibly different methods rather than three unrelated demos.
+Nordljud is my Swedish-learning classroom MVP for adults. Its four levels (A2, B1, B2, C1) feature representative learning missions, a searchable verb library, Swedish browser speech, English assistance, short exercises and personal learning progress. I built it as a real software-construction experiment, not a teacher-certified Swedish curriculum or a finished commercial product.
 
-Nordljud is a browser-based Swedish-learning prototype. It has levels A2, B1, B2 and C1, four practical mission seeds, Swedish source examples with English help, two questions per mission, browser speech, a searchable verb collection, Google/email authentication, and saved progress and favorites. The intended outcome is a **university course experience report**, not an independently validated language-teaching curriculum or commercial production release.
+I compared (A) iterative Vibe Coding, (B) an autonomous agent following a strong master prompt (God Mode), and (C) explicit Specification-Driven Development (SDD) using GitHub Spec Kit. My question was: **Which engineering practices does a powerful AI coding agent adopt on its own, and what added traceability comes from specifications imposed before code?** Each implementation began from the identical frozen educational baseline and was written in a separate Git branch without copying application code between conditions.
 
-### 1.2 Questions, conditions and common starting point
+The comparison uses real Git commits, source tests, TypeScript, production builds, common Chromium guest-browser tests and limited manual acceptance. The scope expanded during A, and my later AI interactions already knew about earlier defects, so this is a descriptive experience report rather than a randomized controlled experiment.
 
-My exploratory question was: **What planning, requirements and verification practices arise under autonomous AI coding, and what additional traceability does an explicit specification-first process supply?**
+### 1.2 The Vibe Coding
 
-- **A — Vibe Coding:** build and adjust through conversational prompts and direct UI feedback.
-- **B — God Mode:** give the agent broad autonomy and observe which planning, testing and quality practices it initiates voluntarily.
-- **C — Specification-Driven Development:** complete a constitution, prioritized specification, clarification decisions, technical plan, tasks and consistency check *before* application implementation.
+My technique was **iterative natural-language prompting of an AI coding agent through connected GitHub/Vercel/Supabase workflows**. I described what the learner should experience, inspected what had actually run, and gave focused follow-up instructions when the interface or integration failed. I did not require a complete SRS, formal task breakdown or separate pre-code quality gate for A.
 
-All three application branches began at the common frozen commit `1afd635324a788f18db19f83f338ad89ade54e33`. The Swedish educational JSON and mission seeds were shared; app implementations were not copied between conditions. The order was A → B → C, which matters because I and the AI agent learned from problems discovered earlier.
+That flexibility made it easy to show a working prototype and incorporate my feedback about speech, level switching, the full lexicon and Google login. However, a domain ambiguity survived: the Vibe code keyed a selected Swedish verb by spelling only. Two `sticka` records have different meanings; one guest-browser assertion later failed because selecting the second still displayed the first meaning. This is evidence about the actual implementation and testing, not a claim that every iterative process fails.
 
-### 1.3 Scope and academic integrity
+### 1.3 The SDD Methodology
 
-During A, I extended the initial brief to a complete verb explorer, favorites and Google sign-in. This later requirement expansion was recorded in `main:research-evidence/SCOPE_CHANGE_01.md`. It would be misleading to pretend all three were supplied with precisely identical fully specified scope at the outset.
+I chose **GitHub Spec Kit** because it gave me an inspectable path from a product brief to versioned user stories and Given/When/Then acceptance criteria, FR/NFR lists, clarification decisions, architecture, an API contract, ordered tasks, analysis, implementation and convergence. The Spec Kit v1.1.3 CLI **really ran**. ChatGPT then generated the actual process artifacts following its templates. Its `--integration copilot` option created compatible tooling, but did not by itself prove GitHub Copilot executed the `/speckit-*` commands.
 
-The dataset itself was recovered from previous user-owned learning materials; its language quality was **not independently checked by a Swedish teacher**. This work used AI to generate application code, plans, tests, repository operations and an initial report draft. These roles and limitations must be disclosed in the final submission. I do not invent personal work hours, stakeholder interview answers or screenshots that do not exist.
+The clarify stage distinguished 456 sense records from 455 uniquely spelled verbs before C application code was committed. Nevertheless, the first C release did not make Sign in easy to discover, and a real Google OAuth attempt redirected to localhost. I recorded both problems and tested the later corrections rather than presenting SDD as perfect on the first pass.
+
+**Brief timeline:** I froze the common baseline on 12 October 2026, developed A and documented its scope expansion, then built B and C from independent branches; C's specification documents preceded its application code. During 13 October I tested and corrected real auth defects. On 14 October I preserved independent A/B/C tests, browser screenshots and the comparative report. Git timestamps establish the order of commits, not how long I or the AI was actively working.
 
 ## 2. Requirements and System Specification (6 marks)
 
@@ -123,7 +125,9 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 
 **Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. The exact local IDE/editor version was **not recorded** in reliable project evidence; I therefore do not claim I used a specific IDE for every condition. Vercel/Supabase configuration was administered through connected services and their dashboards.
 
-### 2.5 System architecture and data flow
+### 2.5 Interface & API Specifications
+
+**Architecture and interface context.** The following architecture and data flow are grounded in C's actual `plan.md` and the three application roots:
 
 ```mermaid
 flowchart LR
@@ -139,7 +143,7 @@ The same frozen four-level content is used by all conditions; code is independen
 
 For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. Diagram source is preserved in the C `plan.md`; a PDF/Word submission needs a rendered image.
 
-### 2.6 API and interface specification
+**External interface and API contract.** I distinguish the public teaching-content endpoint from authenticated per-user storage:
 
 The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/contracts/lexicon-api.md`](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/contracts/lexicon-api.md). It defines a **public, read-only teaching content** API:
 
@@ -179,6 +183,19 @@ The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/cont
 ```
 
 The ellipsis-style example content is explanatory notation, **not** a source-data fixture or a fabricated translation. The actual API returns source records with the available form fields; content should be compared against frozen JSON.
+
+### 2.6 How these requirements and specifications were created (using SDD AI tools)
+
+I began with a product idea, an agreed common brief and source educational data, not a finished AI-written SRS. The four shared mission seeds and `F01–F14` evaluation checklist were committed before method-specific implementation. When I expanded the requirements during A to include the full verb explorer, favorites and Google authentication, the scope change was logged separately. It is not disguised as part of the original fixed brief.
+
+In C, ChatGPT used the **real GitHub Spec Kit 1.1.3 scaffold** as a requirements-first process. It drafted four prioritized user stories, FR-001–FR-020, edge cases and Given/When/Then acceptance examples. The clarification step recorded ten explicit decisions about data identity, missing examples, guest versus cloud persistence, two `sticka` senses, account isolation and Google OAuth configuration. From those decisions the agent produced `research.md`, `data-model.md`, `plan.md`, an API contract, `tasks.md` (T001–T020), and `analyze.md` before creating application files. Each stage is linked in the C branch's commit history.
+
+My responsibility was choosing the learning product and experimental constraints, checking outcomes in the browser, reporting missing behavior and authorizing changes. I did **not** separately sign and time-stamp approval of every AI-generated clarification. Git records demonstrate document ordering; they cannot establish how thoroughly I reviewed each intermediate artifact.
+
+The initial specification required email and Google login but did not demand a visible first-screen **Sign in** button. After I observed the hidden entry point, FR-021 and its acceptance test were added as a **dated post-first-release amendment**, followed by real Chromium RED/GREEN verification. The subsequent localhost Google callback problem was an external provider-configuration acceptance issue. Both are proof that an AI-generated specification needs practical human acceptance, not that a build is enough.
+
+The preserved CLI command and the stage documents are authentic engineering inputs and outputs, but they are **not verbatim student-authored natural-language prompts**. Original messages, excerpts, translations and missing transcripts are distinguished in the prompt provenance ledger.
+
 
 
 ## 3. Vibe Coding Experience (5 marks)
