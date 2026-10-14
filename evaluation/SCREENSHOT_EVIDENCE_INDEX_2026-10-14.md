@@ -1,58 +1,40 @@
-# Real Browser Screenshots — Downloadable Evidence Index
+# Real Nordljud Browser Screenshots — Permanent Evidence
 
-**Captured:** 14 October 2026 (Finnish date; CI 13 October 23:33 UTC).  
-**Workflow:** https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484891437  
-**Source:** Separate unchanged checkout of each branch; browser screenshots were made by the independent Chromium/Playwright guest evaluator, **not** generated images or reconstructed mockups.
+**Nine verified PNG images committed to GitHub**, sourced directly from the independent Chromium/Playwright evaluator. They were **not generated, recreated, retouched or converted from a visual mockup**.
 
-## How to retrieve the screenshot artifacts
+- Original run: [GitHub Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386), testing all three method branches as guests.
+- Verified archival run: [GitHub Actions 38491787132](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38491787132), which downloaded the original artifact ZIP contents, checked the original PNG signatures, and committed exactly **nine** images.
+- Permanent source directory: [evaluation/screenshots/](./screenshots/), including original capture provenance.
+- Images are in the **private** course repository: the instructor needs repository access to see them. The earlier CI ZIPs can expire; the Git-committed copies do not share that CI artifact expiration.
 
-1. Sign in to GitHub with access to the private course repository.
-2. Open [Actions run 38484891437](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484891437).
-3. Under the **Artifacts** section download each of the following ZIP archives.
-4. Extract the `test-results` files. Each method has actual **A2 mission** and **second `sticka` sense after selection** screenshots. Vibe's artifact also has a failure trace archive.
-5. Add selected images to the university report after reviewing them, and caption each with branch, guest browser, test ID and screenshot date.
+## A2 classroom mission screenshots
 
-| GitHub Actions artifact | ID | Approximate archive size | Expiration (UTC) |
-|---|---|---|---|
-| `playwright-Vibe` | 11858943598 | 2.1 MB | 12 Nov 2026 23:33 |
-| `playwright-God_Mode` | 11859475169 | 0.59 MB | 12 Nov 2026 23:33 |
-| `playwright-SDD` | 11857439924 | 0.73 MB | 12 Nov 2026 23:33 |
+| Method | Permanent original PNG | Source |
+|---|---|---|
+| Vibe | [vibe-a2-mission.png](./screenshots/vibe-a2-mission.png) | A source branch `condition/vibe` |
+| God Mode | [god-mode-a2-mission.png](./screenshots/god-mode-a2-mission.png) | B source branch `condition/god-mode` |
+| SDD | [sdd-a2-mission.png](./screenshots/sdd-a2-mission.png) | C source branch `condition/spec-driven` |
 
-**Important:** GitHub Action artifacts are temporary (30-day retention), not automatically embedded in GitHub Markdown. Download or archive them before expiration. These are not sandbox links and no permanent external public URL is invented.
+## Second meaning of the Swedish homograph `sticka`
 
-## What these screenshots actually prove
+| Method | Permanent original PNG | Actual independently asserted result |
+|---|---|---|
+| Vibe | [vibe-sticka-second-sense.png](./screenshots/vibe-sticka-second-sense.png) | **FAIL:** after selecting the second (`sting`) source row, detail pane still said `knit`. |
+| God Mode | [god-mode-sticka-second-sense.png](./screenshots/god-mode-sticka-second-sense.png) | **PASS:** displayed the selected second meaning. |
+| SDD | [sdd-sticka-second-sense.png](./screenshots/sdd-sticka-second-sense.png) | **PASS:** displayed the selected second meaning. |
 
-- Each app rendered a guest A2 mission screen in Chromium running locally from its own frozen branch.
-- The separate `sticka` screenshot shows the **right-side detail pane after the second sense is selected**.
-- Vibe's screenshot captures the observable mismatch: the detail pane still shows *knit* although the second source entry is *sting/prick/leave*. The corresponding Playwright test FAIL and trace support the interpretation.
-- God Mode and SDD screenshots accompany browser PASS assertions for the second sense. They are stronger when interpreted together with the CI logs, not as standalone independent semantic correctness proof.
+## Both A2 question groups completed as a guest
 
-## What they do NOT prove
+| Method | Permanent original PNG | Actual independent result |
+|---|---|---|
+| Vibe | [vibe-guest-a2-exercises-complete.png](./screenshots/vibe-guest-a2-exercises-complete.png) | PASS; completion remained after browser reload. |
+| God Mode | [god-mode-guest-a2-exercises-complete.png](./screenshots/god-mode-guest-a2-exercises-complete.png) | PASS; completion remained after browser reload. |
+| SDD | [sdd-guest-a2-exercises-complete.png](./screenshots/sdd-guest-a2-exercises-complete.png) | PASS; completion remained after browser reload. |
 
-These screenshots are taken as unauthenticated **guest UI** only. They do **not** prove Google sign-in, real account persistence, two-user row-level security, audio output from a learner's OS, invalid password handling, smartphone hardware performance or all F01–F14 criteria.
+### What the images can and cannot support
 
-Separate student-reported real OAuth and two-account acceptance is documented in `evaluation/SDD_USER_ACCEPTANCE_2026-10-13.md`, without including account names, login codes or private user screenshots.
+The images show **unauthenticated guest application displays** from actual locally running frozen branch code in Chromium. They do **not** prove Google sign-in, email/password registration, authenticated cloud persistence, two-account security or actual Swedish voice/audio output on a learner's machine. CI log assertions and an explicit student-reported manual acceptance are distinct kinds of evidence; neither should be represented as the other.
 
-## Relevant independent runs
+For report export, include actual PNG bytes and descriptive captions rather than Mermaid/HTML source alone. For reproducibility, link both the immutable Git image and its original workflow run.
 
-- [Guest Chromium 2-test run with screenshot evidence](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484891437)
-- [Independent source/type/build matrix](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760)
-- [Vibe `sticka` defect report](./DEFECT_VIBE_HOMOGRAPH_2026-10-14.md)
-- [Evidence-graded F01–F14 comparison](./COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md)
-
-**Preservation rule:** Do not retouch a failure screenshot to make an experiment look better. Use the same visual evidence and same test logic for all three methods.
-
-
----
-
-## Latest extended screenshot set — 14 October 2026 (30-day retention)
-
-The earlier 2-test screenshot archive above remains reproducible. The **newest** independent 3-test run is [GitHub Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). Download its three artifacts, which now additionally contain an **A2 exercise-completion screenshot** in each method's `test-results` output directory:
-
-| ZIP artifact | Artifact ID | Approximate size | Expiration UTC |
-|---|---:|---:|---|
-| `playwright-Vibe` | 11859415631 | 2.55 MB | 12 Nov 2026 23:35 |
-| `playwright-God_Mode` | 11860070225 | 0.91 MB | 12 Nov 2026 23:35 |
-| `playwright-SDD` | 11859011659 | 1.12 MB | 12 Nov 2026 23:35 |
-
-The repeated browser outcomes are Vibe **2/3**, God Mode **3/3**, SDD **3/3**; the failed Vibe detail screenshot is retained in its ZIP. These captures are real **guest** local-browser displays (not actual live Google account sessions), and must be labeled as such when used in the report. Download before their expiry; screenshots were not copied permanently into the repository.
+**User privacy:** the browser jobs did not authenticate, and the screenshot artifacts were generated without entering real Google accounts or exposing access tokens.
