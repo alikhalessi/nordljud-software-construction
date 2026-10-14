@@ -185,7 +185,7 @@ The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/cont
 }
 ```
 
-The ellipsis-style example content is explanatory notation, **not** a source-data fixture or a fabricated translation. The actual API returns source records with the available form fields; content should be compared against frozen JSON.
+The JSON above is a **schematic illustration**, not a captured complete API response; actual learning sentences and forms should be checked against the frozen source records.
 
 ### 2.6 How these requirements and specifications were created (using SDD AI tools)
 
@@ -328,7 +328,7 @@ The pre-code workflow committed **constitution, specification, clarifications, t
 
 Two human/integration defects must also be counted:
 
-1. **Hidden sign-in action:** FR-012/FR-013 said authentication must exist, but did not require obvious entry from the homepage. Before patching, the same desktop/mobile Chromium assertions failed **2/2**. After a dated FR-021 amendment and visible Sign in action, three checks passed **3/3**.
+1. **Hidden sign-in action:** FR-012/FR-013 said authentication must exist, but did not require obvious entry from the homepage. Before patching, the two desktop/mobile Chromium checks were **RED: 0/2 passed**. After a dated FR-021 amendment and a visible Sign in action, the updated suite was **GREEN: 3/3 passed**.
 2. **OAuth fallback to localhost:** Real Google account choice initially returned to `localhost:3000`, most plausibly because the hosted URL was missing from Supabase allowed redirect destinations. I later confirmed successful login, state restoration and a successful two-account scenario after configuration guidance; exact dashboard allowlist values were not captured.
 
 This is an **actual SDD convergence case**, not a perfect first-pass SDD implementation. A passing build or a complete-looking specification cannot replace stakeholder acceptance.
@@ -362,7 +362,7 @@ This table documents the **agent-facing engineering instructions and actual outp
 >
 > *English translation: “Why did this happen? Investigate it carefully. I think it is even worth recording.”*
 
-My intent was to investigate why Login seemed absent and preserve the case. The output was [Defect 001](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md), acceptance amendment FR-021, Chromium [RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) and then [GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037).
+My intent was to investigate why Login seemed absent and preserve the case. The output was [Defect 001](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md), acceptance amendment FR-021, Chromium [RED: 0/2 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) and then [GREEN: 3/3 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037).
 
 **Verbatim user-reported Google redirect problem (original Persian):**
 
@@ -420,7 +420,7 @@ This is evidence for **these three exact guest cases**, not a 66.7% versus 100% 
 | Real hosted Google sign-in | I reported it working | NOT VERIFIED separately | I reported successful sign-in **after** a documented localhost redirect failure |
 | Restored account data after sign-out/re-login | NOT VERIFIED in a complete scenario | NOT VERIFIED | PASS by my manual observation (exact saved flags not documented) |
 | Isolation of two different logged-in users | NOT VERIFIED | NOT VERIFIED | PASS in my reported two-account scenario; no adversarial API test |
-| Discoverable Sign in in desktop/mobile browser | Not independently tested in this comparison | Not independently tested | Initial **RED 2/2 FAIL**; after FR-021 **GREEN 3/3 PASS** |
+| Discoverable Sign in in desktop/mobile browser | Not independently tested in this comparison | Not independently tested | Initial **RED: 0/2 passed**; after FR-021 **GREEN: 3/3 passed** |
 
 The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) separates PASS, PARTIAL, FAIL and NOT TESTED. Some user paths remain unverified: new email/password registration with invalid credentials, full wrong-answer UX in all three methods, multi-device performance, real voice playback on all operating systems and some mobile interactions.
 
@@ -465,7 +465,7 @@ The issues below are **actual observed technical findings**, not GitHub Issues t
 | CA-05 — A | Swedish playback initially produced an audible-output error in desktop Chrome. | Added delayed `voiceschanged` handling and clearer missing-voice/error status; commit `17e32e666`. | Logged browser failure; later user reported speech working. | Me, in desktop Chrome |
 | CA-06 — B | Autonomous original test incorrectly asserted 456 unique written lemmas. Source test stopped CI early. | Corrected to assert 456 records/455 spellings and checked both `sticka` meanings; commit `ea6a6aef3`. | Initial [God Mode CI 38317088266 FAIL](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38317088266); later [38319216764 PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764). | God Mode CI; AI investigation |
 | CA-07 — B | God Mode's original selection and favorites also used spelling-only identity. | Introduced composite identity `v + "::" + meaning`; commit `113973d7f`. | Independent guest Chromium now selects both `sticka` senses successfully. | AI inspection after test failure |
-| CA-08 — C | Specification required authentication, but did **not** require a findable login action on the homepage. | Dated post-release FR-021 and T021–T023; header Sign in; Playwright acceptance added **before** UI fix. | Original browser [38376988433 RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) → fixed [38377362037 GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). | Me; Chromium reproduced it |
+| CA-08 — C | Specification required authentication, but did **not** require a findable login action on the homepage. | Dated post-release FR-021 and T021–T023; header Sign in; Playwright acceptance added **before** UI fix. | Original browser [38376988433 RED: 0/2 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) → fixed [38377362037 GREEN: 3/3 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). | Me; Chromium reproduced it |
 | CA-09 — C | Hosted Google OAuth displayed accounts but returned to `localhost:3000` after account selection. | Supabase Redirect URLs guidance; no unnecessary change to shared Site URL; exact admin values not independently captured. | I later confirmed successful Google sign-in and retained data after re-login; root cause strongly suspected but not forensically proven. | Me, testing live OAuth |
 | CA-10 — C / infrastructure | Vercel free-plan API deployment quota temporarily blocked new C publication. | Retried after quota availability; separate SDD deployment reached READY. | Historical HTTP 402 retained in convergence log; later actual deployed build/CI and my manual check. | Vercel API |
 
@@ -529,7 +529,7 @@ In this one study, specification helped make a sense-identity requirement explic
 | SDD: task list / consistency analysis | **12 Oct, 22:59:54–22:59:56** | `dabbe7769`, `f32b7eae0` |
 | SDD: first app package | **12 Oct, 23:00:50** | `ebb63b644` |
 
-**Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. **This does not establish three minutes of human review**; no signed sign-off, meeting log or human review duration is documented for that interval. It would be inappropriate to claim otherwise.
+**Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. This interval is **not a measurement of human review time**, and I did not keep a separate review-duration log.
 
 **Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests were used during the original A/B/C implementation.** Any later report-review PR belongs to the post-experiment evidence-improvement stage, not the historical coding workflow. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
 
@@ -548,6 +548,7 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 | Non-student tool or automation | Role (no student participation percentage) |
 |---|---|
 | **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Model identified by me retrospectively as **GPT-6, High thinking effort**; per-run model-picker proof not archived. |
+| **Claude (Anthropic)** | Critiqued the **report and its supporting evidence after implementation**, including university-template alignment and interpretation of actual tests. I verified its suggestions before incorporating them; Claude was not responsible for original A/B/C coding. |
 | **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
 
 **Administrative status:** I confirmed on 14 October 2026 that my individual project submission had already been approved. My confirmation is recorded; the instructor's original approval date or message is not attached, so I do not invent either. My student ID will be inserted before submission, and I will grant and verify the instructor's access to the private GitHub repo. This updated status is recorded in [the 14 October administrative update](./ADMIN_STATUS_UPDATE_2026-10-14.md), which supersedes outdated open-approval notes in the earlier checklist.
@@ -574,6 +575,8 @@ SDD still failed to make the login action discoverable in the first release, and
 **Requirements drift.** I expanded A's original classroom missions to a full 456-record explorer, favorites and Google login after A had begun. This made the product better, but reduced the fairness of a tightly controlled comparison. I documented that change rather than retroactively rewriting the baseline.
 
 **Consistency and ambiguous domain concepts.** Two senses of the Swedish verb `sticka` are separate records but share the same spelling. A false assumption about “456 unique verbs” broke source tests, and a spelling-only key later broke the Vibe UI. God Mode also made the wrong first assumption before fixing it. SDD clarified the distinction earlier, partly because the agent already knew the earlier error.
+
+**Dependency validity and reproducibility.** Across the three package manifests, I found no invented or nonexistent *direct runtime package names*: the four entries are `@supabase/supabase-js`, `next`, `react` and `react-dom`. This is a check of package names, not a version-by-version supply-chain audit or proof that all transitive dependencies are trustworthy.
 
 **Infrastructure and dependency reproducibility.** Vercel branch/project configuration, a deployment quota, browser Swedish voice availability, Supabase RLS and Google OAuth redirect allowlists were not controlled by the Next.js build. The SDD page could compile and even show Google's account chooser while still returning me to `localhost:3000`. I learned to treat external services as first-class acceptance risks. None of the three implementation branches has a committed dependency lockfile (`package-lock.json`, `yarn.lock` or `pnpm-lock.yaml`); their `package.json` files use caret semver ranges and the comparison workflow calls `npm install`. Therefore later installations can resolve different exact dependency versions, limiting byte-for-byte reproducibility. I can preserve the original snapshots and report this rather than adding lockfiles retroactively to the frozen experiment.
 
