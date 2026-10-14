@@ -9,7 +9,7 @@
 
 ## Executive Summary (200–300 words)
 
-Using ChatGPT as my AI development assistant (historical model variant not recorded), I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used explicit Specification-Driven Development (SDD), with the official GitHub Spec Kit scaffold, formal requirements, clarification, architecture and tasks before implementation.
+Using OpenAI ChatGPT with **GPT-6 at High thinking effort** (my retrospective model-setting confirmation), I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used explicit Specification-Driven Development (SDD), with the official GitHub Spec Kit scaffold, formal requirements, clarification, architecture and tasks before implementation.
 
 Each implementation began from the same frozen Git baseline and reused the same recovered Swedish-language dataset, while application code remained separate. A subsequent request expanded the scope during the first condition, so the comparison is descriptive rather than a controlled experiment.
 
@@ -117,9 +117,9 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 | **GitHub and GitHub Actions** | Branch-level provenance; Node.js **22** in independent audit runner. | Same-source automated source tests, typecheck, production compilation and Chromium guest acceptance. |
 | **Vercel** | Independent projects for each method. | Preview/production web deployment; caused actual Git-branch target, quota and provider-host issues. |
 | **GitHub Spec Kit CLI** | **v1.1.3**, executed and committed in C. | A visible template/process for constitution → spec → clarify → plan → tasks → analyze → implement. |
-| **ChatGPT (OpenAI)** | AI development assistant via connected GitHub, Vercel and Supabase tools. **Exact historical model variant for each run was not contemporaneously logged.** | Generated substantial code, draft prompts/agent instructions, tests, workflow artifacts and documentation under my product direction. |
+| **ChatGPT (OpenAI)** | **GPT-6, High thinking effort**, confirmed by me on 14 October 2026; connected GitHub, Vercel and Supabase tools. The per-run model picker was **not independently archived**. | Generated substantial code, draft prompts/agent instructions, tests, workflow artifacts and documentation under my product direction. |
 
-**AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. Historical exact ChatGPT model variants should be filled from contemporaneous model-picker records, not inferred from a current model name.
+**AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
 **Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. The exact local IDE/editor version was **not recorded** in reliable project evidence; I therefore do not claim I used a specific IDE for every condition. Vercel/Supabase configuration was administered through connected services and their dashboards.
 
@@ -247,8 +247,8 @@ This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](ht
 | Historical local UI tests | Manual **Windows desktop Chrome** observation appears in the Vibe development log. | User-supplied browser inspection, not proof of identical local setup for B/C. |
 | Source management | GitHub, direct branch commits; three condition branches and frozen baseline. | Prevents mixing A/B/C application code. |
 | Deployment/auth | Vercel + Supabase browser-safe public credentials, dashboard-controlled Google OAuth redirects. | External service configuration caused observable integration errors. |
-| AI development interface | **ChatGPT by OpenAI**, using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
-| Exact ChatGPT model variant | **Not captured in contemporaneous per-condition logs.** | I cannot truthfully assign a specific historical model/version just because a different model is active during the report revision. |
+| AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (student-confirmed configuration), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
+| Exact ChatGPT model variant | **GPT-6 with High thinking effort — confirmed by me on 14 October 2026.** | The identification is based on my retrospective confirmation; an independently timestamped model-picker record for each A/B/C session is **not** available. High is a thinking-effort setting, not a separate model. |
 | Local IDE/editor version | **Not established by the saved source and logs examined.** | Do not invent VS Code, Cursor, Copilot editor or other IDE usage without a contemporaneous record. |
 
 ### 4.3 Actual SDD workflow and review gates
@@ -301,7 +301,7 @@ The expectation was successful Google callback to the Vercel origin. The result 
 
 **Comparative B input, separate from SDD:** The preserved God Mode [master prompt](./GOD_MODE_MASTER_PROMPT.md) actually tells the autonomous agent, *“You may freely decide whether to plan, specify, create intermediate documents, decompose tasks, verify, and improve your own work.”* This is an **assistant-drafted, precommitted agent-facing input**, not a text I claim to have typed word-for-word. It demonstrates that God Mode was free to create SDD-like artifacts voluntarily.
 
-**Evidence gap affecting 4.5 grading:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and the contemporaneous exact historical model variants are not fully recoverable from the checked files. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
+**Evidence gap affecting 4.5 grading:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
 
 
 ## 5. Verification and Validation (6 marks)
@@ -444,7 +444,7 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 
 | Non-student tool or automation | Role (no student participation percentage) |
 |---|---|
-| **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Exact historical model variant was not logged. |
+| **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Model identified by me retrospectively as **GPT-6, High thinking effort**; per-run model-picker proof not archived. |
 | **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
 
 **Administrative status:** The available files do not prove the course instructor has accepted an individual submission if the assignment requires a three-person group. I must obtain confirmation under the actual Moodle rules; I have not invented an instructor's approval date or alternative team composition. Student ID must likewise be supplied before a finalized team table is submitted.
