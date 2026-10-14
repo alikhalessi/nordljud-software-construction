@@ -340,7 +340,33 @@ This is evidence for **these three exact guest cases**, not a 66.7% versus 100% 
 
 The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) separates PASS, PARTIAL, FAIL and NOT TESTED. Some user paths remain unverified: new email/password registration with invalid credentials, full wrong-answer UX in all three methods, multi-device performance, real voice playback on all operating systems and some mobile interactions.
 
-**Visual evidence:** [Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) contains authentic guest-browser screenshots: first A2 screen, the selected second `sticka` sense and completed A2 exercises, with no personal account details. The image binaries currently reside in temporary CI artifacts, **not as permanently embedded figures in this report**. They must be downloaded/archived and inserted into the PDF/Word version before submission; do not claim the image attachments have already been committed.
+**Visual evidence:** The **nine authentic guest-browser PNGs are now permanently committed** to the coordinating GitHub repository under [evaluation/screenshots](../evaluation/screenshots/). They were copied byte-for-byte from [CI run 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) by verified [archive run 38491787132](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38491787132). The PNG archive is inspectable without relying on expiring Actions artifacts. These are guest screenshots, not personal account screenshots.
+
+**Figure 1 — Vibe A2 guest mission, real Playwright screenshot.**
+
+![Condition A Vibe A2 mission — guest Chromium](../evaluation/screenshots/vibe-a2-mission.png)
+
+**Figure 2 — God Mode A2 guest mission, real Playwright screenshot.**
+
+![Condition B God Mode A2 mission — guest Chromium](../evaluation/screenshots/god-mode-a2-mission.png)
+
+**Figure 3 — SDD A2 guest mission, real Playwright screenshot.**
+
+![Condition C SDD A2 mission — guest Chromium](../evaluation/screenshots/sdd-a2-mission.png)
+
+**Figure 4 — Vibe selected second `sticka` sense.** Screenshot was captured immediately **before** the independent assertion failed: detail still showed `knit` rather than `sting`.
+
+![Condition A Vibe homograph defect captured in Chromium](../evaluation/screenshots/vibe-sticka-second-sense.png)
+
+**Figure 5 — God Mode selected second `sticka` sense.** The same Chromium semantic assertion passed.
+
+![Condition B God Mode second sticka sense captured in Chromium](../evaluation/screenshots/god-mode-sticka-second-sense.png)
+
+**Figure 6 — SDD selected second `sticka` sense.** The same Chromium semantic assertion passed.
+
+![Condition C SDD second sticka sense captured in Chromium](../evaluation/screenshots/sdd-sticka-second-sense.png)
+
+The remaining **Figures 7–9** are genuine completed-A2-exercises PNGs, available in the [permanent image index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). When exporting to PDF/DOCX, embed the original image bytes and render any Mermaid diagrams separately. No screenshot alone verifies Google sign-in or database isolation.
 
 ### 5.2 Code audit and Issue/Resolution log
 
