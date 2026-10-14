@@ -20,6 +20,12 @@ Nordljud is an English-to-Swedish, mission-based learning web application with f
 
 **Do not merge all three app roots into main.** Each contains different versions of `app/`, `package.json` and config. Merging these roots would overwrite implementations, violate the planned separation and disrupt reproducibility. A final read-only archive or comparison branch may be created later if useful, but the branches remain the canonical sources.
 
+## Project student and academic roles
+
+**Ali Khalessi** (`alikhalessi`) is the **sole student** responsible for Nordljud. This is an individual student project; there are **no other student team members**. Vibe Coding, God Mode and Spec-Driven Development are three **development approaches**, not a three-person team.
+
+**AI assistance:** ChatGPT helped generate implementation code, tests, research documents and repository changes under the student's direction. GitHub Actions bots are automation, not student contributors. The exact human/AI contributions and the need for any instructor approval of individual submission must be disclosed in the university report; **no individual-project exception approval is claimed here**.
+
 ## Purpose and Experiment Design
 
 This project supports the Åbo Akademi Software Construction experience report on three AI-assisted development approaches:
