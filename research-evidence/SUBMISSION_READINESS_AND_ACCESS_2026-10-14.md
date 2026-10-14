@@ -35,11 +35,11 @@ Once the instructor provides written approval, record the genuine date/route and
 - [ ] Obtain the **actual official Moodle report template**, including headings 2.5/2.6, 4.5 and 7.4, and confirm any exact word/table/diagram/AI-use requirements. The existing `COURSE_RUBRIC_ALIGNMENT.md` is explicitly a summary of earlier learner-shared instructions.
 - [ ] Obtain student ID and instructor-approved individual submission rule/exception, if required.
 - [ ] Grant and independently verify instructor read access to the private GitHub repo or use an instructor-approved evidence delivery alternative; user consent required.
-- [ ] Download and permanently archive real screenshots from [GitHub Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386), where artifacts currently have finite retention; private artifact binary not materialized through the available connector.
+- [x] **Screenshots durably archived:** workflow [38491787132](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38491787132) copied nine original guest Chromium PNGs from run 38485026386, validated PNG signatures and committed them to [evaluation/screenshots/](../evaluation/screenshots/). All nine files were subsequently verified in GitHub. **Image figures 1–6 are now embedded** in the revised Markdown report.
 - [ ] Determine **historical** model identity for each experimental phase from a contemporaneous model-picker screenshot/export if it exists. ChatGPT as the assistant platform is evidenced; a specific historical backend model is not.
 - [ ] Review first-person report claims, test matrix and consent/AI disclosure prior to final submission.
 - [ ] If the instructor expects issue/PR lifecycle evidence, explain the actual historic use of direct branch commits and CI. Create genuine **prospective** issues/PRs for real unresolved work only, labeled with current date; never retrospectively impersonate 2026-10-12 feature planning or invent team discussion.
-- [ ] If producing PDF/DOCX, render Mermaid diagrams as true images, not code fences. Such output was not generated in this activity.
+- [ ] If producing PDF/DOCX, render Mermaid diagrams as true images, not code fences; the report currently embeds six real PNG screenshots, but it has not been exported to PDF/DOCX.
 
 ## Performance timeline interpretation
 
