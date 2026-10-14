@@ -6,7 +6,7 @@
 **Student:** Ali Khalessi  
 **Student contributors:** 1 (individual project)  
 
-**Team Details (individual project):** Ali Khalessi — Student ID: **pending confirmation** — Role: sole student, product owner, requirements decisions, human acceptance and academic submission — Student participation: **100%**. Individual-submission permission remains to be confirmed with the instructor; this participation percentage does not imply personally typing all AI-generated code.  
+**Team Details (individual project):** Ali Khalessi — Student ID: **pending confirmation** — Role: sole student, product owner, requirements decisions, human acceptance and academic submission — Student participation: **100%**. I have confirmed that this individual submission has already been approved; the approval date and written record have not been supplied for independent documentation. This participation percentage does not imply personally typing all AI-generated code.  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
 
 ## Executive Summary (200–300 words)
@@ -507,7 +507,7 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 | **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Model identified by me retrospectively as **GPT-6, High thinking effort**; per-run model-picker proof not archived. |
 | **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
 
-**Administrative status:** The available files do not prove the course instructor has accepted an individual submission if the assignment requires a three-person group. I must obtain confirmation under the actual Moodle rules; I have not invented an instructor's approval date or alternative team composition. Student ID must likewise be supplied before a finalized team table is submitted.
+**Administrative status:** I confirmed on 14 October 2026 that my individual project submission has already been approved. The original instructor approval date, approval message and modality have not been supplied for independent verification, so I do not invent them. My student ID will be added before final submission. I will separately grant the grader access to this private repository and verify that the link works.
 
 
 ## 7. Reflections and a Reusable Process (5 marks)
