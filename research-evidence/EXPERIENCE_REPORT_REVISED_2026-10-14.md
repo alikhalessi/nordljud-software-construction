@@ -288,7 +288,7 @@ This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](ht
 | Deployment/auth | Vercel + Supabase browser-safe public credentials, dashboard-controlled Google OAuth redirects. | External service configuration caused observable integration errors. |
 | AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (student-confirmed configuration), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
 | Exact ChatGPT model variant | **GPT-6 with High thinking effort — confirmed by me on 14 October 2026.** | The identification is based on my retrospective confirmation; an independently timestamped model-picker record for each A/B/C session is **not** available. High is a thinking-effort setting, not a separate model. |
-| Local IDE/editor version | **Not established by the saved source and logs examined.** | Do not invent VS Code, Cursor, Copilot editor or other IDE usage without a contemporaneous record. |
+| Local IDE/editor version | **I have no contemporaneous record of one exact IDE/version across these runs.** | I cannot responsibly name an editor for every condition. |
 
 ### 4.3 Actual SDD workflow and review gates
 
@@ -409,7 +409,7 @@ The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPT
 
 ![Condition C SDD second sticka sense captured in Chromium](../evaluation/screenshots/sdd-sticka-second-sense.png)
 
-The remaining **Figures 7–9** are genuine completed-A2-exercises PNGs, available in the [permanent image index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). When exporting to PDF/DOCX, embed the original image bytes and render any Mermaid diagrams separately. No screenshot alone verifies Google sign-in or database isolation.
+The remaining **Figures 7–9** are genuine completed-A2-exercises PNGs, available in the [permanent image index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). I will use the original image files as figures in the submitted report, rather than replacing them with mockups. None of these guest screenshots is evidence of Google sign-in or account isolation.
 
 ### 5.2 Code Audit Log
 
@@ -488,7 +488,7 @@ In this one study, specification helped make a sense-identity requirement explic
 
 **Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. **This does not establish three minutes of human review**; no signed sign-off, meeting log or human review duration is documented for that interval. It would be inappropriate to claim otherwise.
 
-**Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests** have been created. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
+**Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests were used during the original A/B/C implementation.** Any later report-review PR belongs to the post-experiment evidence-improvement stage, not the historical coding workflow. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
 
 **Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I do not assume a teacher can open protected links without access or change the repository to Public without consent.
 
