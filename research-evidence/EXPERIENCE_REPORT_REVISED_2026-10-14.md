@@ -123,7 +123,7 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 
 **AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
-**Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. I did not retain a reliable record of the exact local IDE/editor version used for each condition, so I cannot attribute the whole experiment to one particular editor. Vercel/Supabase configuration was administered through connected services and their dashboards.
+**Development environment record:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. I did not retain a reliable record of the exact local IDE/editor version used for each condition, so I cannot attribute the whole experiment to one particular editor. Vercel/Supabase configuration was administered through connected services and their dashboards.
 
 ### 2.5 Interface & API Specifications
 
@@ -462,6 +462,8 @@ In this one study, specification helped make a sense-identity requirement explic
 
 **Commit-message convention.** Real history uses descriptive condition/stage prefixes, including `vibe: bootstrap`, `vibe: diagnose`, `god-mode:`, `god-mode fix:`, `sdd constitution:`, `sdd specify:`, `sdd clarify:`, `sdd plan:`, `sdd implement:` and `sdd RED/GREEN` corrective evidence. The prefixes make it possible to trace what an AI-assisted change **claims** to implement and when it was committed. The record does not prove that every referenced human approval or content review occurred.
 
+**How my responsibilities shifted.** In A I mainly described visible functions, tested the page and requested corrections. In C I increasingly acted as product owner, spec reviewer and acceptance auditor: I set priorities, required traceability, examined ambiguous decisions, tested the real learner journey and reported errors. ChatGPT generated substantial code and engineering documentation; my contribution was directing and critically verifying that work, not pretending I manually authored every commit.
+
 **Prompt integration.** Only verified real prompt texts are included or linked. The [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) separates verbatim messages I wrote, the stored assistant-drafted God Mode master input, translations/after-the-fact logs and missing original messages. Prompt text is not inferred from commit titles. The SDD `.specify` scaffold was installed using the official CLI; initial `--integration copilot` did not itself execute every Copilot slash command.
 
 **Exact, observable Git timeline (UTC):**
@@ -510,7 +512,7 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 
 ## 7. Reflections and a Reusable Process (5 marks)
 
-### 7.1 Main observations from Vibe, God Mode and SDD
+### 7.1 Benefits of AI-Assisted SDD
 
 **Vibe Coding** made the product tangible early and kept the human learner in the loop, but it depended on observing the result to uncover missing requirements. The preserved A branch still conflates two senses of `sticka`. Its source tests failed four assertions even while its TypeScript and build checks passed.
 
@@ -520,7 +522,21 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 
 The practical result is not “method C wins” or “method B replaces formal requirements.” Across this **single application**, explicit specs were useful for source identity and traceability, while real acceptance testing remained indispensable for all methods.
 
-### 7.2 Comparative efficiency: measurable facts versus unknown elapsed work
+### 7.2 Core Bottlenecks and Challenges
+
+**Context windows and prompt traceability.** In a long AI conversation, earlier design constraints and exact prompts can become difficult to retrieve. The Git log proved what changed, but it did not preserve every word I typed or every intermediate AI instruction. I had to distinguish preserved master prompts from direct user messages and later summaries. I should export prompt transcripts from the beginning in future projects.
+
+**Requirements drift.** I expanded A's original classroom missions to a full 456-record explorer, favorites and Google login after A had begun. This made the product better, but reduced the fairness of a tightly controlled comparison. I documented that change rather than retroactively rewriting the baseline.
+
+**Consistency and ambiguous domain concepts.** Two senses of the Swedish verb `sticka` are separate records but share the same spelling. A false assumption about “456 unique verbs” broke source tests, and a spelling-only key later broke the Vibe UI. God Mode also made the wrong first assumption before fixing it. SDD clarified the distinction earlier, partly because the agent already knew the earlier error.
+
+**Infrastructure dependencies.** Vercel branch/project configuration, a deployment quota, browser Swedish voice availability, Supabase RLS and Google OAuth redirect allowlists were not controlled by the Next.js build. The SDD page could compile and even show Google's account chooser while still returning me to `localhost:3000`. I learned to treat external services as first-class acceptance risks.
+
+**Drifting from the actual user experience.** C's original FR-012/FR-013 required authentication functions but omitted an explicit initial-screen Sign in affordance. Only after my browser feedback did the agent define FR-021, run RED tests, fix the UI and get GREEN results. Writing requirements is different from validating that the complete learner journey is usable.
+
+**Uneven verification.** The source suites differ (11, 3 and 4 assertions), while the shared guest Chromium suite covers only three scenarios per method. A green GitHub workflow containing `continue-on-error` cannot be read as a universal pass. I cannot claim measured code coverage or end-to-end security proof.
+
+**Time and productivity measurement.** I have an inspectable commit history—36 A commits, 21 B commits and 38 C commits—rather than measured active human/AI time. The dates below show engineering events, but a percentage “AI made me X% faster” would be invented. I report the limitation instead of a fictitious metric.
 
 | Method | Observable version-control tempo | Verification evidence | What cannot be inferred |
 |---|---|---|---|
@@ -530,7 +546,7 @@ The practical result is not “method C wins” or “method B replaces formal r
 
 The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. That limitation must remain in this experience report rather than inserting attractive but false numbers.
 
-### 7.3 Lessons learned and operational best practices
+### 7.3 Lessons Learned & Best Practices
 
 1. **Define the identity of domain objects.** One written Swedish lemma can map to multiple sense records; source tests and UI keys must agree about what counts as one item.
 2. **Separate requirement completeness from implementation completeness.** FR-012/FR-013 said login should exist; neither specified a visible first-screen Sign in button until feedback prompted FR-021.
@@ -541,7 +557,7 @@ The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes fo
 7. **Freeze comparable artifacts and disclose carryover.** The three code bases are separate, but order A→B→C and my/AI's learning from earlier defects limit causal claims.
 8. **Collect first-hand prompts and screenshots while they still exist.** Translated logs and time-limited GitHub Actions screenshots are not a substitute for original prompt texts and durable report figures.
 
-### 7.4 Proposed reusable AI–human Software Construction process
+### 7.4 Proposed Specification-Driven Development Workflow
 
 The strongest practical outcome is a **risk-calibrated hybrid workflow**, rather than always choosing maximal upfront documentation or always accepting iterative Vibe development. Every phase needs an explicit division of responsibilities and a check that its output is supported by real evidence.
 
@@ -582,7 +598,7 @@ This remains a **descriptive experience report**. It does not establish a genera
 
 ## References and Reproducible Primary Evidence
 
-The authoritative evidence is the Git history, experiment files, CI logs and explicit student feedback. The final submission should cite the course's approved AI-use guidelines and link or attach these materials as allowed.
+The authoritative evidence is the Git history, experiment files, CI logs and explicit student feedback. I will cite the course's approved AI-use guidance and include the required links or attachments with my submission.
 
 - [Default GitHub repository and navigation](https://github.com/alikhalessi/nordljud-software-construction)
 - [Vibe app and source log](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/vibe)
