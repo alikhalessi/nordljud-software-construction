@@ -286,12 +286,12 @@ This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](ht
 | Component | Actual recorded environment | Reason/evidence |
 |---|---|---|
 | Source / workspace | Private GitHub repository; root of `condition/spec-driven` is a complete independent Next.js application; separate coordinating `main` stores report/evaluator. | Freezes implementation roots and allows reproducible independent builds. |
-| CI platform | GitHub Actions **Ubuntu** runner, `actions/setup-node` **Node 22**, built-in Node test runner, `tsc`, Next build. | Execution environment from workflow definitions and passing runs, not a guess about the student's laptop. |
+| CI platform | GitHub Actions **Ubuntu** runner, `actions/setup-node` **Node 22**, built-in Node test runner, `tsc`, Next build. | Execution environment from workflow definitions and passing runs, evidence from the CI configuration, not a claim about the setup of my own computer. |
 | Browser validation | Headless **Chromium** through Playwright `@playwright/test: ^1.56.1` in C; independent three-method guest evaluator. | Tests actual rendered UI behavior, not just TypeScript. |
-| Historical local UI tests | Manual **Windows desktop Chrome** observation appears in the Vibe development log. | User-supplied browser inspection, not proof of identical local setup for B/C. |
+| Historical local UI tests | Manual **Windows desktop Chrome** observation appears in the Vibe development log. | My own browser observation, not evidence that B/C used the same machine. |
 | Source management | GitHub, direct branch commits; three condition branches and frozen baseline. | Prevents mixing A/B/C application code. |
 | Deployment/auth | Vercel + Supabase browser-safe public credentials, dashboard-controlled Google OAuth redirects. | External service configuration caused observable integration errors. |
-| AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (student-confirmed configuration), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
+| AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (configuration I identified retrospectively), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
 | Exact ChatGPT model variant | **GPT-6 with High thinking effort — confirmed by me on 14 October 2026.** | The identification is based on my retrospective confirmation; an independently timestamped model-picker record for each A/B/C session is **not** available. High is a thinking-effort setting, not a separate model. |
 | Editing and commit workflow | **ChatGPT wrote/updated application and documentation files through its connected GitHub tools, in per-file commits.** The repo does not include evidence of a conventional local editor being used for those recorded changes. | The source/commit trail establishes direct remote edits; it does **not** prove that I never opened any local editor during the entire study, so I do not invent a local IDE name/version. |
 
@@ -360,7 +360,7 @@ My intent was to investigate why Login seemed absent and preserve the case. The 
 >
 > *English translation: “It shows localhost:3000 at the top, so it isn't working.”*
 
-The expectation was successful Google callback to the Vercel origin. The result was a documented real integration failure (Defect 002), dashboard allowlist guidance and a later user-confirmed successful retry. These quotations are **real user messages**, not reconstructed “perfect prompts.”
+The expectation was successful Google callback to the Vercel origin. The result was a documented real integration failure (Defect 002), dashboard allowlist guidance and my later reported successful retry. These quotations are **real user messages**, not reconstructed “perfect prompts.”
 
 **Comparative B input, separate from SDD:** The preserved God Mode [master prompt](./GOD_MODE_MASTER_PROMPT.md) actually tells the autonomous agent, *“You may freely decide whether to plan, specify, create intermediate documents, decompose tasks, verify, and improve your own work.”* This is an **assistant-drafted, precommitted agent-facing input**, not a text I claim to have typed word-for-word. It demonstrates that God Mode was free to create SDD-like artifacts voluntarily.
 
@@ -631,7 +631,7 @@ This remains a **descriptive experience report**. It does not establish a genera
 
 ## References and Reproducible Primary Evidence
 
-The authoritative evidence is the Git history, experiment files, CI logs and explicit student feedback. I will cite the course's approved AI-use guidance and include the required links or attachments with my submission.
+The authoritative evidence is the Git history, experiment files, CI logs and my own documented feedback. I will cite the course's approved AI-use guidance and include the required links or attachments with my submission.
 
 - [Default GitHub repository and navigation](https://github.com/alikhalessi/nordljud-software-construction)
 - [Vibe app and source log](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/vibe)
