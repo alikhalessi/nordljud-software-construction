@@ -1,17 +1,15 @@
 # An Experience Report on a Specification-Driven, AI-Assisted Software Construction Project
 
-**Revised evidence-based draft — 14 October 2026**  
+**Evidence-based report revision — 14 October 2026**  
 **Project:** Nordljud — mission-based Swedish-learning application  
 **Course:** Software Construction, Åbo Akademi University  
-**Student and sole project member:** Ali Khalessi  
-**Team size:** 1 (individual project; no student teammates)  
-**Academic note:** Individual-submission permission has not yet been confirmed against the course's team requirement.  
+**Student:** Ali Khalessi  
+**Student contributors:** 1 (individual project)  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
-**Status:** Ready for student review, pending remaining manual acceptance screenshots and confirmation of the official Moodle submission requirements.
 
 ## Executive Summary (200–300 words)
 
-I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used explicit Specification-Driven Development (SDD), with the official GitHub Spec Kit scaffold, formal requirements, clarification, architecture and tasks before implementation.
+Using ChatGPT as my AI development assistant (historical model variant not recorded), I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used explicit Specification-Driven Development (SDD), with the official GitHub Spec Kit scaffold, formal requirements, clarification, architecture and tasks before implementation.
 
 Each implementation began from the same frozen Git baseline and reused the same recovered Swedish-language dataset, while application code remained separate. A subsequent request expanded the scope during the first condition, so the comparison is descriptive rather than a controlled experiment.
 
@@ -49,47 +47,139 @@ The dataset itself was recovered from previous user-owned learning materials; it
 
 ## 2. Requirements and System Specification (6 marks)
 
-### 2.1 Users, scenarios and core requirements
+### 2.1 Stakeholders and their rationale
 
-The primary user is an English-speaking learner trying to practice Swedish in short situations. The second stakeholder is a course reviewer who must compare engineering processes from verifiable artifacts.
+| Stakeholder | Relevance to Nordljud | Evidence or boundary |
+|---|---|---|
+| **Me — Ali Khalessi (sole student and product owner)** | I chose the Swedish-learning goal, supplied/recovered teaching data, adjusted priorities, configured accounts and inspected live applications. | Direct requests, Git history and my manual feedback; no fictional team meetings. |
+| **Adult Swedish learner (primary end user)** | Needs readable Swedish examples, helpful English and speech, reliable question feedback, discoverable sign-in and persistent progress. | Represented by practical mission stories and my manual learning tests; not a separately recruited user study. |
+| **Course instructor / assessor** | Needs reproducible evidence of process, prompts, requirements, version control, defects and validation. | Course rubric summary and independent GitHub evidence. Actual instructor access to the private repository remains to be arranged. |
+| **Learning-content steward** | Requires recovery provenance, immutable shared datasets and clear disclosure that sentence quality is not teacher-certified. | `shared-content/SOURCE_MANIFEST.md` and frozen educational inputs. |
+| **Identity/data provider (Supabase and Google)** | External dependencies constrain OAuth redirects and user-specific data. Not members of the development team. | Supabase browser integration, RLS policy inspection and the real localhost return problem. |
 
-The basic user journey is: choose a CEFR level, read a Swedish sentence, optionally reveal English, play Swedish audio, answer a meaning question, identify a verb form, and later revisit completed learning. The explorer allows search by spelling or meaning; an authenticated learner can mark favorites and restore progress.
+These are stakeholder **roles relevant to requirements**, not five interviewed or actively participating people. I did not carry out a formal stakeholder interview study.
 
-The common evaluator was written as F01–F14 before the three implementations. It includes actual sign-in/out, four levels and missions, source text, Swedish speech, both question types, saved results, account separation, mobile usability, build status, missing examples and secret handling. This checklist is an **evaluation protocol**, not evidence that each test has already passed.
+### 2.2 Functional requirements — original specification and dated amendment
 
-### 2.2 An overlooked domain ambiguity: 456 records ≠ 456 unique spellings
+The following requirements reproduce the numbering and wording of the **actual SDD source specification**, rather than inventing a new list after implementation. `FR-001`–`FR-020` were recorded before application source. **FR-021 was added after the first SDD release**, in response to my observation that login was hidden under My Learning; it must not be counted as pre-code foresight.
 
-The frozen data contains **456 sense records at each of four levels**, but only **455 distinct written verb spellings**. The lemma `sticka` appears twice: one sense means *knit* (present tense `stickar`) and another means *sting/prick; leave* (present tense `sticker`).
+| ID | Requirement from `condition/spec-driven:specs/001-nordljud-classroom/spec.md` |
+|---|---|
+| FR-001 | Show A2, B1, B2 and C1 learner levels. |
+| FR-002 | Offer exactly one representative mission per level, using unchanged shared mission seeds. |
+| FR-003 | Display source Swedish example sentences and corresponding English meaning or translation. |
+| FR-004 | Let the learner show/hide English assistance. |
+| FR-005 | Request a Swedish voice (`sv-SE`) when audio is played, and show a useful status if unavailable. |
+| FR-006 | Provide an English meaning comprehension question with correctness feedback. |
+| FR-007 | Provide a Swedish verb-form question with correctness feedback; no credit for incorrect answers. |
+| FR-008 | Offer searchable browsing across **456 sense records / 455 written lemmas** at each CEFR level, including both `sticka` senses. |
+| FR-009 | Preserve the same selected sense across changes in example difficulty. |
+| FR-010 | Show all five source word forms; unavailable examples must be explicitly unavailable. |
+| FR-011 | Let the learner mark/unmark favorite sense records and review them in My Learning. |
+| FR-012 | Offer email/password account creation, sign-in and sign-out. |
+| FR-013 | Offer Google OAuth sign-in, with a graceful error if the externally configured provider is unavailable. |
+| FR-014 | Save signed-in learner progress and favorites, and restore them after reload/re-login. |
+| FR-015 | Enforce access isolation so one learner cannot access another learner's saved activity. |
+| FR-016 | Allow guest study on one browser and disclose that guest work is not automatically merged into an account. |
+| FR-017 | Display actionable errors for save failures, missing resources, invalid login and missing audio. |
+| FR-018 | Work at desktop and narrow mobile widths with keyboard-accessible interactive controls. |
+| FR-019 | Never expose elevated Supabase credentials in user-visible assets or source control. |
+| FR-020 | Do not modify pre-existing Nordlyd deployments, study data, or experiments A/B. |
+| FR-021 | On the initial study view, a signed-out learner MUST see a prominent, keyboard-accessible, plainly labeled **Sign in** control without first opening `My learning`. Selecting it MUST present both the Google login option and email/password sign-in controls **with one interaction**. Signed-in users should instead see recognizable account access. |
 
-This distinction affects three separate engineering choices:
+**Priorities and traceability:** User Stories 1–2 (missions and verb explorer) are P1; Stories 3–4 (accounts and personal storage) are P2 in the original spec. Given/When/Then criteria and edge cases are in the preserved source specification. The defect-triggered **FR-021** adds the P1 discoverability check and links to Playwright RED/GREEN evidence. The common evaluation cases `F01–F14` were written before implementations; the expanded `G01–G05` checks were recorded separately to avoid rewriting the baseline after A began.
 
-1. A test that expects 456 unique spellings is incorrect even when every data record is present.
-2. A word explorer that identifies a selection only by the string `sticka` cannot distinguish the two meanings.
-3. Favorites require a stable **sense identity**, not just a written lemma.
+### 2.3 Non-functional requirements and measurable acceptance
 
-This issue became an especially useful comparative observation: Vibe and the initial God Mode test both made an incorrect unique-spelling assumption, while SDD documented the ambiguity in its pre-code clarification.
+The earlier spec has quality constraints but no comprehensive numerical NFR catalogue. The tests/criteria below **operationalize the recorded constraints for the report**. Where a threshold was not originally preregistered, it is explicitly a **retrospective proposed check**, not a claim it was met.
 
-### 2.3 Functional, nonfunctional and security requirements
+| NFR | Quality attribute / measurable rule | Method of measurement | Evidence status |
+|---|---|---|---|
+| NFR-01 | **Source integrity:** exactly 456 source sense records per CEFR level; 455 distinct spellings; two `sticka` senses remain. | Deterministic Node source tests + browser selection of both senses. | A uniqueness test FAIL and A sense selection FAIL; B/C corrected/passed selected checks. |
+| NFR-02 | **Correctness/buildability:** strict TypeScript, source tests and successful Next.js production build must be reported separately. | Shared CI job on each frozen branch (same Node 22 runner). | All builds/type checks PASS; original A source tests 7/11, B 3/3, C 4/4. |
+| NFR-03 | **Per-account privacy:** authenticated SELECT, INSERT, UPDATE and DELETE of `learner_states` require `auth.uid()=user_id`; two accounts do not see each other's UI state. | Read-only PostgreSQL RLS inspection; two-account manual scenario. | RLS configuration confirmed; two-account SDD acceptance reported by me; no adversarial API test. |
+| NFR-04 | **Auth findability:** visible accessible `Sign in` on first screen at desktop and **390 px** mobile viewport, with both login methods reachable in one click. | Chromium Playwright assertions. | SDD initial FAIL 2/2 → revised PASS 3/3; requirement added post-release. |
+| NFR-05 | **Swedish audio:** request `sv-SE`; when device/browser lacks a Swedish voice, show an actionable notification instead of silent success. | Browser voice/API simulation and physical Swedish voice check. | Implementation reviewed; limited Vibe user feedback; all-device audio NOT TESTED. |
+| NFR-06 | **Guest persistence:** two A2 question-completion flags still appear after refresh in the same guest browser. | Independent Playwright guest browser check. | A/B/C PASS on this narrowly defined test. |
+| NFR-07 | **Security of client builds:** no elevated Supabase service-role credential in web-delivered source; browser uses public publishable key only. | Review environment variable names, source and built client. | Browser code inspected; comprehensive history-wide secret scan not performed here. |
+| NFR-08 | **Responsive usability (proposed full check):** no horizontal overflow at 390 px width, interactive controls reachable by keyboard, readable mission content. | Screen-size and keyboard E2E checklist. | Login entry test PASS in C; full cross-method mobile audit NOT TESTED. |
+| NFR-09 | **Performance (proposed target):** first interactive screen ≤ 3 seconds on a defined reference device/network; lexicon request retrieves only one level (456 records), not all four. | Browser performance trace and network payload audit on fixed device/network; selected-level response contract. | Architecture and route verified in C; **three-second target NOT MEASURED**, not a reported result. |
+| NFR-10 | **Reproducibility:** identical frozen data input and independently buildable branch per method with commit SHA and test logs. | Git branch and CI artifact checks. | Demonstrated for A/B/C; human/model total time not instrumented. |
 
-The SDD specification records 20 original functional requirements (`FR-001` through `FR-020`), with four prioritized user stories, Given/When/Then acceptance criteria and 20 implementation tasks. A later observed UX defect produced a **dated post-release amendment** `FR-021`: an explicit, discoverable Sign in button must be visible on the opening page.
+### 2.4 Development tools, versions, selection rationale and AI attribution
 
-Nonfunctional concerns include usable mobile layout, accessible keyboard controls, Swedish voice fallback, predictable progress feedback, no fabricated source examples, browser-safe Supabase credentials, and independent research code. The shared `public.learner_states` database has per-user JSONB state; each experimental app uses a separate namespace.
+| Technology or tool | Version/role evidenced by repo | Why it was selected / what it does |
+|---|---|---|
+| **Next.js / React** | `next: ^15.5.0`, `react: ^19.1.0` in each method's `package.json` (semver ranges, **not proof of exact resolved install versions**). | Interactive web application with App Router and level-specific data endpoints; deployable on Vercel. |
+| **TypeScript** | `typescript: ^5.9.0`; strict compiler checking. | Explicit domain models and build-time type feedback. |
+| **Supabase JS + Postgres Auth/RLS** | `@supabase/supabase-js: ^2.57.0`; existing `learner_states` JSONB table. | Google and email identity, private account state, existing backend and no bespoke login server. |
+| **Browser SpeechSynthesis** | Web API, `sv-SE` locale. | Swedish pronunciation without paid speech infrastructure, subject to device voices. |
+| **GitHub and GitHub Actions** | Branch-level provenance; Node.js **22** in independent audit runner. | Same-source automated source tests, typecheck, production compilation and Chromium guest acceptance. |
+| **Vercel** | Independent projects for each method. | Preview/production web deployment; caused actual Git-branch target, quota and provider-host issues. |
+| **GitHub Spec Kit CLI** | **v1.1.3**, executed and committed in C. | A visible template/process for constitution → spec → clarify → plan → tasks → analyze → implement. |
+| **ChatGPT (OpenAI)** | AI development assistant via connected GitHub, Vercel and Supabase tools. **Exact historical model variant for each run was not contemporaneously logged.** | Generated substantial code, draft prompts/agent instructions, tests, workflow artifacts and documentation under my product direction. |
 
-A read-only check of Supabase database policy on 14 October confirmed that Row Level Security is enabled and authenticated SELECT, INSERT, UPDATE and DELETE policies use `auth.uid() = user_id`. That supports individual ownership, but no service-role or simulated adversarial penetration test was performed.
+**AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. Historical exact ChatGPT model variants should be filled from contemporaneous model-picker records, not inferred from a current model name.
 
-### 2.4 Technical architecture
+**Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. The exact local IDE/editor version was **not recorded** in reliable project evidence; I therefore do not claim I used a specific IDE for every condition. Vercel/Supabase configuration was administered through connected services and their dashboards.
+
+### 2.5 System architecture and data flow
 
 ```mermaid
 flowchart LR
-    D[Shared Swedish source JSON] --> S[Next.js mission + lexicon data]
-    S --> U[React learner interface]
-    U --> B[Browser Swedish SpeechSynthesis]
-    U --> A[Supabase Auth: Google / email]
-    U --> P[Supabase learner_states + RLS]
-    U --> L[Local guest storage]
+  D[Immutable Swedish source JSON] --> N[Next.js server and level-specific API]
+  N --> UI[React browser UI: missions, library, My Learning]
+  UI --> S[SpeechSynthesis sv-SE]
+  UI --> A[Supabase Auth: email or Google]
+  UI --> DB[Supabase learner_states JSONB with RLS]
+  UI --> L[Guest localStorage]
 ```
 
-The teaching input and four mission seeds are immutable across conditions. The client app handles interactions and Swedish speech with browser APIs. Supabase Auth handles identity; the authenticated user's own progress is stored under a method-specific key. No Supabase service-role key belongs in client code. The same database serves more than one experimental app, so configuration changes to its shared Site URL can also affect other apps.
+The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; the engineer separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
+
+For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. Diagram source is preserved in the C `plan.md`; a PDF/Word submission needs a rendered image.
+
+### 2.6 API and interface specification
+
+The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/contracts/lexicon-api.md`](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/contracts/lexicon-api.md). It defines a **public, read-only teaching content** API:
+
+| Field | Contract |
+|---|---|
+| HTTP method | `GET` |
+| Route | `/api/lexicon/{level}`; `{level}` ∈ A2, B1, B2, C1 |
+| Authentication | **None required** for public educational content; no personal state returned. |
+| Valid response | HTTP **200** with `level`, `count: 456`, and `items` array of 456 complete source `VerbSense` records. |
+| Invalid CEFR level | HTTP **404**, JSON `{"error":"Unsupported learning level"}`; no silent A2 fallback. |
+| Entry fields | Written verb `v`, English `meaning`, source metadata and up to five forms (`Inf`, `Imp`, `Pres`, `Pret`, `Sup`), including `word`, Swedish `sv` and English `en` when present. |
+| Identity invariant | Two `sticka` senses remain separate; select by lemma **and** meaning rather than spelling alone. |
+| Privacy | No user email, access token or `service_role` returned by teaching endpoint. |
+| Account state | Separate Supabase Auth SDK and per-user `learner_states` SELECT/UPSERT guarded by RLS; **not** a custom public learner-profile API. |
+| External configuration | Google OAuth redirects must be allowed in Supabase URL configuration; an HTTP 200 lexicon response or green Build **does not establish successful OAuth**. |
+
+**Schema illustration (not a captured complete live payload):**
+
+```json
+{
+  "level": "A2",
+  "count": 456,
+  "items": [
+    {
+      "v": "arbeta",
+      "meaning": "work",
+      "forms": {
+        "Pres": {
+          "word": "arbetar",
+          "sv": "<source Swedish example>",
+          "en": "<source English translation>"
+        }
+      }
+    }
+  ]
+}
+```
+
+The ellipsis-style example content is explanatory notation, **not** a source-data fixture or a fabricated translation. The actual API returns source records with the available form fields; content should be compared against frozen JSON.
+
 
 ## 3. Vibe Coding Experience (5 marks)
 
