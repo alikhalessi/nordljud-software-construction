@@ -123,7 +123,7 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 
 **AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
-**Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. The exact local IDE/editor version was **not recorded** in reliable project evidence; I therefore do not claim I used a specific IDE for every condition. Vercel/Supabase configuration was administered through connected services and their dashboards.
+**Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. I did not retain a reliable record of the exact local IDE/editor version used for each condition, so I cannot attribute the whole experiment to one particular editor. Vercel/Supabase configuration was administered through connected services and their dashboards.
 
 ### 2.5 Interface & API Specifications
 
@@ -139,7 +139,7 @@ flowchart LR
   UI --> L[Guest localStorage]
 ```
 
-The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; the engineer separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
+The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; I separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
 
 For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. Diagram source is preserved in the C `plan.md`; a PDF/Word submission needs a rendered image.
 
@@ -200,7 +200,7 @@ The preserved CLI command and the stage documents are authentic engineering inpu
 
 ## 3. Vibe Coding Experience (5 marks)
 
-### 3.1 Vibe Coding framework and initial development approach
+### 3.1 Vibe Coding framework and prompting technique
 
 In this experiment I treated **Vibe Coding as an iterative human–AI development loop**: explain a small product goal in natural language, let ChatGPT propose and write a workable increment, observe the actual browser/build result, and redirect the next increment with specific feedback. Its defining feature here was **interactive feedback**, not deliberately weak prompts or skipping tests. The common branch baseline guaranteed the recovered educational source was the same before the methods diverged.
 
@@ -218,6 +218,15 @@ Unlike Condition C, A did not require a precommitted, complete FR/NFR list befor
 
 ### 3.2 Actual prompts, expected responses and refinement provenance
 
+**I distinguish my direct original-language instructions from the agent-facing texts drafted with ChatGPT and from summaries written later.** The previous ChatGPT conversation preserves some instructions from initial Vibe planning:
+
+- **12 October, direct user excerpt:** “من می‌خوام A2 و B1 و B2 و C1 همه توش وجود داشته باشه” (*I want A2, B1, B2 and C1 all included*). I was correcting an earlier A2-heavy proposal.
+- **12 October, direct user excerpt:** “فعلاً پوشه SDD را نساز یا حداقل داخلش کار نکن” (*For now, don't create the SDD folder, or at least don't work in it*). This sets the intended Vibe-first ordering.
+- **12 October, direct user message:** “ok let's continue”. This continued the approved scope; it was not a detailed product prompt.
+- **12 October, direct user message:** “بسیار بسیار موافقم. در ضمن لاگین و یوزرنیم پسورد و مخصوصاً وصل شدن فقط با گوگل یادت نره. اینا رو هم باید اد کنیم.” (*I strongly agree. Don't forget login with username/password and especially signing in with Google; we need to add those.*)
+
+These are recovered conversational passages, **not yet a complete exported, independently archived transcript**. I explicitly mark excerpts. Neither the assistant's full Vibe handoff nor the Spec Kit stage documents are messages I typed manually.
+
 **I distinguish direct student-authored messages from agent-facing text and translated after-the-fact summaries.** The original Vibe log itself explicitly warns that it is **not a full verbatim prompt transcript**. The [Prompt Provenance Ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) preserves the recoverable text and classifies missing messages instead of fabricating them.
 
 | Record | Real prompt text or provenance | What I expected | What I observed / refinement |
@@ -229,7 +238,20 @@ Unlike Condition C, A did not require a precommitted, complete FR/NFR list befor
 
 **Required primary evidence not yet recoverable:** The complete initial *user-typed* product prompt and the exact original wording of some A-stage corrective messages were not saved in the material inspected here. Neither an assistant-drafted hypothetical Vibe prompt nor a translated summary may be passed off as a literal message I typed. The Vibe branch logs and version history are authentic evidence of what changed, but they do not substitute for a missing verbatim chat export.
 
-### 3.3 Iteration and output log
+### 3.3 Prompt Iteration Log
+
+I used a conversational **initial instruction → implementation → observation → refined request → retest** loop. The table distinguishes direct user text (**U**) from an assistant-authored engineering handoff (**A**) or an explanatory paraphrase (**P**). Where a complete original message is unavailable, I describe the correction without inventing a quotation.
+
+| Initial Prompt/Specification | AI Failure Mode / Bug Produced | Refined Prompt/Specification | Resulting Code Quality |
+|---|---|---|---|
+| **U:** “ok let's continue”, after my earlier approval of a four-level Swedish MVP. | First increments produced a scaffold but did not demonstrate browser audio or complete acceptance. | **P, not verbatim:** after a real Chrome playback error, I requested a correction; the agent handled asynchronous voices and better error messages. | Initial UI and content compiled; I later reported sound working. Multi-device coverage was not tested. |
+| **U excerpt:** “من می‌خوام A2 و B1 و B2 و C1 همه توش وجود داشته باشه” (*include all four levels*). | Early proposed scope appeared too focused on A2. | **A:** ChatGPT drafted the later Vibe handoff/common product brief with four level seeds. These inputs were assistant-authored, not my literal manual typing. | A2–C1 missions are present; all four levels pass the later independent guest browser test. |
+| **U:** “بسیار بسیار موافقم. در ضمن لاگین و یوزرنیم پسورد و مخصوصاً وصل شدن فقط با گوگل یادت نره. اینا رو هم باید اد کنیم.” (*include password and especially Google login*). | The first increment lacked the full explorer and expanded account experience; live Google login later needed external provider configuration. | **P:** add searchable Explore, Favorites, My Learning and both auth entry options; inspect provider status. This is a summary, not a fabricated verbatim prompt. | The app gained explorer/auth source and navigation; negative password scenarios and complete A cross-account testing are not independently verified. |
+| **P, not verbatim:** my browser feedback described a selected verb unexpectedly changing on A2→C1 and navigation problems after OAuth. | Code explicitly reset to `setSelectedVerb("arbeta")` on every level change. | **P:** preserve selected word and browsing context when switching levels or returning from auth; remove forced reset. | The reset was removed in commit `59f38f0e2`; the separate two-sense `sticka` defect remained and failed a common Chromium test. |
+
+**What remained undone:** exhaustive A email/password negative testing, cross-user security checks, broad speech-device validation and correct selection of both `sticka` senses in frozen A. FAIL or NOT TESTED is not rewritten as a success.
+
+#### Historical implementation and correction timeline
 
 The following table is based on actual Git commits and logged observations. Timestamps are **UTC commit metadata**, not an estimate of time spent coding, prompting or reviewing.
 
@@ -288,13 +310,13 @@ The pre-code workflow committed **constitution, specification, clarifications, t
 Two human/integration defects must also be counted:
 
 1. **Hidden sign-in action:** FR-012/FR-013 said authentication must exist, but did not require obvious entry from the homepage. Before patching, the same desktop/mobile Chromium assertions failed **2/2**. After a dated FR-021 amendment and visible Sign in action, three checks passed **3/3**.
-2. **OAuth fallback to localhost:** Real Google account choice initially returned to `localhost:3000`, most plausibly because the hosted URL was missing from Supabase allowed redirect destinations. The user later confirmed successful login, state restoration and a successful two-account scenario after configuration guidance; exact dashboard allowlist values were not captured.
+2. **OAuth fallback to localhost:** Real Google account choice initially returned to `localhost:3000`, most plausibly because the hosted URL was missing from Supabase allowed redirect destinations. I later confirmed successful login, state restoration and a successful two-account scenario after configuration guidance; exact dashboard allowlist values were not captured.
 
 This is an **actual SDD convergence case**, not a perfect first-pass SDD implementation. A passing build or a complete-looking specification cannot replace stakeholder acceptance.
 
 ### 4.5 Actual prompts, CLI commands, outputs and refinements
 
-For marking purposes, I separate **student-typed prompting**, **assistant-authored agent instructions**, and **real CLI usage**. The full [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) contains the sources and gaps.
+In my development record, I separate **student-typed prompting**, **assistant-authored agent instructions**, and **real CLI usage**. The full [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) contains the sources and gaps.
 
 **Real agent-facing SDD engineering workflow:** The initialization command below was executed in CI (it is a shell command, **not** a student-authored natural-language prompt):
 
@@ -304,21 +326,25 @@ uvx --from specify-cli==1.1.3 specify init --here --force --non-interactive --in
 
 Its observable output was the real `.specify` scaffold and Copilot-compatible skills. Subsequently the assistant prepared the Stage C documents using its templates and process. I do **not** claim the exact user-typed messages for every slash step have been independently recovered.
 
-**Verbatim user refinement after the first SDD release (original Persian):**
+**Verbatim user refinement after the first SDD release (original Persian and English translation):**
 
 > “به خاطر چی این اتفاق افتاده؟ با دقت این رو بررسی کن. این رو حتی فکر کنم ارزش داره که ما رکوردش بکنیم.”
+>
+> *English translation: “Why did this happen? Investigate it carefully. I think it is even worth recording.”*
 
 My intent was to investigate why Login seemed absent and preserve the case. The output was [Defect 001](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md), acceptance amendment FR-021, Chromium [RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) and then [GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037).
 
 **Verbatim user-reported Google redirect problem (original Persian):**
 
 > “لوکال هاست دو نقطه سه هزار رو نشون می‌ده توی بالا. و این نشون می‌ده که کار نمی‌کنه.”
+>
+> *English translation: “It shows localhost:3000 at the top, so it isn't working.”*
 
 The expectation was successful Google callback to the Vercel origin. The result was a documented real integration failure (Defect 002), dashboard allowlist guidance and a later user-confirmed successful retry. These quotations are **real user messages**, not reconstructed “perfect prompts.”
 
 **Comparative B input, separate from SDD:** The preserved God Mode [master prompt](./GOD_MODE_MASTER_PROMPT.md) actually tells the autonomous agent, *“You may freely decide whether to plan, specify, create intermediate documents, decompose tasks, verify, and improve your own work.”* This is an **assistant-drafted, precommitted agent-facing input**, not a text I claim to have typed word-for-word. It demonstrates that God Mode was free to create SDD-like artifacts voluntarily.
 
-**Evidence gap affecting 4.5 grading:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
+**Limit of my original-prompt evidence:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
 
 
 ## 5. Verification and Validation (6 marks)
@@ -371,7 +397,7 @@ The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPT
 
 ![Condition C SDD A2 mission — guest Chromium](../evaluation/screenshots/sdd-a2-mission.png)
 
-**Figure 4 — Vibe selected second `sticka` sense.** Screenshot was captured immediately **before** the independent assertion failed: detail still showed `knit` rather than `sting`.
+**Figure 4 — Vibe selected second `sticka` sense.** The real Chromium capture shows `knit` instead of `sting` just before the failing assertion. The evaluator launched Next.js using `npm run dev`, so a developer warning badge can appear. Source inspection separately shows two `sticka` rows use the duplicate React key `key={entry.v}`, consistent with a duplicate-key warning. The exact reason for the badge's numeric “2 Issues” count was not established by the available trace.
 
 ![Condition A Vibe homograph defect captured in Chromium](../evaluation/screenshots/vibe-sticka-second-sense.png)
 
@@ -487,7 +513,7 @@ The practical result is not “method C wins” or “method B replaces formal r
 | B: God Mode | Agent note **22:25:22 UTC**, implementation log **22:30:49 UTC**, and later fix **22:53:30 UTC**. | Build/type PASS; source 3/3 after correction; guest browser 3/3. | A five-minute *commit interval* cannot be treated as full coding time, model processing duration, or a valid speed-up percentage. |
 | C: SDD | Constitution **22:56:32 UTC**, spec **22:57:17**, clarify **22:57:43**, tasks **22:59:54**, first package **23:00:50**. | Build/type PASS; source 4/4; guest browser 3/3 after real UI/provider rework. | Rapid document commits do **not** prove deliberate human review or higher productivity; later SDD fixes and delayed deployment matter. |
 
-The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. That limitation must remain in a 35-mark experience report rather than inserting attractive but false numbers.
+The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. That limitation must remain in this experience report rather than inserting attractive but false numbers.
 
 ### 7.3 Lessons learned and operational best practices
 
