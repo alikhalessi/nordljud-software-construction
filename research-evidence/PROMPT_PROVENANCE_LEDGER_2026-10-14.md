@@ -22,6 +22,17 @@ The original conversation context was revisited during the 14 October second rev
 
 **Important origin distinction:** The detailed Vibe handoff/master specification in the earlier conversation was drafted by **ChatGPT** in response to the student's request. It is valuable as an agent-facing engineering input, but it is not evidence that the student typed that entire brief verbatim. Recovery of these short user passages narrows the gap without closing the need for a real transcript export if the assessor requires complete initial conversational prompts.
 
+## AI-drafted Vibe handoff and planned SDD stage commands: partial recovered provenance
+
+**Prepared materials from the prior ChatGPT planning conversation (12 October 2026):**
+
+- **V-A00 — assistant-drafted (A), partially recovered:** A Vibe handoff was prepared with the heading **“Nordlyd — Vibe Coding Baseline”**. It instructed implementation of Condition A before C, four CEFR levels A2–C1, conversational build–observe–feedback iteration, the common Swedish/English product scope, connected GitHub/Vercel/Supabase services, and preservation of Git history. Its full original body has **not been exported into this repository**; this is a *summary*, not a verbatim transcription or proof of a one-shot execution.
+- **V-A00b — assistant-drafted (A), opening excerpt only:** A prior MVP prompt draft began **“I want to build a modern web application called Nordlyd…”**. The full body of this separate early proposal has not been independently archived. Do not join the two drafts into a newly invented exact original.
+- **V-U01 — actual user continuation (U):** **“ok let's continue”**, preserved in the Vibe log, authorized the next implementation increment in the already established context. The git history confirms source and test files were then created on A; no separate independently captured terminal command proves the entire AI-drafted handoff was executed as one literal prompt.
+- **S-P00 — planned workflow terms (P, not executed commands):** The earlier planning dialogue listed **`/constitution → /specify → /clarify → /plan → /tasks → /analyze → /implement`**. This is evidence of a *discussed* specification process, **not** evidence each slash command was run in GitHub Copilot. The **actually executed** Spec Kit initialization command and dated output artifacts are documented below.
+
+The named documents were intended to convey engineering instructions to the assistant; the evidence supports their existence in the prior discussion but not their missing complete exact bodies. To satisfy a strict verbatim-prompt rubric, an exported copy of the original conversation is still needed. The report now transparently identifies the partial AI-drafted inputs and the resulting commit trail rather than describing all assistant-authored inputs as missing.
+
 ## Condition A — Vibe Coding (Sections 3.1–3.3)
 
 | Ref | Date | Class | Exact source or provenance | Expected / observed result |
