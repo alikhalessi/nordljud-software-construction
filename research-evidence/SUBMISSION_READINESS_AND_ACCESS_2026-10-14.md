@@ -31,8 +31,9 @@ Once the instructor provides written approval, record the genuine date/route and
 - [x] Historic SDD exact CLI and generated artifacts recorded; Copilot slash commands not falsely claimed.
 - [x] Source code verification, A/B/C Chromium results, reproducible RED/GREEN defects.
 - [x] Prompt provenance ledger, separating exact user messages, true agent-facing artifacts, paraphrases and unavailable originals: [PROMPT_PROVENANCE_LEDGER_2026-10-14.md](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md).
-- [ ] **Most important content gap:** export/paste initial student-authored Vibe prompts and original SDD requests verbatim; presently not fully present in retrievable records. Do not backfill by invention.
-- [ ] Obtain the **actual official Moodle report template**, including headings 2.5/2.6, 4.5 and 7.4, and confirm any exact word/table/diagram/AI-use requirements. The existing `COURSE_RUBRIC_ALIGNMENT.md` is explicitly a summary of earlier learner-shared instructions.
+- [ ] **Original prompt evidence gap (partly improved):** additional direct user messages/excerpts from Vibe planning and scope expansion were recovered on 14 October and added to the report and prompt ledger. Obtain the complete original conversation export for full initial Vibe/SDD prompt chains. Preserve assistant-authored engineering instructions as such; no backfilling.
+- [x] **Recover report template headings from the original user-supplied course assignment in the earlier conversation:** 1.1 Project Overview & Objectives; 1.2 The Vibe Coding; 1.3 The SDD Methodology; 2.5 Interface & API Specifications; 2.6 how requirements were created using SDD AI tools; 3.3 Prompt Iteration Log; 5.3 Test Execution Results; 7.2 Core Bottlenecks and Challenges. The working report has been brought into alignment on a separate review branch.
+- [ ] **Check and archive the complete official Moodle template text**, including exact table columns, formatting and institution AI-use rules. The earlier user-supplied original is partly retrievable through chat history but a separately archived, definitive copy is not yet committed; do not claim full official-document verification.
 - [ ] Obtain student ID and instructor-approved individual submission rule/exception, if required.
 - [ ] Grant and independently verify instructor read access to the private GitHub repo or use an instructor-approved evidence delivery alternative; user consent required.
 - [x] **Screenshots durably archived:** workflow [38491787132](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38491787132) copied nine original guest Chromium PNGs from run 38485026386, validated PNG signatures and committed them to [evaluation/screenshots/](../evaluation/screenshots/). All nine files were subsequently verified in GitHub. **Image figures 1–6 are now embedded** in the revised Markdown report.
@@ -48,4 +49,4 @@ Git commit metadata supplies objective ordering and timestamps. It does **not** 
 
 ## Status
 
-This checklist records what cannot responsibly be declared complete. It must not be quietly deleted to make an unverified submission appear eligible for full marks.
+This checklist records what cannot responsibly be declared complete. Report edits were prepared in `report/claude-round2-2026-10-14`; the original A/B/C condition branches were not modified. It must not be quietly deleted to make an unverified submission appear eligible for full marks.

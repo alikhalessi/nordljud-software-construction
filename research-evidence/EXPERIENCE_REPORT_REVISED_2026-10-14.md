@@ -5,11 +5,14 @@
 **Course:** Software Construction, Åbo Akademi University  
 **Student:** Ali Khalessi  
 **Student contributors:** 1 (individual project)  
+
+**Team Details (individual project):** Ali Khalessi — Student ID: **pending confirmation** — Role: sole student, product owner, requirements decisions, human acceptance and academic submission — Student participation: **100%**. I have confirmed that this individual submission has already been approved; the approval date and written record have not been supplied for independent documentation. This participation percentage does not imply personally typing all AI-generated code.  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
+**Course report instructions:** The previously supplied Moodle template is preserved as [Course Report Template (user-supplied original text)](./COURSE_REPORT_TEMPLATE_USER_SUPPLIED_2026-08-31.md), including its requirements for sections 1–7. The preserved copy has flattened Moodle table formatting and is not an independent live Moodle fetch.  
 
 ## Executive Summary (200–300 words)
 
-Using OpenAI ChatGPT with **GPT-6 at High thinking effort** (my retrospective model-setting confirmation), I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used explicit Specification-Driven Development (SDD), with the official GitHub Spec Kit scaffold, formal requirements, clarification, architecture and tasks before implementation.
+Using OpenAI ChatGPT with **GPT-6 at High thinking effort** (my retrospective model-setting confirmation), I developed Nordljud, a Swedish-learning web application, in three separate ways to explore how AI-assisted programming changes when the working method changes. Condition A used iterative Vibe Coding: I examined intermediate screens, found problems, and requested corrections. Condition B used a broad autonomous “God Mode” instruction that let the agent choose its own engineering practices. Condition C used GitHub Spec Kit for SDD, with user stories, Given/When/Then criteria, numbered FR/NFRs, an API contract and tasks before implementation.
 
 Each implementation began from the same frozen Git baseline and reused the same recovered Swedish-language dataset, while application code remained separate. A subsequent request expanded the scope during the first condition, so the comparison is descriptive rather than a controlled experiment.
 
@@ -23,31 +26,31 @@ The evidence favors explicit requirements and real acceptance tests for traceabi
 
 ## 1. Introduction and Paradigm Shift (3 marks)
 
-### 1.1 Why I chose this experiment
+### 1.1 Project Overview & Objectives
 
-The interesting part of AI-assisted software construction is not simply whether an AI agent can produce code. It is what happens to requirements, hidden assumptions and verification when we change how the agent is instructed. A chatbot can generate a plausible application very quickly; plausibility and correctness are different things. I wanted one realistic application and three visibly different methods rather than three unrelated demos.
+Nordljud is my Swedish-learning classroom MVP for adults. Its four levels (A2, B1, B2, C1) feature representative learning missions, a searchable verb library, Swedish browser speech, English assistance, short exercises and personal learning progress. I built it as a real software-construction experiment, not a teacher-certified Swedish curriculum or a finished commercial product.
 
-Nordljud is a browser-based Swedish-learning prototype. It has levels A2, B1, B2 and C1, four practical mission seeds, Swedish source examples with English help, two questions per mission, browser speech, a searchable verb collection, Google/email authentication, and saved progress and favorites. The intended outcome is a **university course experience report**, not an independently validated language-teaching curriculum or commercial production release.
+I compared (A) iterative Vibe Coding, (B) an autonomous agent following a strong master prompt (God Mode), and (C) explicit Specification-Driven Development (SDD) using GitHub Spec Kit. My question was: **Which engineering practices does a powerful AI coding agent adopt on its own, and what added traceability comes from specifications imposed before code?** Each implementation began from the identical frozen educational baseline and was written in a separate Git branch without copying application code between conditions.
 
-### 1.2 Questions, conditions and common starting point
+The comparison uses real Git commits, source tests, TypeScript, production builds, common Chromium guest-browser tests and limited manual acceptance. The scope expanded during A, and my later AI interactions already knew about earlier defects, so this is a descriptive experience report rather than a randomized controlled experiment.
 
-My exploratory question was: **What planning, requirements and verification practices arise under autonomous AI coding, and what additional traceability does an explicit specification-first process supply?**
+### 1.2 The Vibe Coding
 
-- **A — Vibe Coding:** build and adjust through conversational prompts and direct UI feedback.
-- **B — God Mode:** give the agent broad autonomy and observe which planning, testing and quality practices it initiates voluntarily.
-- **C — Specification-Driven Development:** complete a constitution, prioritized specification, clarification decisions, technical plan, tasks and consistency check *before* application implementation.
+My technique was **iterative natural-language prompting of an AI coding agent through connected GitHub/Vercel/Supabase workflows**. I described what the learner should experience, inspected what had actually run, and gave focused follow-up instructions when the interface or integration failed. I did not require a complete SRS, formal task breakdown or separate pre-code quality gate for A.
 
-All three application branches began at the common frozen commit `1afd635324a788f18db19f83f338ad89ade54e33`. The Swedish educational JSON and mission seeds were shared; app implementations were not copied between conditions. The order was A → B → C, which matters because I and the AI agent learned from problems discovered earlier.
+That flexibility made it easy to show a working prototype and incorporate my feedback about speech, level switching, the full lexicon and Google login. However, a domain ambiguity survived: the Vibe code keyed a selected Swedish verb by spelling only. Two `sticka` records have different meanings; one guest-browser assertion later failed because selecting the second still displayed the first meaning. This is evidence about the actual implementation and testing, not a claim that every iterative process fails.
 
-### 1.3 Scope and academic integrity
+### 1.3 The SDD Methodology
 
-During A, I extended the initial brief to a complete verb explorer, favorites and Google sign-in. This later requirement expansion was recorded in `main:research-evidence/SCOPE_CHANGE_01.md`. It would be misleading to pretend all three were supplied with precisely identical fully specified scope at the outset.
+I chose **GitHub Spec Kit** because it gave me an inspectable path from a product brief to versioned user stories and Given/When/Then acceptance criteria, FR/NFR lists, clarification decisions, architecture, an API contract, ordered tasks, analysis, implementation and convergence. The Spec Kit v1.1.3 CLI **really ran**. ChatGPT then generated the actual process artifacts following its templates. Its `--integration copilot` option created compatible tooling, but did not by itself prove GitHub Copilot executed the `/speckit-*` commands.
 
-The dataset itself was recovered from previous user-owned learning materials; its language quality was **not independently checked by a Swedish teacher**. This work used AI to generate application code, plans, tests, repository operations and an initial report draft. These roles and limitations must be disclosed in the final submission. I do not invent personal work hours, stakeholder interview answers or screenshots that do not exist.
+The clarify stage distinguished 456 sense records from 455 uniquely spelled verbs before C application code was committed. Nevertheless, the first C release did not make Sign in easy to discover, and a real Google OAuth attempt redirected to localhost. I recorded both problems and tested the later corrections rather than presenting SDD as perfect on the first pass.
+
+**Brief timeline:** I froze the common baseline on 12 October 2026, developed A and documented its scope expansion, then built B and C from independent branches; C's specification documents preceded its application code. During 13 October I tested and corrected real auth defects. On 14 October I preserved independent A/B/C tests, browser screenshots and the comparative report. Git timestamps establish the order of commits, not how long I or the AI was actively working.
 
 ## 2. Requirements and System Specification (6 marks)
 
-### 2.1 Stakeholders and their rationale
+### 2.1 Stakeholders
 
 | Stakeholder | Relevance to Nordljud | Evidence or boundary |
 |---|---|---|
@@ -59,7 +62,7 @@ The dataset itself was recovered from previous user-owned learning materials; it
 
 These are stakeholder **roles relevant to requirements**, not five interviewed or actively participating people. I did not carry out a formal stakeholder interview study.
 
-### 2.2 Functional requirements — original specification and dated amendment
+### 2.2 Functional Requirements
 
 The following requirements reproduce the numbering and wording of the **actual SDD source specification**, rather than inventing a new list after implementation. `FR-001`–`FR-020` were recorded before application source. **FR-021 was added after the first SDD release**, in response to my observation that login was hidden under My Learning; it must not be counted as pre-code foresight.
 
@@ -89,7 +92,7 @@ The following requirements reproduce the numbering and wording of the **actual S
 
 **Priorities and traceability:** User Stories 1–2 (missions and verb explorer) are P1; Stories 3–4 (accounts and personal storage) are P2 in the original spec. Given/When/Then criteria and edge cases are in the preserved source specification. The defect-triggered **FR-021** adds the P1 discoverability check and links to Playwright RED/GREEN evidence. The common evaluation cases `F01–F14` were written before implementations; the expanded `G01–G05` checks were recorded separately to avoid rewriting the baseline after A began.
 
-### 2.3 Non-functional requirements and measurable acceptance
+### 2.3 Non-Functional Requirements
 
 The earlier spec has quality constraints but no comprehensive numerical NFR catalogue. The tests/criteria below **operationalize the recorded constraints for the report**. Where a threshold was not originally preregistered, it is explicitly a **retrospective proposed check**, not a claim it was met.
 
@@ -106,7 +109,7 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 | NFR-09 | **Performance (proposed target):** first interactive screen ≤ 3 seconds on a defined reference device/network; lexicon request retrieves only one level (456 records), not all four. | Browser performance trace and network payload audit on fixed device/network; selected-level response contract. | Architecture and route verified in C; **three-second target NOT MEASURED**, not a reported result. |
 | NFR-10 | **Reproducibility:** identical frozen data input and independently buildable branch per method with commit SHA and test logs. | Git branch and CI artifact checks. | Demonstrated for A/B/C; human/model total time not instrumented. |
 
-### 2.4 Development tools, versions, selection rationale and AI attribution
+### 2.4 Technology Stack
 
 | Technology or tool | Version/role evidenced by repo | Why it was selected / what it does |
 |---|---|---|
@@ -118,12 +121,17 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 | **Vercel** | Independent projects for each method. | Preview/production web deployment; caused actual Git-branch target, quota and provider-host issues. |
 | **GitHub Spec Kit CLI** | **v1.1.3**, executed and committed in C. | A visible template/process for constitution → spec → clarify → plan → tasks → analyze → implement. |
 | **ChatGPT (OpenAI)** | **GPT-6, High thinking effort**, confirmed by me on 14 October 2026; connected GitHub, Vercel and Supabase tools. The per-run model picker was **not independently archived**. | Generated substantial code, draft prompts/agent instructions, tests, workflow artifacts and documentation under my product direction. |
+| **Claude (Anthropic)** | External reviewer of the academic report and GitHub evidence during post-implementation revision; its exact model/configuration is not archived here. | Critiqued report completeness, assignment-template alignment and evidence provenance. I compared its suggestions with the actual repo and logs; Claude was **not** one of the three implementation conditions. |
+
+**AI review disclosure:** I also used Claude to critique the report after the three implementation conditions were completed. ChatGPT assisted with subsequent revisions, and I checked the criticisms against my project evidence instead of treating either assistant as the course assessor.
 
 **AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
-**Development environment evidence:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. The exact local IDE/editor version was **not recorded** in reliable project evidence; I therefore do not claim I used a specific IDE for every condition. Vercel/Supabase configuration was administered through connected services and their dashboards.
+**Development environment record:** The implementation was primarily **AI-to-GitHub**: ChatGPT prepared and committed source, specifications and fixes through its GitHub connection, rather than relying on a documented local IDE development cycle. GitHub Actions on **Ubuntu / Node 22** ran the code checks, and Playwright/Chromium ran browser tests. My manual Vibe browser/audio feedback came from **Chrome on Windows**. Vercel and Supabase were handled through connected services and their dashboards. Neither the per-file Git commits nor this workflow prove that a local editor was *never* opened; I have no versioned record of one to claim.
 
-### 2.5 System architecture and data flow
+### 2.5 Interface & API Specifications
+
+**Architecture and interface context.** The following architecture and data flow are grounded in C's actual `plan.md` and the three application roots:
 
 ```mermaid
 flowchart LR
@@ -135,11 +143,11 @@ flowchart LR
   UI --> L[Guest localStorage]
 ```
 
-The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; the engineer separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
+The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; a ChatGPT-assisted code revision separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
 
-For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. Diagram source is preserved in the C `plan.md`; a PDF/Word submission needs a rendered image.
+For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. The diagram source is preserved in C's `plan.md`; I will present it as a readable rendered figure in the submitted report.
 
-### 2.6 API and interface specification
+**External interface and API contract.** I distinguish the public teaching-content endpoint from authenticated per-user storage:
 
 The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/contracts/lexicon-api.md`](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/contracts/lexicon-api.md). It defines a **public, read-only teaching content** API:
 
@@ -178,14 +186,27 @@ The source contract is [`condition/spec-driven:specs/001-nordljud-classroom/cont
 }
 ```
 
-The ellipsis-style example content is explanatory notation, **not** a source-data fixture or a fabricated translation. The actual API returns source records with the available form fields; content should be compared against frozen JSON.
+The JSON above is a **schematic illustration**, not a captured complete API response; actual learning sentences and forms should be checked against the frozen source records.
+
+### 2.6 How these requirements and specifications were created (using SDD AI tools)
+
+I began with a product idea, an agreed common brief and source educational data, not a finished AI-written SRS. The four shared mission seeds and `F01–F14` evaluation checklist were committed before method-specific implementation. When I expanded the requirements during A to include the full verb explorer, favorites and Google authentication, the scope change was logged separately. It is not disguised as part of the original fixed brief.
+
+In C, ChatGPT used the **real GitHub Spec Kit 1.1.3 scaffold** as a requirements-first process. It drafted four prioritized user stories, FR-001–FR-020, edge cases and Given/When/Then acceptance examples. The clarification step recorded ten explicit decisions about data identity, missing examples, guest versus cloud persistence, two `sticka` senses, account isolation and Google OAuth configuration. From those decisions the agent produced `research.md`, `data-model.md`, `plan.md`, an API contract, `tasks.md` (T001–T020), and `analyze.md` before creating application files. Each stage is linked in the C branch's commit history.
+
+My responsibility was choosing the learning product and experimental constraints, checking outcomes in the browser, reporting missing behavior and authorizing changes. I did **not** separately sign and time-stamp approval of every AI-generated clarification. Git records demonstrate document ordering; they cannot establish how thoroughly I reviewed each intermediate artifact.
+
+The initial specification required email and Google login but did not demand a visible first-screen **Sign in** button. After I observed the hidden entry point, FR-021 and its acceptance test were added as a **dated post-first-release amendment**, followed by real Chromium RED/GREEN verification. The subsequent localhost Google callback problem was an external provider-configuration acceptance issue. Both are proof that an AI-generated specification needs practical human acceptance, not that a build is enough.
+
+The preserved CLI command and the stage documents are authentic engineering inputs and outputs, but they are **not verbatim student-authored natural-language prompts**. Original messages, excerpts, translations and missing transcripts are distinguished in the prompt provenance ledger.
+
 
 
 ## 3. Vibe Coding Experience (5 marks)
 
-### 3.1 Vibe Coding framework and initial development approach
+### 3.1 Prompting Framework
 
-In this experiment I treated **Vibe Coding as an iterative human–AI development loop**: explain a small product goal in natural language, let ChatGPT propose and write a workable increment, observe the actual browser/build result, and redirect the next increment with specific feedback. Its defining feature here was **interactive feedback**, not deliberately weak prompts or skipping tests. The common branch baseline guaranteed the recovered educational source was the same before the methods diverged.
+In this experiment I treated **Vibe Coding as an iterative human–AI development loop**: explain a small product goal in natural language, let ChatGPT propose and write a workable increment, observe the actual browser/build result, and redirect the next increment with specific feedback. Its defining feature here was **interactive feedback**, not deliberately weak prompts or skipping tests. My prompting method was an **agentic workflow**: ChatGPT wrote and committed files via GitHub and interacted with Vercel and Supabase under my direction. I did **not** deliberately ask it to produce a hidden or explicit chain-of-thought transcript. I used the GPT-6 **High thinking-effort setting**, but that setting is not proof that a particular private reasoning trace was saved or can be inspected. The common branch baseline guaranteed the recovered educational source was the same before the methods diverged.
 
 My first development request continued the already-discussed Nordljud project. The application was a Next.js/React/TypeScript Swedish-learning classroom MVP with four CEFR levels, practical missions and browser speech. Later observation expanded the originally prepared scope: a full verb explorer, favorites and authentication. I did not retroactively replace the starting scope with that expansion.
 
@@ -193,15 +214,24 @@ A Vibe Coding loop in practice was:
 
 ```text
 User goal → ChatGPT code increment → Git commit →
-Vercel/Chromium or student browser check → real defect/scope feedback →
+Vercel/Chromium or my browser check → real defect/scope feedback →
 next prompt or corrective instruction → rerun → preserve result
 ```
 
 Unlike Condition C, A did not require a precommitted, complete FR/NFR list before the first implementation file. Its advantages included immediate visible progress and concrete user reactions; limitations included discovered-as-you-go assumptions, OAuth dependencies, and untested source interpretation.
 
-### 3.2 Actual prompts, expected responses and refinement provenance
+### 3.2 Master Prompts / System Prompts
 
-**I distinguish direct student-authored messages from agent-facing text and translated after-the-fact summaries.** The original Vibe log itself explicitly warns that it is **not a full verbatim prompt transcript**. The [Prompt Provenance Ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) preserves the recoverable text and classifies missing messages instead of fabricating them.
+**I distinguish my direct original-language instructions from the agent-facing texts drafted with ChatGPT and from summaries written later.** The previous ChatGPT conversation preserves some instructions from initial Vibe planning:
+
+- **12 October, direct user excerpt:** “من می‌خوام A2 و B1 و B2 و C1 همه توش وجود داشته باشه” (*I want A2, B1, B2 and C1 all included*). I was correcting an earlier A2-heavy proposal.
+- **12 October, direct user excerpt:** “فعلاً پوشه SDD را نساز یا حداقل داخلش کار نکن” (*For now, don't create the SDD folder, or at least don't work in it*). This sets the intended Vibe-first ordering.
+- **12 October, direct user message:** “ok let's continue”. This continued the approved scope; it was not a detailed product prompt.
+- **12 October, direct user message:** “بسیار بسیار موافقم. در ضمن لاگین و یوزرنیم پسورد و مخصوصاً وصل شدن فقط با گوگل یادت نره. اینا رو هم باید اد کنیم.” (*I strongly agree. Don't forget login with username/password and especially signing in with Google; we need to add those.*)
+
+These are recovered conversational passages, **not yet a complete exported, independently archived transcript**. I explicitly mark excerpts. Neither the assistant's full Vibe handoff nor the Spec Kit stage documents are messages I typed manually.
+
+**The original Vibe log is an after-the-fact action record, not a complete verbatim transcript.** The [Prompt Provenance Ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) preserves the recoverable text and classifies missing messages instead of fabricating them.
 
 | Record | Real prompt text or provenance | What I expected | What I observed / refinement |
 |---|---|---|---|
@@ -210,9 +240,24 @@ Unlike Condition C, A did not require a precommitted, complete FR/NFR list befor
 | V-P03 — **translated defect report, not an exact prompt** | The Vibe log records that selecting a word at A2 and switching to C1 unexpectedly changed the selected word; Google sign-in also failed. | Keep the same selected lemma while changing examples, and recover navigation after OAuth. | The agent removed `setSelectedVerb("arbeta")` from the level switch (commit `59f38f0e2`), added auth status (commit `4c390b72a`) and navigation restoration (commit `61a442bc6`). |
 | V-P04 — **user observation summarized in log** | Speech playback displayed an error in the learner's Chrome environment. | An audible Swedish sentence or useful failure explanation. | Added asynchronous voice loading and clearer status handling (commit `17e32e666`), followed by later learner feedback that audio worked. |
 
-**Required primary evidence not yet recoverable:** The complete initial *user-typed* product prompt and the exact original wording of some A-stage corrective messages were not saved in the material inspected here. Neither an assistant-drafted hypothetical Vibe prompt nor a translated summary may be passed off as a literal message I typed. The Vibe branch logs and version history are authentic evidence of what changed, but they do not substitute for a missing verbatim chat export.
+**AI-drafted Vibe baseline brief:** During the earlier ChatGPT planning conversation, the assistant prepared a handoff headed **“Nordlyd — Vibe Coding Baseline”**. It addressed building **only Condition A first**, all four CEFR levels, the common Swedish/English learning goal, a conversational implementation/feedback loop, GitHub/Vercel/Supabase, and a rule to defer Spec Kit work until C. A still earlier AI-drafted proposal began **“I want to build a modern web application called Nordlyd…”**. These are identifiable *assistant-created planning and agent-facing draft materials*, rather than direct messages I typed. The full exact body of either historical draft was not exported and attached here, so the descriptions above are explicitly **summaries**, not invented word-for-word master prompts.
 
-### 3.3 Iteration and output log
+**How that input related to the actual Vibe run:** I approved the four-level goal and the Vibe-first order, then sent the literal continuation **“ok let's continue”**. ChatGPT used the ongoing project context to create new A-branch source files and commit them directly to GitHub. The Vibe branch's `vibe-log.md` and commits establish the implementation and subsequent corrections; they do **not** prove the whole earlier drafted handoff was sent separately as one unchanged prompt to an independent coding agent. If the instructor requires that exact full prompt text, I still need the original conversation export. I can and do cite the preserved planning excerpts without passing off an after-the-fact summary as a historical prompt transcript.
+
+### 3.3 Prompt Iteration Log
+
+I used a conversational **initial instruction → implementation → observation → refined request → retest** loop. The table distinguishes direct user text (**U**) from an assistant-authored engineering handoff (**A**) or an explanatory paraphrase (**P**). Where a complete original message is unavailable, I describe the correction without inventing a quotation.
+
+| Initial Prompt/Specification | AI Failure Mode / Bug Produced | Refined Prompt/Specification | Resulting Code Quality | What did not happen according to your plan | Modified Prompt |
+|---|---|---|---|---|---|
+| **U:** “ok let's continue”, after my earlier approval of a four-level Swedish MVP. | First increments produced a scaffold but did not demonstrate browser audio or complete acceptance. | **P, not verbatim:** after a real Chrome playback error, I requested a correction; the agent handled asynchronous voices and better error messages. | Initial UI and content compiled; I later reported sound working. Multi-device coverage was not tested. | I had not completed a full browser audio acceptance or verified multi-device speech playback. | **P (not a verbatim record):** diagnose the Chrome voice failure and handle voice loading/errors; exact typed corrective sentence was not preserved. |
+| **U excerpt:** “من می‌خوام A2 و B1 و B2 و C1 همه توش وجود داشته باشه” (*include all four levels*). | Early proposed scope appeared too focused on A2. | **A:** ChatGPT drafted the later Vibe handoff/common product brief with four level seeds. These inputs were assistant-authored, not my literal manual typing. | A2–C1 missions are present; all four levels pass the later independent guest browser test. | The earlier A2-only sketch did not match my required A2–C1 scope. | **A (AI-drafted handoff):** Nordlyd Vibe baseline expanded missions to A2/B1/B2/C1. Original complete agent-facing text is not in this repository. |
+| **U:** “بسیار بسیار موافقم. در ضمن لاگین و یوزرنیم پسورد و مخصوصاً وصل شدن فقط با گوگل یادت نره. اینا رو هم باید اد کنیم.” (*include password and especially Google login*). | The first increment lacked the full explorer and expanded account experience; live Google login later needed external provider configuration. | **P:** add searchable Explore, Favorites, My Learning and both auth entry options; inspect provider status. This is a summary, not a fabricated verbatim prompt. | The app gained explorer/auth source and navigation; negative password scenarios and complete A cross-account testing are not independently verified. | The initial increment did not include the expanded account/explorer feature set; negative authentication tests were not completed. | **P:** add account entry, Google login and full search/favorites; not an exact quotation from the original conversation. |
+| **P, not verbatim:** my browser feedback described a selected verb unexpectedly changing on A2→C1 and navigation problems after OAuth. | Code explicitly reset to `setSelectedVerb("arbeta")` on every level change. | **P:** preserve selected word and browsing context when switching levels or returning from auth; remove forced reset. | The reset was removed in commit `59f38f0e2`; the separate two-sense `sticka` defect remained and failed a common Chromium test. | The later fix addressed level-state reset but not the independent duplicate-sense issue. | **P:** stop forced selection reset and preserve return navigation; an exact original message was not archived. |
+
+**What remained undone:** exhaustive A email/password negative testing, cross-user security checks, broad speech-device validation and correct selection of both `sticka` senses in frozen A. FAIL or NOT TESTED is not rewritten as a success.
+
+#### Historical implementation and correction timeline
 
 The following table is based on actual Git commits and logged observations. Timestamps are **UTC commit metadata**, not an estimate of time spent coding, prompting or reviewing.
 
@@ -231,27 +276,43 @@ The table documents **actual outputs and corrections**, not a fictitious ideal p
 
 ## 4. Specification-Driven Development Experience (7 marks)
 
-### 4.1 Toolkit choice and requirement-first rationale
+### 4.1 SDD Tool-kit
 
 I used the **GitHub Spec Kit 1.1.3 scaffold** in Condition C because it offered a concrete, repeatable way to separate *what* the learner needs from *how* the app is written: constitution → specification → clarify → plan → tasks → analyze → implement → converge. This is a useful contrast to Vibe's evolving requirements and to B's voluntary autonomous planning. Its files are version-controlled, allowing the timing and stated decisions to be inspected.
 
 This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319369671) ran the real `specify-cli==1.1.3` CLI and committed official `.specify` templates/scripts/skills. However, I must precisely describe the **integration boundary**: `--integration copilot` initialized Copilot-compatible templates, but the app and specification stages were generated in a **ChatGPT-assisted** workflow; a separate Copilot agent is **not shown** running every `/speckit-*` slash command.
 
-### 4.2 Development environment, IDE evidence, AI tooling
+### 4.2 Development Environment
 
 | Component | Actual recorded environment | Reason/evidence |
 |---|---|---|
 | Source / workspace | Private GitHub repository; root of `condition/spec-driven` is a complete independent Next.js application; separate coordinating `main` stores report/evaluator. | Freezes implementation roots and allows reproducible independent builds. |
-| CI platform | GitHub Actions **Ubuntu** runner, `actions/setup-node` **Node 22**, built-in Node test runner, `tsc`, Next build. | Execution environment from workflow definitions and passing runs, not a guess about the student's laptop. |
+| CI platform | GitHub Actions **Ubuntu** runner, `actions/setup-node` **Node 22**, built-in Node test runner, `tsc`, Next build. | Execution environment from workflow definitions and passing runs, evidence from the CI configuration, not a claim about the setup of my own computer. |
 | Browser validation | Headless **Chromium** through Playwright `@playwright/test: ^1.56.1` in C; independent three-method guest evaluator. | Tests actual rendered UI behavior, not just TypeScript. |
-| Historical local UI tests | Manual **Windows desktop Chrome** observation appears in the Vibe development log. | User-supplied browser inspection, not proof of identical local setup for B/C. |
+| Historical local UI tests | Manual **Windows desktop Chrome** observation appears in the Vibe development log. | My own browser observation, not evidence that B/C used the same machine. |
 | Source management | GitHub, direct branch commits; three condition branches and frozen baseline. | Prevents mixing A/B/C application code. |
 | Deployment/auth | Vercel + Supabase browser-safe public credentials, dashboard-controlled Google OAuth redirects. | External service configuration caused observable integration errors. |
-| AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (student-confirmed configuration), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
+| AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (configuration I identified retrospectively), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
 | Exact ChatGPT model variant | **GPT-6 with High thinking effort — confirmed by me on 14 October 2026.** | The identification is based on my retrospective confirmation; an independently timestamped model-picker record for each A/B/C session is **not** available. High is a thinking-effort setting, not a separate model. |
-| Local IDE/editor version | **Not established by the saved source and logs examined.** | Do not invent VS Code, Cursor, Copilot editor or other IDE usage without a contemporaneous record. |
+| Editing and commit workflow | **ChatGPT wrote/updated application and documentation files through its connected GitHub tools, in per-file commits.** The repo does not include evidence of a conventional local editor being used for those recorded changes. | The source/commit trail establishes direct remote edits; it does **not** prove that I never opened any local editor during the entire study, so I do not invent a local IDE name/version. |
 
-### 4.3 Actual SDD workflow and review gates
+### 4.3 Deriving the requirements using the IDE/coding agents
+
+I directed ChatGPT through the **GitHub connector**, where it committed a requirements package to the isolated C branch. The actual stage documents were produced using the installed Spec Kit scaffold, not by claiming an IDE-based Copilot session that was not recorded.
+
+| Course template requirement | Actual SDD artifact or verification |
+|---|---|
+| **Software Requirements Specification (SRS)** | `specs/001-nordljud-classroom/spec.md`: four user stories and initially FR-001–FR-020, with a dated FR-021 amendment after browser feedback |
+| **Constraints and software design requirements** | `.specify/memory/constitution.md` plus `plan.md`, `research.md` and `data-model.md`: branch isolation, immutable source, privacy and implementation limits |
+| **Interfaces and API** | `contracts/lexicon-api.md`: public `GET /api/lexicon/{level}` and expected responses/errors; Supabase Auth and account-state data flow described separately |
+| **Acceptance criteria** | User stories' **Given/When/Then** examples and **SC-001–SC-009**; SC-009 was added **after** the first-release hidden-login defect |
+| **Compliance checks** | Supabase Auth, account-state row-level security and the bounded GDPR analysis below; no independent legal compliance sign-off |
+
+**Privacy and compliance boundary:** Nordljud processes account identifiers through Supabase Auth and learning progress/favorites in the `public.learner_states` table. Authenticated read/write policies were checked to require matching `auth.uid()=user_id` with PostgreSQL row-level security. This supports a privacy-by-design implementation, **not a declaration of GDPR compliance**. I did not conduct a formal GDPR impact assessment, verify all retention/deletion processes, document a complete controller/processor arrangement or audit international data transfers. Those remain distinct obligations before a real public deployment.
+
+### 4.4 SDD Workflow and Implementation
+
+The next table preserves the real specification → code → correction sequence. The dated commit order proves that pre-code artifacts existed, but not that every AI-generated requirement was manually validated before implementation.
 
 | Step | File(s) committed to `condition/spec-driven` | What was established | Observed boundary |
 |---|---|---|---|
@@ -264,20 +325,18 @@ This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](ht
 | Implement | `app/experience.tsx`, `src/domain.ts`, `src/teaching.ts`, tests, CI | Independent missions, lexicon, auth, favorites and cloud state. | First deployment still had UI and external OAuth acceptance defects. |
 | Converge and repair | `converge.md`; `DEFECT_001_HIDDEN_LOGIN.md` and `DEFECT_002_GOOGLE_OAUTH_LOCALHOST_REDIRECT.md` | RED/GREEN UI acceptance and user-reported Google OAuth recovery. | Two-user outcome reported by me, but no independent security penetration test. |
 
-### 4.4 Delivered specification artifacts, defects and evidence
-
 The pre-code workflow committed **constitution, specification, clarifications, technical research, plan, data model, lexicon API contract, quickstart, tasks and analysis**, followed by an independently written application. The first C source-data suite passed **4/4** invariants, the TypeScript check and framework build passed, and later common guest Chromium checks passed **3/3**. This measured result covers only those cases.
 
 Two human/integration defects must also be counted:
 
-1. **Hidden sign-in action:** FR-012/FR-013 said authentication must exist, but did not require obvious entry from the homepage. Before patching, the same desktop/mobile Chromium assertions failed **2/2**. After a dated FR-021 amendment and visible Sign in action, three checks passed **3/3**.
-2. **OAuth fallback to localhost:** Real Google account choice initially returned to `localhost:3000`, most plausibly because the hosted URL was missing from Supabase allowed redirect destinations. The user later confirmed successful login, state restoration and a successful two-account scenario after configuration guidance; exact dashboard allowlist values were not captured.
+1. **Hidden sign-in action:** FR-012/FR-013 said authentication must exist, but did not require obvious entry from the homepage. Before patching, the two desktop/mobile Chromium checks were **RED: 0/2 passed**. After a dated FR-021 amendment and a visible Sign in action, the updated suite was **GREEN: 3/3 passed**.
+2. **OAuth fallback to localhost:** Real Google account choice initially returned to `localhost:3000`, most plausibly because the hosted URL was missing from Supabase allowed redirect destinations. I later confirmed successful login, state restoration and a successful two-account scenario after configuration guidance; exact dashboard allowlist values were not captured.
 
 This is an **actual SDD convergence case**, not a perfect first-pass SDD implementation. A passing build or a complete-looking specification cannot replace stakeholder acceptance.
 
-### 4.5 Actual prompts, CLI commands, outputs and refinements
+### 4.5 Prompts
 
-For marking purposes, I separate **student-typed prompting**, **assistant-authored agent instructions**, and **real CLI usage**. The full [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) contains the sources and gaps.
+In my development record, I separate **student-typed prompting**, **assistant-authored agent instructions**, and **real CLI usage**. The full [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) contains the sources and gaps.
 
 **Real agent-facing SDD engineering workflow:** The initialization command below was executed in CI (it is a shell command, **not** a student-authored natural-language prompt):
 
@@ -285,28 +344,54 @@ For marking purposes, I separate **student-typed prompting**, **assistant-author
 uvx --from specify-cli==1.1.3 specify init --here --force --non-interactive --integration copilot --ignore-agent-tools --script sh
 ```
 
-Its observable output was the real `.specify` scaffold and Copilot-compatible skills. Subsequently the assistant prepared the Stage C documents using its templates and process. I do **not** claim the exact user-typed messages for every slash step have been independently recovered.
+Its observable output was the real `.specify` scaffold and Copilot-compatible skills. ChatGPT then produced the stage documents using that actual scaffold and an explicit requirements-first process. The prior planning conversation also discussed the sequence `/constitution → /specify → /clarify → /plan → /tasks → /analyze → /implement`; that list documents the **planned process**, not evidence that each slash command ran in Copilot.
 
-**Verbatim user refinement after the first SDD release (original Persian):**
+| Stage / agent-facing direction from the agreed workflow | Traceable resulting artifact | Input provenance and execution limit |
+|---|---|---|
+| **Constitution:** define non-negotiable source integrity, independent code, privacy and acceptance principles | `.specify/memory/constitution.md` | Real assistant-generated pre-code artifact; complete verbatim stage request is not archived |
+| **Specify:** convert learner needs into prioritized user stories, FRs, Given/When/Then and edge cases | `specs/001-nordljud-classroom/spec.md` | Generated from shared brief; initially FR-001–FR-020, with FR-021 added *after* a live defect |
+| **Clarify:** resolve ambiguity about 456 entries, the two `sticka` senses, favorites, guests and Google callbacks | `clarifications.md` | Ten written decisions, largely agent-proposed, not ten separate verbatim student answers |
+| **Plan:** choose independent Next.js/Supabase architecture and document data and API interfaces | `research.md`, `plan.md`, `data-model.md`, `contracts/lexicon-api.md` | Assistant-generated technical artifacts committed before application source |
+| **Tasks / Analyze:** turn FRs into implementable ordered tasks and review internal coverage | `tasks.md`, `analyze.md` | Actual documented gates; not proof that every UI or live OAuth requirement was fully tested |
+| **Implement / Converge:** build the separate C app, run source/type/build tests, then reproduce and fix real defects | `app/experience.tsx`, CI, `converge.md`, `DEFECT_001` and `DEFECT_002` | Actual commits and test history; not evidence that all Copilot slash commands executed or that the initial build was fully accepted |
+
+This table documents the **agent-facing engineering instructions and actual outputs** at the level reliably supported by the preserved project records. I cannot reproduce an exact missing historical natural-language prompt simply by rewriting the instruction more elegantly today.
+
+**Verbatim user refinement after the first SDD release (original Persian and English translation):**
 
 > “به خاطر چی این اتفاق افتاده؟ با دقت این رو بررسی کن. این رو حتی فکر کنم ارزش داره که ما رکوردش بکنیم.”
+>
+> *English translation: “Why did this happen? Investigate it carefully. I think it is even worth recording.”*
 
-My intent was to investigate why Login seemed absent and preserve the case. The output was [Defect 001](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md), acceptance amendment FR-021, Chromium [RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) and then [GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037).
+My intent was to investigate why Login seemed absent and preserve the case. The output was [Defect 001](https://github.com/alikhalessi/nordljud-software-construction/blob/condition/spec-driven/specs/001-nordljud-classroom/DEFECT_001_HIDDEN_LOGIN.md), acceptance amendment FR-021, Chromium [RED: 0/2 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) and then [GREEN: 3/3 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037).
 
 **Verbatim user-reported Google redirect problem (original Persian):**
 
 > “لوکال هاست دو نقطه سه هزار رو نشون می‌ده توی بالا. و این نشون می‌ده که کار نمی‌کنه.”
+>
+> *English translation: “It shows localhost:3000 at the top, so it isn't working.”*
 
-The expectation was successful Google callback to the Vercel origin. The result was a documented real integration failure (Defect 002), dashboard allowlist guidance and a later user-confirmed successful retry. These quotations are **real user messages**, not reconstructed “perfect prompts.”
+The expectation was successful Google callback to the Vercel origin. The result was a documented real integration failure (Defect 002), dashboard allowlist guidance and my later reported successful retry. These quotations are **real user messages**, not reconstructed “perfect prompts.”
 
 **Comparative B input, separate from SDD:** The preserved God Mode [master prompt](./GOD_MODE_MASTER_PROMPT.md) actually tells the autonomous agent, *“You may freely decide whether to plan, specify, create intermediate documents, decompose tasks, verify, and improve your own work.”* This is an **assistant-drafted, precommitted agent-facing input**, not a text I claim to have typed word-for-word. It demonstrates that God Mode was free to create SDD-like artifacts voluntarily.
 
-**Evidence gap affecting 4.5 grading:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
+**Limit of my original-prompt evidence:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. To strengthen this evidence further, I need to append an actual export of the original conversation rather than create a new prompt and mislabel it as historical.
 
 
 ## 5. Verification and Validation (6 marks)
 
-### 5.1 Verification framework, coverage and actual test results
+### 5.1 V&V Strategy
+
+I used several complementary verification methods, rather than one broad claim that “testing passed”:
+
+| Verification approach | Actual activity and evidence | Important limit |
+|---|---|---|
+| **Unit/source invariant testing** | Node's built-in test runner checked JSON source counts, mission seeds, verb identity, missing content and level consistency in the three original app branches. | Test counts and assertions differ by method; not complete unit or code coverage. |
+| **Functional integration/UI testing** | The common Playwright/Chromium evaluator exercised four-level missions, separate `sticka` meanings and guest A2 completion after browser reload on each unchanged branch. | Three specific guest workflows, not comprehensive OAuth or mobile acceptance. |
+| **Requirements verification** | The preregistered `F01–F14` checklist and later `G01–G05` additions classified claims as PASS, PARTIAL, FAIL or NOT TESTED with evidence and source SHA. | Implemented code alone was not marked as a verified user path. |
+| **User acceptance** | I manually tried browser voice and hosted Google OAuth, and reported successful SDD re-login/data retention and a two-account separation scenario. | These reports were not a full independent security or cross-browser audit. |
+| **Test-first defect correction** | For SDD's visible-login requirement FR-021, Playwright first reproduced the original failure (**RED 0/2**); a code change then produced **GREEN 3/3** in the updated suite. | This was a **post-release corrective** test-first cycle, not proof the entire app followed TDD from its first commit. |
+| **Compliance/security review** | Checked browser-safe Supabase keys and read-only RLS policy design; included data-isolation concerns in requirements and user acceptance. | No completed GDPR assessment, penetration test, whole-history secret scan or formal security certification. |
 
 The shared evaluator in `main:evaluation/TEST_PLAN.md` defined `F01–F14` before method-specific implementation. Additional scenarios `G01–G05` were documented when requirements expanded during A; applying new criteria later makes this an experience report rather than a perfectly controlled experiment.
 
@@ -336,7 +421,7 @@ This is evidence for **these three exact guest cases**, not a 66.7% versus 100% 
 | Real hosted Google sign-in | I reported it working | NOT VERIFIED separately | I reported successful sign-in **after** a documented localhost redirect failure |
 | Restored account data after sign-out/re-login | NOT VERIFIED in a complete scenario | NOT VERIFIED | PASS by my manual observation (exact saved flags not documented) |
 | Isolation of two different logged-in users | NOT VERIFIED | NOT VERIFIED | PASS in my reported two-account scenario; no adversarial API test |
-| Discoverable Sign in in desktop/mobile browser | Not independently tested in this comparison | Not independently tested | Initial **RED 2/2 FAIL**; after FR-021 **GREEN 3/3 PASS** |
+| Discoverable Sign in in desktop/mobile browser | Not independently tested in this comparison | Not independently tested | Initial **RED: 0/2 passed**; after FR-021 **GREEN: 3/3 passed** |
 
 The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) separates PASS, PARTIAL, FAIL and NOT TESTED. Some user paths remain unverified: new email/password registration with invalid credentials, full wrong-answer UX in all three methods, multi-device performance, real voice playback on all operating systems and some mobile interactions.
 
@@ -354,7 +439,7 @@ The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPT
 
 ![Condition C SDD A2 mission — guest Chromium](../evaluation/screenshots/sdd-a2-mission.png)
 
-**Figure 4 — Vibe selected second `sticka` sense.** Screenshot was captured immediately **before** the independent assertion failed: detail still showed `knit` rather than `sting`.
+**Figure 4 — Vibe selected second `sticka` sense.** The real Chromium capture shows `knit` instead of `sting` just before the failing assertion. The evaluator launched Next.js using `npm run dev`, so a developer warning badge can appear. Source inspection separately shows two `sticka` rows use the duplicate React key `key={entry.v}`, consistent with a duplicate-key warning. The exact reason for the badge's numeric “2 Issues” count was not established by the available trace.
 
 ![Condition A Vibe homograph defect captured in Chromium](../evaluation/screenshots/vibe-sticka-second-sense.png)
 
@@ -366,35 +451,50 @@ The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPT
 
 ![Condition C SDD second sticka sense captured in Chromium](../evaluation/screenshots/sdd-sticka-second-sense.png)
 
-The remaining **Figures 7–9** are genuine completed-A2-exercises PNGs, available in the [permanent image index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). When exporting to PDF/DOCX, embed the original image bytes and render any Mermaid diagrams separately. No screenshot alone verifies Google sign-in or database isolation.
+The remaining **Figures 7–9** are genuine completed-A2-exercises PNGs, available in the [permanent image index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md). I will use the original image files as figures in the submitted report, rather than replacing them with mockups. None of these guest screenshots is evidence of Google sign-in or account isolation.
 
-### 5.2 Code audit and Issue/Resolution log
+### 5.2 Code Audit Log
 
 The issues below are **actual observed technical findings**, not GitHub Issues that did not exist historically. Each line distinguishes the **failure**, the **fix or deliberate preservation**, and the **verification evidence**. Original unsuccessful tests remain in the audit trail.
 
-| ID / condition | Actual issue and finding | Resolution, commit or action | Test evidence / current status |
-|---|---|---|---|
-| CA-01 — A | Four source tests assumed 456 unique written lemmas; input contains 456 **sense entries** but 455 distinct spellings. | The initial Vibe experimental snapshot was **not silently repaired**; test error preserved for comparison. | **4/11 FAIL** in independent source audit [38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760); Next build still PASS. |
-| CA-02 — A | `selectedVerb`, React keys and favorites used only `entry.v`. Both `sticka` rows therefore resolved to the same knitting detail. | Defect analyzed and frozen as original A outcome; proposed future maintenance must be separated from experiment. | Guest Chromium selected second “sting” entry but received “knit”: [38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). |
-| CA-03 — A | Changing the CEFR difficulty unexpectedly reset the selected verb to `arbeta`. | Removed forced `setSelectedVerb("arbeta")` and retained search/selection context; commit `59f38f0e2`. | Code correction and logged user observation; full multi-browser regression not separately proven. |
-| CA-04 — A | Client explorer initially imported form types from a module that also imported all four large datasets, risking a larger initial JS bundle. | Split lightweight `lib/verb-types.ts` from server-only `lib/verb-library.ts`. | Architecture correction recorded in `01-vibe-coding/vibe-log.md`; **bundle size before/after not measured**, so no claimed speedup. |
-| CA-05 — A | Swedish playback initially produced an audible-output error in desktop Chrome. | Added delayed `voiceschanged` handling and clearer missing-voice/error status; commit `17e32e666`. | Logged browser failure; later user reported speech working. |
-| CA-06 — B | Autonomous original test incorrectly asserted 456 unique written lemmas. Source test stopped CI early. | Corrected to assert 456 records/455 spellings and checked both `sticka` meanings; commit `ea6a6aef3`. | Initial [God Mode CI 38317088266 FAIL](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38317088266); later [38319216764 PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764). |
-| CA-07 — B | God Mode's original selection and favorites also used spelling-only identity. | Introduced composite identity `v + "::" + meaning`; commit `113973d7f`. | Independent guest Chromium now selects both `sticka` senses successfully. |
-| CA-08 — C | Specification required authentication, but did **not** require a findable login action on the homepage. | Dated post-release FR-021 and T021–T023; header Sign in; Playwright acceptance added **before** UI fix. | Original browser [38376988433 RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) → fixed [38377362037 GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). |
-| CA-09 — C | Hosted Google OAuth displayed accounts but returned to `localhost:3000` after account selection. | Supabase Redirect URLs guidance; no unnecessary change to shared Site URL; exact admin values not independently captured. | I later confirmed successful Google sign-in and retained data after re-login; root cause strongly suspected but not forensically proven. |
-| CA-10 — C / infrastructure | Vercel free-plan API deployment quota temporarily blocked new C publication. | Retried after quota availability; separate SDD deployment reached READY. | Historical HTTP 402 retained in convergence log; later actual deployed build/CI and my manual check. |
+| ID / condition | Actual issue and finding | Resolution, commit or action | Test evidence / current status | Found by |
+|---|---|---|---|---|
+| CA-01 — A | Four source tests assumed 456 unique written lemmas; input contains 456 **sense entries** but 455 distinct spellings. | The initial Vibe experimental snapshot was **not silently repaired**; test error preserved for comparison. | **4/11 FAIL** in independent source audit [38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760); Next build still PASS. | Independent CI |
+| CA-02 — A | `selectedVerb`, React keys and favorites used only `entry.v`. Both `sticka` rows therefore resolved to the same knitting detail. | Defect analyzed and frozen as original A outcome; proposed future maintenance must be separated from experiment. | Guest Chromium selected second “sting” entry but received “knit”: [38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). | Independent Chromium and source review |
+| CA-03 — A | Changing the CEFR difficulty unexpectedly reset the selected verb to `arbeta`. | Removed forced `setSelectedVerb("arbeta")` and retained search/selection context; commit `59f38f0e2`. | Code correction and logged user observation; full multi-browser regression not separately proven. | Me, followed by source inspection |
+| CA-04 — A | Client explorer initially imported form types from a module that also imported all four large datasets, risking a larger initial JS bundle. | Split lightweight `lib/verb-types.ts` from server-only `lib/verb-library.ts`. | Architecture correction recorded in `01-vibe-coding/vibe-log.md`; **bundle size before/after not measured**, so no claimed speedup. | AI-assisted code review |
+| CA-05 — A | Swedish playback initially produced an audible-output error in desktop Chrome. | Added delayed `voiceschanged` handling and clearer missing-voice/error status; commit `17e32e666`. | Logged browser failure; later user reported speech working. | Me, in desktop Chrome |
+| CA-06 — B | Autonomous original test incorrectly asserted 456 unique written lemmas. Source test stopped CI early. | Corrected to assert 456 records/455 spellings and checked both `sticka` meanings; commit `ea6a6aef3`. | Initial [God Mode CI 38317088266 FAIL](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38317088266); later [38319216764 PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764). | God Mode CI; AI investigation |
+| CA-07 — B | God Mode's original selection and favorites also used spelling-only identity. | Introduced composite identity `v + "::" + meaning`; commit `113973d7f`. | Independent guest Chromium now selects both `sticka` senses successfully. | AI inspection after test failure |
+| CA-08 — C | Specification required authentication, but did **not** require a findable login action on the homepage. | Dated post-release FR-021 and T021–T023; header Sign in; Playwright acceptance added **before** UI fix. | Original browser [38376988433 RED: 0/2 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) → fixed [38377362037 GREEN: 3/3 passed](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). | Me; Chromium reproduced it |
+| CA-09 — C | Hosted Google OAuth displayed accounts but returned to `localhost:3000` after account selection. | Supabase Redirect URLs guidance; no unnecessary change to shared Site URL; exact admin values not independently captured. | I later confirmed successful Google sign-in and retained data after re-login; root cause strongly suspected but not forensically proven. | Me, testing live OAuth |
+| CA-10 — C / infrastructure | Vercel free-plan API deployment quota temporarily blocked new C publication. | Retried after quota availability; separate SDD deployment reached READY. | Historical HTTP 402 retained in convergence log; later actual deployed build/CI and my manual check. | Vercel API |
 
-**Security code audit scope:** The client implementations use publishable Supabase environment variables; a read-only SQL check confirmed `public.learner_states` RLS is enabled and policies for authenticated read/insert/update/delete require `auth.uid()=user_id`. This is **not** proof that a complete repository-history secret scan or penetration test was performed. Neither a developer's Git commit nor a red/green UI test demonstrates encryption, legal privacy compliance or exhaustive security.
+**Security and GDPR review boundary:** The client implementations use publishable Supabase environment variables, and a read-only inspection of `public.learner_states` confirmed RLS policies requiring the authenticated `auth.uid()=user_id` for read, insert, update and delete. Supabase Auth handles identity/account data, while the learner-state table stores user-specific progress/favorites. This is an **implementation-level safeguard**, not proof of GDPR compliance. I did not perform a full historical secret scan, penetration test, formal data protection impact assessment, retention/deletion audit, or review of all controller/processor obligations.
 
-### 5.3 Evaluation, limitations and validation lessons
+### 5.3 Test Execution Results
 
-The strongest observed distinction is **the meaning of “a verb”**: original A and initial B treated it as a spelling; C defined a *sense*. A's UI failure and B's recovery were independently reproduced. This illustrates how clarifying identity constraints early may prevent both defective tests and defective UI selection logic—but C had knowledge carryover from earlier conditions.
+I checked the test files and original CI job logs rather than treating an overall green workflow as proof that all individual checks passed. The *same independent evaluator* checked each unchanged app branch, while each app still had its own source-test suite. [Source/type/build run 38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760) and [common guest Chromium run 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) are my primary sources.
 
-A second distinction is **integration testing**. C had formal requirements, a successful build and a functioning Google button, yet real user acceptance failed twice: missing discoverable entry and incorrect hosted OAuth return. Neither flaw was exposed by source-count tests. Only explicit browser/user checks demonstrated the missing behavior, triggering dated requirement amendments and corrective work.
+| Family and method | Expected result | Actual observation | Pass | Fail | Result |
+|---|---|---|---:|---:|---|
+| Source tests — Vibe | All 11 source assertions pass | 7 passed; four assertions incorrectly demanded 456 **unique spellings** per level | 7 | 4 | FAIL |
+| Source tests — God Mode | All 3 source assertions pass | 3 passed after documented repair of the initial uniqueness assumption | 3 | 0 | PASS |
+| Source tests — SDD | All 4 source assertions pass | 4 passed, including 456 sense records and 455 unique spellings | 4 | 0 | PASS |
+| Common guest Chromium — Vibe | All 3 user scenarios pass | Four-level mission case PASS, guest completion/reload PASS; second `sticka` meaning FAIL | 2 | 1 | FAIL |
+| Common guest Chromium — God Mode | All 3 user scenarios pass | All 3 passed | 3 | 0 | PASS |
+| Common guest Chromium — SDD | All 3 user scenarios pass | All 3 passed | 3 | 0 | PASS |
+| **Total executions in these two audited snapshots** | **27 passing executions** | **22 pass; 5 fail** | **22** | **5** | **PARTIAL** |
 
-No single score for overall code quality, measured programming speed, maintainability or pedagogical effectiveness can be inferred from this one project. The evaluator covers a **narrow, documented subset** and evidence classifications must remain as in the shared matrix.
+These are **27 test executions**, not 27 independently covered requirements. Source tests differ across methods and overlap some guest behaviors; test coverage percentages have **not** been measured. The TypeScript and production-build gates add **six separately successful stages** (two for each method), not six more unit tests.
 
+**Historical SDD login discoverability regression — separate from the 27:** in [run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433), the unchanged first-release UI failed both new visibility checks (**0/2 PASS, RED**). After the post-release FR-021 amendment and UI correction, [run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037) passed an expanded **3/3 GREEN** suite. These runs show a real repair but are not equivalent to three shared A/B/C test cases; I therefore report them separately.
+
+**Expected versus actual external behavior:** I expected Google OAuth to return to each hosted app. In SDD, Google account selection initially ended at `localhost:3000` (FAIL in my live trial), but I subsequently reported a successful hosted login and restored data after re-login. I also reported success on a two-account scenario. God Mode's separate hosted Google flow has not been confirmed; invalid email/password cases and adversarial cross-account API checks remain untested.
+
+**Runtime boundary:** the independent Chromium evaluator launches each original app with **`npm run dev`**, not `next start`. The common PASS/FAIL values therefore apply to these locally rendered development-server journeys; production compilation was checked separately. The duplicate React key `key={entry.v}` in Vibe is consistent with the development overlay in Figure 4, but a specific warning-badge count cannot be attributed to that cause without inspecting the corresponding browser trace.
+
+In this one study, specification helped make a sense-identity requirement explicit, yet a complete-looking SDD document did not prevent a hidden login action or an externally misconfigured OAuth return. My practical conclusion is that a correct requirement **and a real acceptance test** are both needed; source presence and a successful build are not enough.
 
 ## 6. Project Management, AI Toolchains and Git (3 marks)
 
@@ -403,6 +503,10 @@ No single score for overall code quality, measured programming speed, maintainab
 **Workspace structure.** The repository [`alikhalessi/nordljud-software-construction`](https://github.com/alikhalessi/nordljud-software-construction) holds the frozen baseline and three isolated application roots. The `main` branch stores shared input, the course evaluator, design/rubric evidence and report; `condition/vibe`, `condition/god-mode` and `condition/spec-driven` each contain an independently buildable `app/` and `package.json`. This is deliberate: combining three Next.js app roots inside `main` would conflate experimental treatments and deploy the wrong source.
 
 **Commit-message convention.** Real history uses descriptive condition/stage prefixes, including `vibe: bootstrap`, `vibe: diagnose`, `god-mode:`, `god-mode fix:`, `sdd constitution:`, `sdd specify:`, `sdd clarify:`, `sdd plan:`, `sdd implement:` and `sdd RED/GREEN` corrective evidence. The prefixes make it possible to trace what an AI-assisted change **claims** to implement and when it was committed. The record does not prove that every referenced human approval or content review occurred.
+
+**How my responsibilities shifted.** In A I mainly described visible functions, tested the page and requested corrections. In C I increasingly acted as product owner, spec reviewer and acceptance auditor: I set priorities, required traceability, examined ambiguous decisions, tested the real learner journey and reported errors. ChatGPT generated substantial code and engineering documentation; my contribution was directing and critically verifying that work, not pretending I manually authored every commit.
+
+**AI-assisted report review.** After the original A/B/C implementations, I used Claude to critique my academic report's evidence and alignment with the assignment. I evaluated the suggestions, then used ChatGPT to revise the report; this was not part of the coding experiment itself.
 
 **Prompt integration.** Only verified real prompt texts are included or linked. The [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) separates verbatim messages I wrote, the stored assistant-drafted God Mode master input, translations/after-the-fact logs and missing original messages. Prompt text is not inferred from commit titles. The SDD `.specify` scaffold was installed using the official CLI; initial `--integration copilot` did not itself execute every Copilot slash command.
 
@@ -426,11 +530,11 @@ No single score for overall code quality, measured programming speed, maintainab
 | SDD: task list / consistency analysis | **12 Oct, 22:59:54–22:59:56** | `dabbe7769`, `f32b7eae0` |
 | SDD: first app package | **12 Oct, 23:00:50** | `ebb63b644` |
 
-**Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. **This does not establish three minutes of human review**; no signed sign-off, meeting log or human review duration is documented for that interval. It would be inappropriate to claim otherwise.
+**Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. This interval is **not a measurement of human review time**, and I did not keep a separate review-duration log.
 
-**Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests** have been created. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
+**Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests were used during the original A/B/C implementation.** Any later report-review PR belongs to the post-experiment evidence-improvement stage, not the historical coding workflow. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
 
-**Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I do not assume a teacher can open protected links without access or change the repository to Public without consent.
+**Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I will give the instructor access to this private repository and verify that the code, history and linked CI results can actually be opened.
 
 ### 6.2 Team Contribution Breakdown — individual student project
 
@@ -445,24 +549,43 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 | Non-student tool or automation | Role (no student participation percentage) |
 |---|---|
 | **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Model identified by me retrospectively as **GPT-6, High thinking effort**; per-run model-picker proof not archived. |
+| **Claude (Anthropic)** | Critiqued the **report and its supporting evidence after implementation**, including university-template alignment and interpretation of actual tests. I verified its suggestions before incorporating them; Claude was not responsible for original A/B/C coding. |
 | **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
 
-**Administrative status:** The available files do not prove the course instructor has accepted an individual submission if the assignment requires a three-person group. I must obtain confirmation under the actual Moodle rules; I have not invented an instructor's approval date or alternative team composition. Student ID must likewise be supplied before a finalized team table is submitted.
+**Administrative status:** I confirmed on 14 October 2026 that my individual project submission had already been approved. My confirmation is recorded; the instructor's original approval date or message is not attached, so I do not invent either. My student ID will be inserted before submission, and I will grant and verify the instructor's access to the private GitHub repo. This updated status is recorded in [the 14 October administrative update](./ADMIN_STATUS_UPDATE_2026-10-14.md), which supersedes outdated open-approval notes in the earlier checklist.
 
 
 ## 7. Reflections and a Reusable Process (5 marks)
 
-### 7.1 Main observations from Vibe, God Mode and SDD
+### 7.1 Benefits of AI-Assisted SDD
 
-**Vibe Coding** made the product tangible early and kept the human learner in the loop, but it depended on observing the result to uncover missing requirements. The preserved A branch still conflates two senses of `sticka`. Its source tests failed four assertions even while its TypeScript and build checks passed.
+For me, the biggest benefit of explicit SDD was **turning an ambiguous product phrase into a checkable acceptance condition before writing C application code**. During `/clarify`-style work, the agent documented the difference between **456 semantic records** and **455 uniquely spelled Swedish verbs**, including the independent meanings of `sticka`. The later SDD app correctly selected both senses; the original Vibe implementation did not. The change was therefore measurable in the common guest Chromium test, not just visible in the paperwork.
 
-**God Mode** voluntarily created engineering notes, modules, tests and CI without a mandatory named specification workflow. However, its initial test still embodied a false assumption about 456 distinct spellings. After source and UI fixes, the independent browser test could select both senses.
+The workflow also improved **traceability**: the SRS, constitution, architecture and lexicon API contract were written as reviewable files, then turned into numbered tasks and verification evidence. I measured **881 source/app/test lines in C**, excluding a further **CSS file with 12,555 bytes**, and **904 lines across the selected constitution/specification/technical documents**, including post-implementation convergence and defect records. Of those 904 Markdown lines, 151 came from two later defect records, so it would be inaccurate to call all 904 lines “pre-code specifications.” These are file-line counts taken from the frozen C branch, not lines I personally typed or evidence of source quality by themselves.
 
-**SDD** produced a traceable constitution, 20 pre-code requirements, 10 clarifications, technical plan and task map; the exact sense distinction was addressed before implementation. But the first live release hid the login route, and the real Google callback initially redirected to localhost. The subsequent dated specification amendment, Chromium RED/GREEN reproduction, provider guidance and my retest were necessary to make it work.
+By comparison, **Vibe Coding** made the first usable product visible sooner in the Git sequence and helped me discover actual learner needs, while **God Mode** voluntarily created tests and engineering notes without a mandated Spec Kit workflow. Both initially showed the danger of assuming every `sticka` record must have a unique spelling, although God Mode corrected it. This tells me that specification discipline helped with one concrete ambiguity, not that all SDD output is inherently superior.
 
-The practical result is not “method C wins” or “method B replaces formal requirements.” Across this **single application**, explicit specs were useful for source identity and traceability, while real acceptance testing remained indispensable for all methods.
+SDD still failed to make the login action discoverable in the first release, and a Google login attempt returned to localhost until external OAuth settings were addressed. Those failures required a real human observation, a post-release FR-021 amendment, test-first **RED 0/2 pass** and later **GREEN 3/3 pass**. My takeaway is that **explicit specs plus independent acceptance** are more convincing than either a polished requirements document or a successful production build alone.
 
-### 7.2 Comparative efficiency: measurable facts versus unknown elapsed work
+**Productivity cannot be reduced to a defensible “X% faster” figure.** Section 7.2 compares commits, source output and test outcomes, while explaining the lack of active-work measurements and the order/carryover confound.
+
+### 7.2 Core Bottlenecks and Challenges
+
+**Context windows and prompt traceability.** In a long AI conversation, earlier design constraints and exact prompts can become difficult to retrieve. The Git log proved what changed, but it did not preserve every word I typed or every intermediate AI instruction. I had to distinguish preserved master prompts from direct user messages and later summaries. I should export prompt transcripts from the beginning in future projects.
+
+**Requirements drift.** I expanded A's original classroom missions to a full 456-record explorer, favorites and Google login after A had begun. This made the product better, but reduced the fairness of a tightly controlled comparison. I documented that change rather than retroactively rewriting the baseline.
+
+**Consistency and ambiguous domain concepts.** Two senses of the Swedish verb `sticka` are separate records but share the same spelling. A false assumption about “456 unique verbs” broke source tests, and a spelling-only key later broke the Vibe UI. God Mode also made the wrong first assumption before fixing it. SDD clarified the distinction earlier, partly because the agent already knew the earlier error.
+
+**Dependency validity and reproducibility.** Across the three package manifests, I found no invented or nonexistent *direct runtime package names*: the four entries are `@supabase/supabase-js`, `next`, `react` and `react-dom`. This is a check of package names, not a version-by-version supply-chain audit or proof that all transitive dependencies are trustworthy.
+
+**Infrastructure and dependency reproducibility.** Vercel branch/project configuration, a deployment quota, browser Swedish voice availability, Supabase RLS and Google OAuth redirect allowlists were not controlled by the Next.js build. The SDD page could compile and even show Google's account chooser while still returning me to `localhost:3000`. I learned to treat external services as first-class acceptance risks. None of the three implementation branches has a committed dependency lockfile (`package-lock.json`, `yarn.lock` or `pnpm-lock.yaml`); their `package.json` files use caret semver ranges and the comparison workflow calls `npm install`. Therefore later installations can resolve different exact dependency versions, limiting byte-for-byte reproducibility. I can preserve the original snapshots and report this rather than adding lockfiles retroactively to the frozen experiment.
+
+**Drifting from the actual user experience.** C's original FR-012/FR-013 required authentication functions but omitted an explicit initial-screen Sign in affordance. Only after my browser feedback did the agent define FR-021, run RED tests, fix the UI and get GREEN results. Writing requirements is different from validating that the complete learner journey is usable.
+
+**Uneven verification.** The source suites differ (11, 3 and 4 assertions), while the shared guest Chromium suite covers only three scenarios per method. A green GitHub workflow containing `continue-on-error` cannot be read as a universal pass. I cannot claim measured code coverage or end-to-end security proof.
+
+**Time and productivity measurement.** I have an inspectable commit history—36 A commits, 21 B commits and 38 C commits—rather than measured active human/AI time. The dates below show engineering events, but a percentage “AI made me X% faster” would be invented. I report the limitation instead of a fictitious metric.
 
 | Method | Observable version-control tempo | Verification evidence | What cannot be inferred |
 |---|---|---|---|
@@ -470,9 +593,9 @@ The practical result is not “method C wins” or “method B replaces formal r
 | B: God Mode | Agent note **22:25:22 UTC**, implementation log **22:30:49 UTC**, and later fix **22:53:30 UTC**. | Build/type PASS; source 3/3 after correction; guest browser 3/3. | A five-minute *commit interval* cannot be treated as full coding time, model processing duration, or a valid speed-up percentage. |
 | C: SDD | Constitution **22:56:32 UTC**, spec **22:57:17**, clarify **22:57:43**, tasks **22:59:54**, first package **23:00:50**. | Build/type PASS; source 4/4; guest browser 3/3 after real UI/provider rework. | Rapid document commits do **not** prove deliberate human review or higher productivity; later SDD fixes and delayed deployment matter. |
 
-The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. That limitation must remain in a 35-mark experience report rather than inserting attractive but false numbers.
+The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. For that reason, I report the observed sequence and outcomes but do not report a numerical speed-up.
 
-### 7.3 Lessons learned and operational best practices
+### 7.3 Lessons Learned & Best Practices
 
 1. **Define the identity of domain objects.** One written Swedish lemma can map to multiple sense records; source tests and UI keys must agree about what counts as one item.
 2. **Separate requirement completeness from implementation completeness.** FR-012/FR-013 said login should exist; neither specified a visible first-screen Sign in button until feedback prompted FR-021.
@@ -483,7 +606,7 @@ The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes fo
 7. **Freeze comparable artifacts and disclose carryover.** The three code bases are separate, but order A→B→C and my/AI's learning from earlier defects limit causal claims.
 8. **Collect first-hand prompts and screenshots while they still exist.** Translated logs and time-limited GitHub Actions screenshots are not a substitute for original prompt texts and durable report figures.
 
-### 7.4 Proposed reusable AI–human Software Construction process
+### 7.4 Proposed Specification-Driven Development Workflow
 
 The strongest practical outcome is a **risk-calibrated hybrid workflow**, rather than always choosing maximal upfront documentation or always accepting iterative Vibe development. Every phase needs an explicit division of responsibilities and a check that its output is supported by real evidence.
 
@@ -524,7 +647,7 @@ This remains a **descriptive experience report**. It does not establish a genera
 
 ## References and Reproducible Primary Evidence
 
-The authoritative evidence is the Git history, experiment files, CI logs and explicit student feedback. The final submission should cite the course's approved AI-use guidelines and link or attach these materials as allowed.
+The authoritative evidence is the Git history, experiment files, CI logs and my own documented feedback. I will cite the course's approved AI-use guidance and include the required links or attachments with my submission.
 
 - [Default GitHub repository and navigation](https://github.com/alikhalessi/nordljud-software-construction)
 - [Vibe app and source log](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/vibe)
