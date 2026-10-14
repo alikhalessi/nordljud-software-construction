@@ -372,69 +372,129 @@ No single score for overall code quality, measured programming speed, maintainab
 
 ## 6. Project Management, AI Toolchains and Git (3 marks)
 
-The source repository is [alikhalessi/nordljud-software-construction](https://github.com/alikhalessi/nordljud-software-construction). Its default `main` branch stores coordination, frozen common content, independent evaluator workflows and the report. Three self-contained implementation roots live on `condition/vibe`, `condition/god-mode` and `condition/spec-driven`. The numbered `01-vibe-coding` / `02-god-mode` / `03-spec-driven` directories on main link to these branches rather than containing merged competing app roots.
+### 6.1 Version Control & Prompt Integration
 
-### 6.1 Individual project and contribution record
+**Workspace structure.** The repository [`alikhalessi/nordljud-software-construction`](https://github.com/alikhalessi/nordljud-software-construction) holds the frozen baseline and three isolated application roots. The `main` branch stores shared input, the course evaluator, design/rubric evidence and report; `condition/vibe`, `condition/god-mode` and `condition/spec-driven` each contain an independently buildable `app/` and `package.json`. This is deliberate: combining three Next.js app roots inside `main` would conflate experimental treatments and deploy the wrong source.
 
-I, **Ali Khalessi**, am the **only student** working on this Nordljud project. There are **no other student team members**. My GitHub username for this repository is `alikhalessi`. The three development *conditions* (Vibe Coding, God Mode and SDD) are three software implementations—not three people or student teams.
+**Commit-message convention.** Real history uses descriptive condition/stage prefixes, including `vibe: bootstrap`, `vibe: diagnose`, `god-mode:`, `god-mode fix:`, `sdd constitution:`, `sdd specify:`, `sdd clarify:`, `sdd plan:`, `sdd implement:` and `sdd RED/GREEN` corrective evidence. The prefixes make it possible to trace what an AI-assisted change **claims** to implement and when it was committed. The record does not prove that every referenced human approval or content review occurred.
 
-| Participant | Role | Documented contribution |
+**Prompt integration.** Only verified real prompt texts are included or linked. The [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) separates verbatim messages I wrote, the stored assistant-drafted God Mode master input, translations/after-the-fact logs and missing original messages. Prompt text is not inferred from commit titles. The SDD `.specify` scaffold was installed using the official CLI; initial `--integration copilot` did not itself execute every Copilot slash command.
+
+**Exact, observable Git timeline (UTC):**
+
+| Development milestone | Timestamp UTC | Git SHA / evidence |
 |---|---|---|
-| **Ali Khalessi (one student)** | Project owner, requirements owner, human reviewer and tester | Chose the Swedish-learning use case and common materials; requested changes and decided scope; evaluated screens and live behavior; configured Google/Supabase integrations; reported and manually retested defects, login, data retention and two-account behavior; coordinated the university experiment |
-| **ChatGPT (AI development assistant; not a student)** | AI-assisted implementation and documentation | Generated substantial application code, tests, CI workflows, architectural/specification artifacts, technical logs and report drafts under my direction; assisted with GitHub/Vercel/Supabase operations |
-| **GitHub Actions automation (not a student)** | Automated checks and commits | Ran CI/Chromium checks and generated automated project artifacts; any bot-authored commits are automation activity rather than another team member's coursework |
+| Freeze common Swedish input and baseline | **12 Oct 2026, 10:55:13** | `1afd63532` |
+| Begin initial Vibe application files | **12 Oct, 11:12:05** | `e45a2ae31` (`package.json`) |
+| Vibe: source-based mission derivation | **12 Oct, 11:13:30** | `a46ee1bd0` |
+| Vibe: browser speech correction | **12 Oct, 21:21:14** | `17e32e666` |
+| Vibe: new explorer and auth navigation | **12 Oct, 21:31:02** | `88b4486cd` |
+| God Mode: autonomous notes | **12 Oct, 22:25:22** | `51d7f7508` |
+| God Mode: recorded initial implementation | **12 Oct, 22:30:49** | `8b733811d` |
+| God Mode: false uniqueness assertion fix | **12 Oct, 22:53:30** | `ea6a6aef3` |
+| SDD: official Spec Kit bootstrap workflow | **12 Oct, 22:55:22** | `bdff2e16b` |
+| SDD: first constitution | **12 Oct, 22:56:32** | `6a34c19ea` |
+| SDD: specification | **12 Oct, 22:57:17** | `200719951` |
+| SDD: clarification | **12 Oct, 22:57:43** | `7deec4178` |
+| SDD: architecture plan | **12 Oct, 22:59:08** | `2d8a02f34` |
+| SDD: task list / consistency analysis | **12 Oct, 22:59:54–22:59:56** | `dabbe7769`, `f32b7eae0` |
+| SDD: first app package | **12 Oct, 23:00:50** | `ebb63b644` |
 
-**Individual-submission approval is not evidenced here.** If the course formally requires three students, I need the instructor's written acceptance of an individual submission (or an approved alternative). I do not present ChatGPT or a GitHub bot as a student teammate. This section describes confirmed project participation, not an invented team-work history.
+**Interpretation:** Times above are the **GitHub commit author timestamps in UTC**, and 22:XX UTC on 12 October corresponds to the early morning of **13 October in Finland**. The SDD constitution-to-task commits span only about **3 minutes 22 seconds**, consistent with rapidly generated and committed documents. **This does not establish three minutes of human review**; no signed sign-off, meeting log or human review duration is documented for that interval. It would be inappropriate to claim otherwise.
 
-### 6.2 Human–AI division of work
+**Issues/PRs:** When inspected, the repository had **0 GitHub Issues and 0 Pull Requests**. The actual work used direct, staged commits, branch separation, CI logs and Markdown defect reports. The audit's Issue/Resolution table refers to **engineering issues**, not historic GitHub Issue objects. I have not invented PR reviews, issue discussions or teammates to meet an artifact count. Genuine future open work can be tracked as Issues/PRs if needed without backdating.
 
-I supplied the learning goal and source materials, set priorities, reviewed visible outcomes, handled external account configuration where needed, and reported/retested defects. ChatGPT generated much of the implementation, prompts, source tests, CI definitions, technical documents and this report draft. Some Git commits are attributed to my connected GitHub account even when the file content was prepared using AI tools; **Git commit authorship alone is not proof that code was manually typed by me**. Exact prompts and AI assistance must still be disclosed in the final submission under the course policy.
+**Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I do not assume a teacher can open protected links without access or change the repository to Public without consent.
 
-Important recorded engineering disruptions include a wrong-target Vercel build, daily Vercel API deployment quota, accidental extra deployments from multiple projects connected to one repository, Google redirect allowlisting, failed unique-lemma assertions, and missing login discoverability. They were **not** erased from Git history.
+### 6.2 Team Contribution Breakdown — individual student project
 
-A previous snapshot compared Git commit counts (36 Vibe, 21 God Mode, 31 SDD); the count changes when additional research/repair commits occur. Git counts are useful for provenance, but not direct measures of hours, code quality or student learning. The experiment did not instrument comparable wall-clock duration, and I do not supply fabricated timings.
+I, **Ali Khalessi**, am the sole student in this project; there are **no student teammates**. The three development conditions represent **three implementations**, not three group members.
+
+| Student name | Student ID | Student participation (%) | Confirmed responsibility |
+|---|---|---:|---|
+| **Ali Khalessi** | **Not supplied in available evidence** | **100%** | Sole human student/project owner; product goals, learning inputs and scope, feedback and manual trials, OAuth dashboard configuration, selection of research approach, course submission responsibility. |
+
+**Meaning of 100%:** This is 100% of the *human student contribution allocation*, not a claim that I personally typed 100% of the source code or wrote all English report paragraphs unaided.
+
+| Non-student tool or automation | Role (no student participation percentage) |
+|---|---|
+| **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Exact historical model variant was not logged. |
+| **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
+
+**Administrative status:** The available files do not prove the course instructor has accepted an individual submission if the assignment requires a three-person group. I must obtain confirmation under the actual Moodle rules; I have not invented an instructor's approval date or alternative team composition. Student ID must likewise be supplied before a finalized team table is submitted.
+
 
 ## 7. Reflections and a Reusable Process (5 marks)
 
-### 7.1 What each condition taught me
+### 7.1 Main observations from Vibe, God Mode and SDD
 
-**Vibe Coding** produced a usable application and useful human feedback quickly, but the process depended on noticing problems after the user could interact with the product. It passed an independent build and mission-navigation check, yet the preserved version still mishandles two senses of a homograph.
+**Vibe Coding** made the product tangible early and kept the human learner in the loop, but it depended on observing the result to uncover missing requirements. The preserved A branch still conflates two senses of `sticka`. Its source tests failed four assertions even while its TypeScript and build checks passed.
 
-**God Mode** demonstrated that an autonomous agent can spontaneously create meaningful structure: domain modules, notes, tests and CI. It also showed that autonomous structure is not necessarily correct structure: the first test suite embodied the same wrong “456 unique verbs” assumption. After correction, a shared browser test confirmed independent `sticka` senses.
+**God Mode** voluntarily created engineering notes, modules, tests and CI without a mandatory named specification workflow. However, its initial test still embodied a false assumption about 456 distinct spellings. After source and UI fixes, the independent browser test could select both senses.
 
-**SDD** made assumptions, responsibilities and verification criteria easier to trace. It identified sense identity earlier and passed the narrow independent browser comparison. But it still missed a discoverable Login entry point and a necessary real OAuth deployment configuration. A *complete-looking specification* is not necessarily complete from a human user's perspective.
+**SDD** produced a traceable constitution, 20 pre-code requirements, 10 clarifications, technical plan and task map; the exact sense distinction was addressed before implementation. But the first live release hid the login route, and the real Google callback initially redirected to localhost. The subsequent dated specification amendment, Chromium RED/GREEN reproduction, provider guidance and my retest were necessary to make it work.
 
-### 7.2 An evidence-aware conclusion
+The practical result is not “method C wins” or “method B replaces formal requirements.” Across this **single application**, explicit specs were useful for source identity and traceability, while real acceptance testing remained indispensable for all methods.
 
-These observations **do not prove a universal ranking** such as “SDD always builds better software” or “God Mode replaces specification.” They support a narrower conclusion: formal requirements and clarifications can prevent some domain errors; test-driven feedback can repair them later; and end-to-end validation is essential regardless of method.
+### 7.2 Comparative efficiency: measurable facts versus unknown elapsed work
 
-Threats to validity are significant: one application, one student, one AI assistant, fixed order A→B→C, expanding requirements during A, learning/knowledge transfer between conditions, unequal original test suites, different deployment opportunities and incomplete external authentication testing. The code bases are independent, but the people and agent participating in them are not experientially blind.
+| Method | Observable version-control tempo | Verification evidence | What cannot be inferred |
+|---|---|---|---|
+| A: Vibe | First app package at **11:12 UTC** and significant explorer revision after **21:29 UTC** on 12 Oct; work appears in separated commit sessions. | Build PASS; source 7/11; guest browser 2/3. | The roughly 10-hour *timestamp window* is **not ten hours of continuous work**; no student/AI active runtime split was instrumented. |
+| B: God Mode | Agent note **22:25:22 UTC**, implementation log **22:30:49 UTC**, and later fix **22:53:30 UTC**. | Build/type PASS; source 3/3 after correction; guest browser 3/3. | A five-minute *commit interval* cannot be treated as full coding time, model processing duration, or a valid speed-up percentage. |
+| C: SDD | Constitution **22:56:32 UTC**, spec **22:57:17**, clarify **22:57:43**, tasks **22:59:54**, first package **23:00:50**. | Build/type PASS; source 4/4; guest browser 3/3 after real UI/provider rework. | Rapid document commits do **not** prove deliberate human review or higher productivity; later SDD fixes and delayed deployment matter. |
 
-### 7.3 Proposed practical hybrid approach
+The preregistered planning timeboxes were 120 minutes for A/B and 180 minutes for C. These are **targets**, not measured results. Without comparable active-work timestamps, token counts, tool-call duration, idle/wait time, human review effort and the full impact of scope changes, I **cannot calculate an honest quantitative speed-up factor**. Commit density is evidence of workflow ordering, not an experimental stopwatch. That limitation must remain in a 35-mark experience report rather than inserting attractive but false numbers.
+
+### 7.3 Lessons learned and operational best practices
+
+1. **Define the identity of domain objects.** One written Swedish lemma can map to multiple sense records; source tests and UI keys must agree about what counts as one item.
+2. **Separate requirement completeness from implementation completeness.** FR-012/FR-013 said login should exist; neither specified a visible first-screen Sign in button until feedback prompted FR-021.
+3. **Run real browser acceptance before claiming features pass.** TypeScript and compilation checks cannot detect a “knit” detail shown after selecting “sting.”
+4. **Test external authentication through the hosted URL.** A working Google button is not a successful provider callback. Record Supabase allowlists and environmental dependencies.
+5. **Preserve red tests and unsuccessful deployments.** The failed uniqueness assertion, first RED login UI test and localhost redirect are evidence, not embarrassment to erase.
+6. **Distinguish assistant code from student contributions and automated bot commits.** Source authorship via a connected GitHub account is not a manual typing diary.
+7. **Freeze comparable artifacts and disclose carryover.** The three code bases are separate, but order A→B→C and my/AI's learning from earlier defects limit causal claims.
+8. **Collect first-hand prompts and screenshots while they still exist.** Translated logs and time-limited GitHub Actions screenshots are not a substitute for original prompt texts and durable report figures.
+
+### 7.4 Proposed reusable AI–human Software Construction process
+
+The strongest practical outcome is a **risk-calibrated hybrid workflow**, rather than always choosing maximal upfront documentation or always accepting iterative Vibe development. Every phase needs an explicit division of responsibilities and a check that its output is supported by real evidence.
+
+| Phase | Human responsibility (my role) | AI/automation support | Exit criterion and retained artifact |
+|---|---|---|---|
+| **1. Scope and source provenance** | Choose educational problem, agree baseline, mark late scope changes. | Extract requirements and verify inherited data structure. | Frozen source commit and provenance manifest. |
+| **2. Specify** | Prioritize user stories and approve any consequential assumptions. | Draft explicit FR/NFR, examples, edge cases, Given/When/Then. | Versioned specification with identity/UX acceptance. |
+| **3. Clarify and review** | Resolve ambiguities about learner goals, homographs, security and sign-in discoverability. | Propose alternatives; flag unknowns rather than inventing stakeholder answers. | Dated decisions plus review confirmation **when actually performed**. |
+| **4. Plan and decompose** | Decide acceptable simplicity, costs, deployment/privacy constraints. | Produce architecture, data/API contract, ordered tasks and consistency audit. | Linked plan/tasks ready for implementation. |
+| **5. Implement incremental slice** | Set boundaries, check major UI decisions and authorize secrets/provider changes. | Write application source and tests; commit source to isolated branch. | Working increment and exact commit SHA. |
+| **6. Automated verification** | Inspect failures, ensure tested criteria reflect correct domain meaning. | Run source tests, TypeScript, build and headless Chromium checks. | Real CI logs, pass/fail matrix and error details. |
+| **7. Live acceptance and convergence** | Personally try sign-in, actual speech, save/relogin and two-account visibility. | Diagnose errors, suggest corrective spec amendment, repeat regression tests. | Real browser evidence; recorded RED/GREEN or unresolved blockers. |
+| **8. Freeze and report** | Review first-person claims, grant teacher access, confirm university policy, sign off submission. | Assemble evidence and help prepare figures and report. | Reproducible final report, accessible repo, archived genuine prompts and screenshots. |
 
 ```mermaid
 flowchart TD
-    A[Define learner goal + frozen source inputs] --> B[Prioritize user stories]
-    B --> C[Clarify domain identities, assumptions and risks]
-    C --> D[Specify acceptance steps, including visible UI and hosted auth]
-    D --> E[Architecture and smallest implementable task]
-    E --> F[Implement one working slice with AI]
-    F --> G[Run source tests + typecheck + build]
-    G --> H{All checked assertions pass?}
-    H -->|No| I[Log failing evidence and repair]
-    I --> F
-    H -->|Yes| J[Run real guest browser and user OAuth tests]
-    J --> K{User journeys and account boundaries work?}
-    K -->|No| L[Add missed acceptance criterion and record defect]
-    L --> C
-    K -->|Yes| M[Freeze evidence, compare and report]
+  A[Human: goals and frozen inputs] --> B[AI draft, human check: stories and NFRs]
+  B --> C{Ambiguities or external risks?}
+  C -->|Yes| D[Human decision + dated clarification]
+  C -->|No| E[AI plan and tasks]
+  D --> E
+  E --> F[AI implements small slice]
+  F --> G[Automated tests, typecheck and build]
+  G --> H{Executable checks pass?}
+  H -->|No| I[Record defect and reproduce RED]
+  I --> F
+  H -->|Yes| J[Human real-browser and account acceptance]
+  J --> K{User journey works?}
+  K -->|No| L[New explicit criterion, fix and GREEN]
+  L --> E
+  K -->|Yes| M[Human signoff + durable evidence]
 ```
 
-For a small and reversible feature, a lightweight story and two or three explicit acceptance conditions may be enough. For identity, privacy, ambiguous linguistic source records and external Google login, more formal clarification and integration tests are worth the additional effort. The goal is not paperwork for its own sake; it is to make important assumptions testable **before** a student or user discovers them the hard way.
+I would use lightweight specifications for small reversible UI features, and stricter acceptance criteria for account isolation, OAuth, ambiguous linguistic data and externally configured services. The final safeguard is not the number of documents produced but whether user-visible behavior has been checked against the actual requirement.
 
-One lesson is worth keeping: *A green Build button cannot tell us whether a Swedish verb has two meanings, or whether Google will send our user to localhost.*
+This remains a **descriptive experience report**. It does not establish a general causal or statistical ordering among AI coding methods, and further evidence would require multiple applications, matched workloads, comparable instrumented effort, and independent human raters.
 
----
 
 ## References and Reproducible Primary Evidence
 
@@ -454,30 +514,7 @@ The authoritative evidence is the Git history, experiment files, CI logs and exp
 - [SDD pre-fix failing login browser test](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433)
 - [SDD post-fix passing login browser test](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037)
 - [GitHub Spec Kit official repository](https://github.com/github/spec-kit)
+- [Authentic prompt provenance and missing-verbatim evidence](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md)
+- [Course submission readiness and private repository access blockers](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md)
+- [Extended guest browser 3-case audit and genuine screenshots](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386)
 - [Supabase Auth allowed redirect URLs](https://supabase.com/docs/guides/auth/redirect-urls)
-
-## Submission review checklist (not evidence of a completed test)
-
-- [x] Project participant identity confirmed: Ali Khalessi is the sole student; no student collaborators. Individual-submission approval (if required by the course) is **not yet verified**.
-- [ ] Final official Moodle rubric, deadline and AI-use disclosure requirements are checked against the live course page; the project currently has only the student-supplied rubric mapping.
-- [ ] Insert genuine screenshots of the three UIs and at least one failing-to-passing test sequence, with all account details blurred.
-- [ ] Keep F01–F14 entries NOT TESTED where no actual run was performed. Decide with the instructor whether remaining user-authenticated tests are mandatory.
-- [ ] Add reliable timing metrics only if records actually support them; otherwise state time was not measured.
-- [ ] Keep no raw OAuth tokens, email addresses or other private user data in the submission.
-
-
----
-
-## Addendum — Third independent guest-browser test (14 October 2026)
-
-After the revised report draft was prepared, an additional **identical** guest-only Chromium acceptance check was run on all three unchanged app roots. It tested whether users could complete both A2 question groups and whether the resulting guest completion flags remained after refreshing the same browser. The tests **did not** access Supabase accounts or check the correctness of wrong-answer messaging.
-
-- Vibe: A2 mission navigation PASS, two-`sticka` selection **FAIL**, A2 exercise completion + reload **PASS** — **2/3** common browser tests.
-- God Mode: all three checks **PASS — 3/3**.
-- SDD: all three checks **PASS — 3/3**.
-
-Evidence: [independent third-check Chromium run 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). Each method's job contains its individual actual test outcome; GitHub's overall green workflow indicator results from continuing after the Vibe assertion failure to preserve other checks. Therefore it **does not mean all three methods passed**.
-
-The same run produced guest-mode screenshots of the initial A2 mission, the result of selecting the second `sticka` sense, and A2 questions after completion. These can be downloaded from CI artifacts (see [Screenshot Evidence Index](../evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md)) and are intended for authentic visuals in the final course submission. The artifacts are time-limited and are **not yet embedded as figure images** in this Markdown report.
-
-This extension strengthens the finding that all three programs can complete and recover guest exercises, whereas the frozen Vibe branch still conflates two homograph meanings. It does **not** verify Google's OAuth flow in B, invalid email passwords, F10 under adversarial requests, actual audio hardware, or overall pedagogical correctness.
