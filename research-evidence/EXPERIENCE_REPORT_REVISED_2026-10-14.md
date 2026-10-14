@@ -230,7 +230,7 @@ Unlike Condition C, A did not require a precommitted, complete FR/NFR list befor
 
 These are recovered conversational passages, **not yet a complete exported, independently archived transcript**. I explicitly mark excerpts. Neither the assistant's full Vibe handoff nor the Spec Kit stage documents are messages I typed manually.
 
-**I distinguish direct student-authored messages from agent-facing text and translated after-the-fact summaries.** The original Vibe log itself explicitly warns that it is **not a full verbatim prompt transcript**. The [Prompt Provenance Ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) preserves the recoverable text and classifies missing messages instead of fabricating them.
+**The original Vibe log is an after-the-fact action record, not a complete verbatim transcript.** The [Prompt Provenance Ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) preserves the recoverable text and classifies missing messages instead of fabricating them.
 
 | Record | Real prompt text or provenance | What I expected | What I observed / refinement |
 |---|---|---|---|
@@ -239,7 +239,9 @@ These are recovered conversational passages, **not yet a complete exported, inde
 | V-P03 — **translated defect report, not an exact prompt** | The Vibe log records that selecting a word at A2 and switching to C1 unexpectedly changed the selected word; Google sign-in also failed. | Keep the same selected lemma while changing examples, and recover navigation after OAuth. | The agent removed `setSelectedVerb("arbeta")` from the level switch (commit `59f38f0e2`), added auth status (commit `4c390b72a`) and navigation restoration (commit `61a442bc6`). |
 | V-P04 — **user observation summarized in log** | Speech playback displayed an error in the learner's Chrome environment. | An audible Swedish sentence or useful failure explanation. | Added asynchronous voice loading and clearer status handling (commit `17e32e666`), followed by later learner feedback that audio worked. |
 
-**Required primary evidence not yet recoverable:** The complete initial *user-typed* product prompt and the exact original wording of some A-stage corrective messages were not saved in the material inspected here. Neither an assistant-drafted hypothetical Vibe prompt nor a translated summary may be passed off as a literal message I typed. The Vibe branch logs and version history are authentic evidence of what changed, but they do not substitute for a missing verbatim chat export.
+**AI-drafted Vibe baseline brief:** During the earlier ChatGPT planning conversation, the assistant prepared a handoff headed **“Nordlyd — Vibe Coding Baseline”**. It addressed building **only Condition A first**, all four CEFR levels, the common Swedish/English learning goal, a conversational implementation/feedback loop, GitHub/Vercel/Supabase, and a rule to defer Spec Kit work until C. A still earlier AI-drafted proposal began **“I want to build a modern web application called Nordlyd…”**. These are identifiable *assistant-created planning and agent-facing draft materials*, rather than direct messages I typed. The full exact body of either historical draft was not exported and attached here, so the descriptions above are explicitly **summaries**, not invented word-for-word master prompts.
+
+**How that input related to the actual Vibe run:** I approved the four-level goal and the Vibe-first order, then sent the literal continuation **“ok let's continue”**. ChatGPT used the ongoing project context to create new A-branch source files and commit them directly to GitHub. The Vibe branch's `vibe-log.md` and commits establish the implementation and subsequent corrections; they do **not** prove the whole earlier drafted handoff was sent separately as one unchanged prompt to an independent coding agent. If the instructor requires that exact full prompt text, I still need the original conversation export. I can and do cite the preserved planning excerpts without passing off an after-the-fact summary as a historical prompt transcript.
 
 ### 3.3 Prompt Iteration Log
 
@@ -327,7 +329,18 @@ In my development record, I separate **student-typed prompting**, **assistant-au
 uvx --from specify-cli==1.1.3 specify init --here --force --non-interactive --integration copilot --ignore-agent-tools --script sh
 ```
 
-Its observable output was the real `.specify` scaffold and Copilot-compatible skills. Subsequently the assistant prepared the Stage C documents using its templates and process. I do **not** claim the exact user-typed messages for every slash step have been independently recovered.
+Its observable output was the real `.specify` scaffold and Copilot-compatible skills. ChatGPT then produced the stage documents using that actual scaffold and an explicit requirements-first process. The prior planning conversation also discussed the sequence `/constitution → /specify → /clarify → /plan → /tasks → /analyze → /implement`; that list documents the **planned process**, not evidence that each slash command ran in Copilot.
+
+| Stage / agent-facing direction from the agreed workflow | Traceable resulting artifact | Input provenance and execution limit |
+|---|---|---|
+| **Constitution:** define non-negotiable source integrity, independent code, privacy and acceptance principles | `.specify/memory/constitution.md` | Real assistant-generated pre-code artifact; complete verbatim stage request is not archived |
+| **Specify:** convert learner needs into prioritized user stories, FRs, Given/When/Then and edge cases | `specs/001-nordljud-classroom/spec.md` | Generated from shared brief; initially FR-001–FR-020, with FR-021 added *after* a live defect |
+| **Clarify:** resolve ambiguity about 456 entries, the two `sticka` senses, favorites, guests and Google callbacks | `clarifications.md` | Ten written decisions, largely agent-proposed, not ten separate verbatim student answers |
+| **Plan:** choose independent Next.js/Supabase architecture and document data and API interfaces | `research.md`, `plan.md`, `data-model.md`, `contracts/lexicon-api.md` | Assistant-generated technical artifacts committed before application source |
+| **Tasks / Analyze:** turn FRs into implementable ordered tasks and review internal coverage | `tasks.md`, `analyze.md` | Actual documented gates; not proof that every UI or live OAuth requirement was fully tested |
+| **Implement / Converge:** build the separate C app, run source/type/build tests, then reproduce and fix real defects | `app/experience.tsx`, CI, `converge.md`, `DEFECT_001` and `DEFECT_002` | Actual commits and test history; not evidence that all Copilot slash commands executed or that the initial build was fully accepted |
+
+This table documents the **agent-facing engineering instructions and actual outputs** at the level reliably supported by the preserved project records. I cannot reproduce an exact missing historical natural-language prompt simply by rewriting the instruction more elegantly today.
 
 **Verbatim user refinement after the first SDD release (original Persian and English translation):**
 
@@ -347,7 +360,7 @@ The expectation was successful Google callback to the Vercel origin. The result 
 
 **Comparative B input, separate from SDD:** The preserved God Mode [master prompt](./GOD_MODE_MASTER_PROMPT.md) actually tells the autonomous agent, *“You may freely decide whether to plan, specify, create intermediate documents, decompose tasks, verify, and improve your own work.”* This is an **assistant-drafted, precommitted agent-facing input**, not a text I claim to have typed word-for-word. It demonstrates that God Mode was free to create SDD-like artifacts voluntarily.
 
-**Limit of my original-prompt evidence:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. Those gaps should be filled using actual exported conversation history if available, not synthetic prompts.
+**Limit of my original-prompt evidence:** The *original user-typed* initial SDD prompts to run constitution/specify/clarify/plan/tasks and contemporaneous per-run model-picker captures are not fully recoverable from the checked files. I identified the model setting retrospectively as GPT-6 with High thinking effort on 14 October 2026. The Git timeline demonstrates artifact order but does not reconstruct missing instructions or human review. To strengthen this evidence further, I need to append an actual export of the original conversation rather than create a new prompt and mislabel it as historical.
 
 
 ## 5. Verification and Validation (6 marks)
