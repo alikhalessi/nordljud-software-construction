@@ -33,7 +33,7 @@ The outer CI matrix is configured to continue after a failed individual test so 
 
 ## Honest scope and authorship
 
-**Ali Khalessi is the only student.** ChatGPT helped generate much of the code, tests, prompts to agents, documents and connected GitHub/Vercel/Supabase actions. GitHub Actions bots are automation, not student collaborators. Git attribution under `alikhalessi` does not prove manual typing. An exact historical ChatGPT model variant was not recorded for each experimental phase.
+**Ali Khalessi is the only student.** ChatGPT helped generate much of the code, tests, prompts to agents, documents and connected GitHub/Vercel/Supabase actions. GitHub Actions bots are automation, not student collaborators. Git attribution under `alikhalessi` does not prove manual typing. Ali retrospectively confirmed the model setting as **OpenAI GPT-6 with High thinking effort** on 14 October 2026; a model-picker capture for each historical A/B/C run has not been archived.
 
 Condition C actually ran the **GitHub Spec Kit 1.1.3 CLI bootstrap** and created specification artifacts following its process. Its `--integration copilot` flag generates Copilot-compatible tooling; **it does not prove Copilot ran every skill or wrote the application**. C initially had real login discoverability and OAuth redirect problems, subsequently documented and corrected.
 
