@@ -1,9 +1,10 @@
 # An Experience Report on a Specification-Driven, AI-Assisted Software Construction Project
 
-**Working draft — requires student review and final real-user test evidence before submission.**  
+**Historical working draft (superseded by the 14 October revised report).**  
 **Project:** Nordljud, a Swedish-learning web application  
 **Course:** Software Construction, Åbo Akademi University  
-**Student:** [complete official student/team details]  
+**Student:** Ali Khalessi (sole student; no student teammates)  
+**Individual submission:** Instructor approval not yet documented, if a group is required.  
 **Period:** October 2026  
 **Experiment branches:** `condition/vibe`, `condition/god-mode`, `condition/spec-driven`  
 **Academic honesty:** AI assistance used for planning, coding, documentation and drafting. Swedish educational content was recovered from earlier user-owned project materials and was **not** independently author-verified.
@@ -233,7 +234,7 @@ I propose a **risk-calibrated hybrid**: apply a minimal explicit spec for short,
 - **Do not submit this draft as final yet.** Collect real manual acceptance screenshots and complete the F01–F14 matrix for all three conditions.
 - Once Vercel permits deployments, host SDD on its separate project and validate actual login, progress and data isolation.
 - If Google preview login in God Mode or SDD is needed, add specific redirect origins in Supabase; do not expose Google Client Secret.
-- Add student/team information and check the **current Moodle assignment wording** and institutional AI-use policy. The course alignment sheet is based on earlier supplied instructions and was not rechecked against Moodle at report-drafting time.
+- Student identity is confirmed as **Ali Khalessi, sole student**; verify that individual submission is acceptable under the **current Moodle assignment wording** and institutional AI-use policy. The course alignment sheet is based on earlier supplied instructions and was not rechecked against Moodle at report-drafting time.
 - Document actual dates/times only where Git evidence supports them. Include at least one figure of each UI, the SDD architecture diagram, actual CI run links, and the proposed process figure.
 - Proofread the student's first-person reflections and verify each personal experience claim before submission.
 
