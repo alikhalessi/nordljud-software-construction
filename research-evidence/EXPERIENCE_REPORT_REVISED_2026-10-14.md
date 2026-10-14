@@ -3,7 +3,9 @@
 **Revised evidence-based draft — 14 October 2026**  
 **Project:** Nordljud — mission-based Swedish-learning application  
 **Course:** Software Construction, Åbo Akademi University  
-**Student/team:** [Student to confirm official name and any collaborators]  
+**Student and sole project member:** Ali Khalessi  
+**Team size:** 1 (individual project; no student teammates)  
+**Academic note:** Individual-submission permission has not yet been confirmed against the course's team requirement.  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
 **Status:** Ready for student review, pending remaining manual acceptance screenshots and confirmation of the official Moodle submission requirements.
 
@@ -15,7 +17,7 @@ Each implementation began from the same frozen Git baseline and reused the same 
 
 Independent CI found that all three applications passed TypeScript and production compilation. Vibe’s frozen data tests failed four assertions because they incorrectly assumed 456 uniquely spelled verbs, although the input contains 456 sense records and 455 distinct spellings. God Mode initially made the same assumption, then corrected its tests and user interface. SDD captured that distinction during clarification. A separate Chromium comparison demonstrated another concrete difference: Vibe could not select the second meaning of `sticka`, whereas God Mode and SDD could.
 
-However, SDD itself was not perfect on its first deployment. Login was difficult to find, and a real Google sign-in initially redirected to localhost. Both issues were documented and subsequently corrected; the student confirmed working authentication, retained data and a successful two-account check.
+However, SDD itself was not perfect on its first deployment. Login was difficult to find, and a real Google sign-in initially redirected to localhost. Both issues were documented and subsequently corrected; I tested and reported working authentication, retained data and a successful two-account check.
 
 The evidence favors explicit requirements and real acceptance tests for traceability, not an unconditional claim that one AI method always wins. The strongest practical lesson is to combine fast feedback, clear specifications and independently verified behavior.
 
@@ -97,7 +99,7 @@ Condition A developed through iterative requests and inspection of a deployed in
 
 The genuine Vibe log documents several user-discovered corrections: a deployment tried to build the coordinating `main` branch before application code was available; audio needed a better voice-loading fallback; switching CEFR difficulty initially reset the selected verb; and Google sign-in required external Google/Supabase provider configuration. These were implementation and deployment feedback loops, not invented examples added after the fact.
 
-The public classroom pilot was placed at **https://nordljud.vercel.app**. The student reported the website and configured Google login worked, but this is not an assertion that all F01–F14 tests were completed.
+The public classroom pilot was placed at **https://nordljud.vercel.app**. I reported that the website and configured Google login worked, but this is not an assertion that I completed all F01–F14 tests.
 
 ### 3.2 What the independent verification showed
 
@@ -135,11 +137,11 @@ This sequence was verifiable through Git commits. The explicit ambiguity resolut
 
 ### 4.3 Important first-release failures — not a perfect initial delivery
 
-**Failure 1: Login discoverability.** The original SDD code contained Google/email sign-in handlers and a form, but the account panel was hidden under **My Learning**, with no clear Sign in action on the landing screen. The original requirements specified *having* login but not *finding* it. After the student noticed the issue, `FR-021` was added as a dated change. Real Chromium tests failed **2/2 before the fix** ([RED run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433)) and passed **3/3 afterward** ([GREEN run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037)), including desktop, narrow-mobile and preserved My Learning access.
+**Failure 1: Login discoverability.** The original SDD code contained Google/email sign-in handlers and a form, but the account panel was hidden under **My Learning**, with no clear Sign in action on the landing screen. The original requirements specified *having* login but not *finding* it. After I noticed and reported the issue, `FR-021` was added as a dated change. Real Chromium tests failed **2/2 before the fix** ([RED run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433)) and passed **3/3 afterward** ([GREEN run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037)), including desktop, narrow-mobile and preserved My Learning access.
 
-**Failure 2: Google OAuth returned to localhost.** Clicking Google showed the account chooser, but selecting an account initially redirected to `localhost:3000` instead of the Vercel app. The source already supplied a hosted-origin `redirectTo`. Supabase's documentation identifies a missing allowed Redirect URL as a leading explanation for fallback to the configured Site URL. The student later confirmed that real Google sign-in worked after receiving redirect-allowlist guidance. The Supabase dashboard's exact URL configuration was not independently captured, so this is the most likely cause, not a forensic proof of the setting that changed.
+**Failure 2: Google OAuth returned to localhost.** Clicking Google showed the account chooser, but selecting an account initially redirected to `localhost:3000` instead of the Vercel app. The source already supplied a hosted-origin `redirectTo`. Supabase's documentation identifies a missing allowed Redirect URL as a leading explanation for fallback to the configured Site URL. I later confirmed that real Google sign-in worked after receiving redirect-allowlist guidance. The Supabase dashboard's exact URL configuration was not independently captured, so this is the most likely cause, not a forensic proof of the setting that changed.
 
-The student subsequently confirmed that saved information survived sign-out and re-login. In response to an explicit two-account isolation scenario, the student reported the check worked very well. That is **student-reported acceptance**, not an independent simulated RLS attack or an account-data screenshot.
+I subsequently confirmed that saved information survived sign-out and re-login. After being asked to try a two-account isolation scenario, I reported that the test worked very well. These are **my reported manual acceptance results**, not independently recorded adversarial RLS tests or account-data screenshots.
 
 ### 4.4 Outcome and lesson from the method
 
@@ -161,9 +163,9 @@ The coordinating workflow [38483644760](https://github.com/alikhalessi/nordljud-
 | Guest Chromium A2/B1/B2/C1 mission navigation | PASS | PASS | PASS |
 | Guest Chromium selecting both `sticka` senses | **FAIL** | PASS | PASS |
 | Clear Sign in entry on initial screen | Code present; not independently rechecked | Code present; not independently rechecked | Initially FAIL; after correction **3/3 browser checks PASS** |
-| Google OAuth sign-in on each deployment | Student reported working | NOT VERIFIED | Student reported working after repair |
-| Same-user saved data after sign-out/re-login | NOT VERIFIED in a specific test | NOT VERIFIED | PASS, student-reported aggregate data |
-| Two-user account separation | NOT VERIFIED | NOT VERIFIED | PASS, student-reported; database RLS independently reviewed |
+| Google OAuth sign-in on each deployment | PASS (my manual report) | NOT VERIFIED | PASS (my manual report after repair) |
+| Same-user saved data after sign-out/re-login | NOT VERIFIED in a specific test | NOT VERIFIED | PASS (my manual report, aggregate data) |
+| Two-user account separation | NOT VERIFIED | NOT VERIFIED | PASS (my reported two-account check); database RLS independently reviewed |
 
 Guest-browser evidence: [run 38484033148](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484033148) and [repeat run 38484229887](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484229887). The repeated run reproduced Vibe's **1/2** result and God Mode/SDD's **2/2** results.
 
@@ -171,7 +173,7 @@ The tests use different method-specific selectors but the same two behaviors: ch
 
 ### 5.2 What remains incomplete
 
-The separate [F01–F14 acceptance matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) distinguishes **PASS**, **PARTIAL**, **FAIL** and **NOT TESTED**. In particular, email/password registration and invalid credentials, actual speech playback in all three browsers, both exercise feedback routes, exact partial/full mission-state retention, comprehensive mobile workflows and screenshot evidence have not been independently established for each condition. A student's general report that a page works is valuable, but it should not silently mark all those cases PASS.
+The separate [F01–F14 acceptance matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) distinguishes **PASS**, **PARTIAL**, **FAIL** and **NOT TESTED**. In particular, email/password registration and invalid credentials, actual speech playback in all three browsers, both exercise feedback routes, exact partial/full mission-state retention, comprehensive mobile workflows and screenshot evidence have not been independently established for each condition. My general report that a page works is useful evidence, but it should not silently mark all those cases PASS.
 
 No fake screenshots, Google credentials, authorization codes or user IDs were created or placed in source control. Supabase RLS policy inspection was read-only and returned only policy definitions, not users' learning records.
 
@@ -187,7 +189,21 @@ Three differences are especially revealing:
 
 The source repository is [alikhalessi/nordljud-software-construction](https://github.com/alikhalessi/nordljud-software-construction). Its default `main` branch stores coordination, frozen common content, independent evaluator workflows and the report. Three self-contained implementation roots live on `condition/vibe`, `condition/god-mode` and `condition/spec-driven`. The numbered `01-vibe-coding` / `02-god-mode` / `03-spec-driven` directories on main link to these branches rather than containing merged competing app roots.
 
-I supplied the initial educational objective, recovered source input and scope changes, reviewed user-visible outcomes, configured external Google/Supabase authentication when necessary, and reported live defects. The assistant generated most implementation code, AI prompts, source tests, CI definitions, technical documents and this evidence-based draft. The exact division of effort should be checked against submission policy and actual student actions.
+### 6.1 Individual project and contribution record
+
+I, **Ali Khalessi**, am the **only student** working on this Nordljud project. There are **no other student team members**. My GitHub username for this repository is `alikhalessi`. The three development *conditions* (Vibe Coding, God Mode and SDD) are three software implementations—not three people or student teams.
+
+| Participant | Role | Documented contribution |
+|---|---|---|
+| **Ali Khalessi (one student)** | Project owner, requirements owner, human reviewer and tester | Chose the Swedish-learning use case and common materials; requested changes and decided scope; evaluated screens and live behavior; configured Google/Supabase integrations; reported and manually retested defects, login, data retention and two-account behavior; coordinated the university experiment |
+| **ChatGPT (AI development assistant; not a student)** | AI-assisted implementation and documentation | Generated substantial application code, tests, CI workflows, architectural/specification artifacts, technical logs and report drafts under my direction; assisted with GitHub/Vercel/Supabase operations |
+| **GitHub Actions automation (not a student)** | Automated checks and commits | Ran CI/Chromium checks and generated automated project artifacts; any bot-authored commits are automation activity rather than another team member's coursework |
+
+**Individual-submission approval is not evidenced here.** If the course formally requires three students, I need the instructor's written acceptance of an individual submission (or an approved alternative). I do not present ChatGPT or a GitHub bot as a student teammate. This section describes confirmed project participation, not an invented team-work history.
+
+### 6.2 Human–AI division of work
+
+I supplied the learning goal and source materials, set priorities, reviewed visible outcomes, handled external account configuration where needed, and reported/retested defects. ChatGPT generated much of the implementation, prompts, source tests, CI definitions, technical documents and this report draft. Some Git commits are attributed to my connected GitHub account even when the file content was prepared using AI tools; **Git commit authorship alone is not proof that code was manually typed by me**. Exact prompts and AI assistance must still be disclosed in the final submission under the course policy.
 
 Important recorded engineering disruptions include a wrong-target Vercel build, daily Vercel API deployment quota, accidental extra deployments from multiple projects connected to one repository, Google redirect allowlisting, failed unique-lemma assertions, and missing login discoverability. They were **not** erased from Git history.
 
@@ -257,7 +273,7 @@ The authoritative evidence is the Git history, experiment files, CI logs and exp
 
 ## Submission review checklist (not evidence of a completed test)
 
-- [ ] The student confirms first-person wording and official team/member details.
+- [x] Project participant identity confirmed: Ali Khalessi is the sole student; no student collaborators. Individual-submission approval (if required by the course) is **not yet verified**.
 - [ ] Final official Moodle rubric, deadline and AI-use disclosure requirements are checked against the live course page; the project currently has only the student-supplied rubric mapping.
 - [ ] Insert genuine screenshots of the three UIs and at least one failing-to-passing test sequence, with all account details blurred.
 - [ ] Keep F01–F14 entries NOT TESTED where no actual run was performed. Decide with the instructor whether remaining user-authenticated tests are mandatory.
