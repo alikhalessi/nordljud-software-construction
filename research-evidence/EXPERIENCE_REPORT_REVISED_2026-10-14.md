@@ -126,7 +126,7 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 
 **AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
-**Development environment record:** GitHub-hosted **Ubuntu** runners using **Node 22** and Playwright/Chromium executed reproducible checks. My initial Vibe browser/audio observations used desktop **Chrome on Windows**, as the log records. I did not retain a reliable record of the exact local IDE/editor version used for each condition, so I cannot attribute the whole experiment to one particular editor. Vercel/Supabase configuration was administered through connected services and their dashboards.
+**Development environment record:** The implementation was primarily **AI-to-GitHub**: ChatGPT prepared and committed source, specifications and fixes through its GitHub connection, rather than relying on a documented local IDE development cycle. GitHub Actions on **Ubuntu / Node 22** ran the code checks, and Playwright/Chromium ran browser tests. My manual Vibe browser/audio feedback came from **Chrome on Windows**. Vercel and Supabase were handled through connected services and their dashboards. Neither the per-file Git commits nor this workflow prove that a local editor was *never* opened; I have no versioned record of one to claim.
 
 ### 2.5 Interface & API Specifications
 
@@ -293,9 +293,13 @@ This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](ht
 | Deployment/auth | Vercel + Supabase browser-safe public credentials, dashboard-controlled Google OAuth redirects. | External service configuration caused observable integration errors. |
 | AI development interface | **OpenAI ChatGPT, GPT-6, High thinking effort** (student-confirmed configuration), using GitHub/Vercel/Supabase connector actions. | Code, tests, architectural artifacts and documentation drafted with an AI assistant under my direction. |
 | Exact ChatGPT model variant | **GPT-6 with High thinking effort — confirmed by me on 14 October 2026.** | The identification is based on my retrospective confirmation; an independently timestamped model-picker record for each A/B/C session is **not** available. High is a thinking-effort setting, not a separate model. |
-| Local IDE/editor version | **I have no contemporaneous record of one exact IDE/version across these runs.** | I cannot responsibly name an editor for every condition. |
+| Editing and commit workflow | **ChatGPT wrote/updated application and documentation files through its connected GitHub tools, in per-file commits.** The repo does not include evidence of a conventional local editor being used for those recorded changes. | The source/commit trail establishes direct remote edits; it does **not** prove that I never opened any local editor during the entire study, so I do not invent a local IDE name/version. |
 
 ### 4.3 Actual SDD workflow and review gates
+
+**Privacy and compliance boundary:** Nordljud processes account identifiers through Supabase Auth and learning progress/favorites in the `public.learner_states` table. Authenticated read/write policies were checked to require matching `auth.uid()=user_id` with PostgreSQL row-level security. This supports a privacy-by-design implementation, **not a declaration of GDPR compliance**. I did not conduct a formal GDPR impact assessment, verify all retention/deletion processes, document a complete controller/processor arrangement or audit international data transfers. Those remain distinct obligations before a real public deployment.
+
+
 
 | Step | File(s) committed to `condition/spec-driven` | What was established | Observed boundary |
 |---|---|---|---|
@@ -366,6 +370,17 @@ The expectation was successful Google callback to the Vercel origin. The result 
 ## 5. Verification and Validation (6 marks)
 
 ### 5.1 V&V Strategy
+
+I used several complementary verification methods, rather than one broad claim that “testing passed”:
+
+| Verification approach | Actual activity and evidence | Important limit |
+|---|---|---|
+| **Unit/source invariant testing** | Node's built-in test runner checked JSON source counts, mission seeds, verb identity, missing content and level consistency in the three original app branches. | Test counts and assertions differ by method; not complete unit or code coverage. |
+| **Functional integration/UI testing** | The common Playwright/Chromium evaluator exercised four-level missions, separate `sticka` meanings and guest A2 completion after browser reload on each unchanged branch. | Three specific guest workflows, not comprehensive OAuth or mobile acceptance. |
+| **Requirements verification** | The preregistered `F01–F14` checklist and later `G01–G05` additions classified claims as PASS, PARTIAL, FAIL or NOT TESTED with evidence and source SHA. | Implemented code alone was not marked as a verified user path. |
+| **User acceptance** | I manually tried browser voice and hosted Google OAuth, and reported successful SDD re-login/data retention and a two-account separation scenario. | These reports were not a full independent security or cross-browser audit. |
+| **Test-first defect correction** | For SDD's visible-login requirement FR-021, Playwright first reproduced the original failure (**RED 0/2**); a code change then produced **GREEN 3/3** in the updated suite. | This was a **post-release corrective** test-first cycle, not proof the entire app followed TDD from its first commit. |
+| **Compliance/security review** | Checked browser-safe Supabase keys and read-only RLS policy design; included data-isolation concerns in requirements and user acceptance. | No completed GDPR assessment, penetration test, whole-history secret scan or formal security certification. |
 
 The shared evaluator in `main:evaluation/TEST_PLAN.md` defined `F01–F14` before method-specific implementation. Additional scenarios `G01–G05` were documented when requirements expanded during A; applying new criteria later makes this an experience report rather than a perfectly controlled experiment.
 
@@ -444,7 +459,7 @@ The issues below are **actual observed technical findings**, not GitHub Issues t
 | CA-09 — C | Hosted Google OAuth displayed accounts but returned to `localhost:3000` after account selection. | Supabase Redirect URLs guidance; no unnecessary change to shared Site URL; exact admin values not independently captured. | I later confirmed successful Google sign-in and retained data after re-login; root cause strongly suspected but not forensically proven. | Me, testing live OAuth |
 | CA-10 — C / infrastructure | Vercel free-plan API deployment quota temporarily blocked new C publication. | Retried after quota availability; separate SDD deployment reached READY. | Historical HTTP 402 retained in convergence log; later actual deployed build/CI and my manual check. | Vercel API |
 
-**Security code audit scope:** The client implementations use publishable Supabase environment variables; a read-only SQL check confirmed `public.learner_states` RLS is enabled and policies for authenticated read/insert/update/delete require `auth.uid()=user_id`. This is **not** proof that a complete repository-history secret scan or penetration test was performed. Neither a developer's Git commit nor a red/green UI test demonstrates encryption, legal privacy compliance or exhaustive security.
+**Security and GDPR review boundary:** The client implementations use publishable Supabase environment variables, and a read-only inspection of `public.learner_states` confirmed RLS policies requiring the authenticated `auth.uid()=user_id` for read, insert, update and delete. Supabase Auth handles identity/account data, while the learner-state table stores user-specific progress/favorites. This is an **implementation-level safeguard**, not proof of GDPR compliance. I did not perform a full historical secret scan, penetration test, formal data protection impact assessment, retention/deletion audit, or review of all controller/processor obligations.
 
 ### 5.3 Test Execution Results
 
@@ -462,7 +477,7 @@ I checked the test files and original CI job logs rather than treating an overal
 
 These are **27 test executions**, not 27 independently covered requirements. Source tests differ across methods and overlap some guest behaviors; test coverage percentages have **not** been measured. The TypeScript and production-build gates add **six separately successful stages** (two for each method), not six more unit tests.
 
-**Historical SDD login discoverability regression — separate from the 27:** in [run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433), the unchanged first-release UI failed both new visibility checks (**0/2 PASS, RED**). After the post-release FR-021 amendment and UI correction, [run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037) passed an expanded **3/3 GREEN** suite. These runs show a real repair but are not equivalent to three shared A/B/C test cases. Combining those histories with later runs into one unexplained “36 checks” total would double-count or mix unlike tests.
+**Historical SDD login discoverability regression — separate from the 27:** in [run 38376988433](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433), the unchanged first-release UI failed both new visibility checks (**0/2 PASS, RED**). After the post-release FR-021 amendment and UI correction, [run 38377362037](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037) passed an expanded **3/3 GREEN** suite. These runs show a real repair but are not equivalent to three shared A/B/C test cases; I therefore report them separately.
 
 **Expected versus actual external behavior:** I expected Google OAuth to return to each hosted app. In SDD, Google account selection initially ended at `localhost:3000` (FAIL in my live trial), but I subsequently reported a successful hosted login and restored data after re-login. I also reported success on a two-account scenario. God Mode's separate hosted Google flow has not been confirmed; invalid email/password cases and adversarial cross-account API checks remain untested.
 
@@ -548,7 +563,7 @@ The practical result is not “method C wins” or “method B replaces formal r
 
 **Consistency and ambiguous domain concepts.** Two senses of the Swedish verb `sticka` are separate records but share the same spelling. A false assumption about “456 unique verbs” broke source tests, and a spelling-only key later broke the Vibe UI. God Mode also made the wrong first assumption before fixing it. SDD clarified the distinction earlier, partly because the agent already knew the earlier error.
 
-**Infrastructure dependencies.** Vercel branch/project configuration, a deployment quota, browser Swedish voice availability, Supabase RLS and Google OAuth redirect allowlists were not controlled by the Next.js build. The SDD page could compile and even show Google's account chooser while still returning me to `localhost:3000`. I learned to treat external services as first-class acceptance risks.
+**Infrastructure and dependency reproducibility.** Vercel branch/project configuration, a deployment quota, browser Swedish voice availability, Supabase RLS and Google OAuth redirect allowlists were not controlled by the Next.js build. The SDD page could compile and even show Google's account chooser while still returning me to `localhost:3000`. I learned to treat external services as first-class acceptance risks. None of the three implementation branches has a committed dependency lockfile (`package-lock.json`, `yarn.lock` or `pnpm-lock.yaml`); their `package.json` files use caret semver ranges and the comparison workflow calls `npm install`. Therefore later installations can resolve different exact dependency versions, limiting byte-for-byte reproducibility. I can preserve the original snapshots and report this rather than adding lockfiles retroactively to the frozen experiment.
 
 **Drifting from the actual user experience.** C's original FR-012/FR-013 required authentication functions but omitted an explicit initial-screen Sign in affordance. Only after my browser feedback did the agent define FR-021, run RED tests, fix the UI and get GREEN results. Writing requirements is different from validating that the complete learner journey is usable.
 
