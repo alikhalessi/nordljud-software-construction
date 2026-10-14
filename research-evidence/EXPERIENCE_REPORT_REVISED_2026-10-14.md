@@ -306,39 +306,69 @@ The expectation was successful Google callback to the Vercel origin. The result 
 
 ## 5. Verification and Validation (6 marks)
 
-### 5.1 Actual repeatable A/B/C audit
+### 5.1 Verification framework, coverage and actual test results
 
-The coordinating workflow [38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760) checked out the three original method branches independently. Its source-test stage continued even after a failure so later type/build outcomes could be observed. This does **not** turn failed Vibe tests into a PASS.
+The shared evaluator in `main:evaluation/TEST_PLAN.md` defined `F01–F14` before method-specific implementation. Additional scenarios `G01–G05` were documented when requirements expanded during A; applying new criteria later makes this an experience report rather than a perfectly controlled experiment.
 
-| Verification evidence | A — Vibe | B — God Mode | C — SDD |
+**Automated code and build audit:** [Actions 38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760) checked out each unchanged branch and ran source tests, TypeScript and production build independently. A failed source test did **not** stop later checks, so the overall green workflow badge is **not equivalent to all source tests passing**.
+
+| Source / build measurement | A: Vibe | B: God Mode | C: SDD |
 |---|---|---|---|
-| Source-data tests | **7/11 PASS; 4 FAIL** | **3/3 PASS** | **4/4 PASS** |
-| TypeScript | PASS | PASS | PASS |
-| Production compilation | PASS | PASS | PASS |
-| Guest Chromium A2/B1/B2/C1 mission navigation | PASS | PASS | PASS |
-| Guest Chromium selecting both `sticka` senses | **FAIL** | PASS | PASS |
-| Clear Sign in entry on initial screen | Code present; not independently rechecked | Code present; not independently rechecked | Initially FAIL; after correction **3/3 browser checks PASS** |
-| Google OAuth sign-in on each deployment | PASS (my manual report) | NOT VERIFIED | PASS (my manual report after repair) |
-| Same-user saved data after sign-out/re-login | NOT VERIFIED in a specific test | NOT VERIFIED | PASS (my manual report, aggregate data) |
-| Two-user account separation | NOT VERIFIED | NOT VERIFIED | PASS (my reported two-account check); database RLS independently reviewed |
+| Per-method original source tests | **7/11 PASS; 4 FAIL** (wrong unique spelling assumption) | **3/3 PASS** after earlier CI correction | **4/4 PASS** |
+| Strict TypeScript check | PASS | PASS | PASS |
+| Next.js production build | PASS | PASS | PASS |
 
-Guest-browser evidence: [run 38484033148](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484033148) and [repeat run 38484229887](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38484229887). The repeated run reproduced Vibe's **1/2** result and God Mode/SDD's **2/2** results.
+**Independent black-box UI checks:** [Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) executed the *same guest-only Playwright Chromium scenarios* against the three unchanged app roots, with independent selectors but equivalent expected user behavior:
 
-The tests use different method-specific selectors but the same two behaviors: choose four mission levels with target Swedish verbs, and select two distinct meanings of `sticka`. They run the apps locally as guests. **They do not test remote Google grants, actual speech voices, password confirmation, multi-device data synchronization or an API-level security attack.**
+| Chromium scenario | Vibe | God Mode | SDD |
+|---|---|---|---|
+| Four CEFR mission selections, target words and a visible Swedish example | PASS | PASS | PASS |
+| Select both meanings of `sticka` and show the matching meaning in detail pane | **FAIL**: second sense still displayed “knit” | PASS | PASS |
+| Complete both A2 exercise groups and retain guest completion after browser refresh | PASS | PASS | PASS |
+| **Same three guest UI tests** | **2/3** | **3/3** | **3/3** |
 
-### 5.2 What remains incomplete
+This is evidence for **these three exact guest cases**, not a 66.7% versus 100% total application quality score. CI counts also differ (A eleven source assertions, B three, C four), so percentages should not be compared as if coverage were identical.
 
-The separate [F01–F14 acceptance matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) distinguishes **PASS**, **PARTIAL**, **FAIL** and **NOT TESTED**. In particular, email/password registration and invalid credentials, actual speech playback in all three browsers, both exercise feedback routes, exact partial/full mission-state retention, comprehensive mobile workflows and screenshot evidence have not been independently established for each condition. My general report that a page works is useful evidence, but it should not silently mark all those cases PASS.
+**User and provider acceptance:**
 
-No fake screenshots, Google credentials, authorization codes or user IDs were created or placed in source control. Supabase RLS policy inspection was read-only and returned only policy definitions, not users' learning records.
+| Scenario | A: Vibe | B: God Mode | C: SDD |
+|---|---|---|---|
+| Real hosted Google sign-in | I reported it working | NOT VERIFIED separately | I reported successful sign-in **after** a documented localhost redirect failure |
+| Restored account data after sign-out/re-login | NOT VERIFIED in a complete scenario | NOT VERIFIED | PASS by my manual observation (exact saved flags not documented) |
+| Isolation of two different logged-in users | NOT VERIFIED | NOT VERIFIED | PASS in my reported two-account scenario; no adversarial API test |
+| Discoverable Sign in in desktop/mobile browser | Not independently tested in this comparison | Not independently tested | Initial **RED 2/2 FAIL**; after FR-021 **GREEN 3/3 PASS** |
 
-### 5.3 Why the failures matter
+The [complete evidence-graded F01–F14 matrix](../evaluation/COMPARATIVE_ACCEPTANCE_MATRIX_2026-10-14.md) separates PASS, PARTIAL, FAIL and NOT TESTED. Some user paths remain unverified: new email/password registration with invalid credentials, full wrong-answer UX in all three methods, multi-device performance, real voice playback on all operating systems and some mobile interactions.
 
-Three differences are especially revealing:
+**Visual evidence:** [Actions 38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386) contains authentic guest-browser screenshots: first A2 screen, the selected second `sticka` sense and completed A2 exercises, with no personal account details. The image binaries currently reside in temporary CI artifacts, **not as permanently embedded figures in this report**. They must be downloaded/archived and inserted into the PDF/Word version before submission; do not claim the image attachments have already been committed.
 
-1. **Incorrect specification of uniqueness:** both A and the original B test assumed 456 unique spellings, while C explicitly separated records from lemmas.
-2. **Actual UI consequence:** Vibe's spelling-only selection also conflated the two `sticka` meanings; B fixed this after CI feedback; C modeled sense identity before source implementation.
-3. **Integration acceptance gap:** C still failed human login discovery and real OAuth on its initial release, showing that written traceability and build green status do not substitute for meaningful stakeholder acceptance.
+### 5.2 Code audit and Issue/Resolution log
+
+The issues below are **actual observed technical findings**, not GitHub Issues that did not exist historically. Each line distinguishes the **failure**, the **fix or deliberate preservation**, and the **verification evidence**. Original unsuccessful tests remain in the audit trail.
+
+| ID / condition | Actual issue and finding | Resolution, commit or action | Test evidence / current status |
+|---|---|---|---|
+| CA-01 — A | Four source tests assumed 456 unique written lemmas; input contains 456 **sense entries** but 455 distinct spellings. | The initial Vibe experimental snapshot was **not silently repaired**; test error preserved for comparison. | **4/11 FAIL** in independent source audit [38483644760](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38483644760); Next build still PASS. |
+| CA-02 — A | `selectedVerb`, React keys and favorites used only `entry.v`. Both `sticka` rows therefore resolved to the same knitting detail. | Defect analyzed and frozen as original A outcome; proposed future maintenance must be separated from experiment. | Guest Chromium selected second “sting” entry but received “knit”: [38485026386](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38485026386). |
+| CA-03 — A | Changing the CEFR difficulty unexpectedly reset the selected verb to `arbeta`. | Removed forced `setSelectedVerb("arbeta")` and retained search/selection context; commit `59f38f0e2`. | Code correction and logged user observation; full multi-browser regression not separately proven. |
+| CA-04 — A | Client explorer initially imported form types from a module that also imported all four large datasets, risking a larger initial JS bundle. | Split lightweight `lib/verb-types.ts` from server-only `lib/verb-library.ts`. | Architecture correction recorded in `01-vibe-coding/vibe-log.md`; **bundle size before/after not measured**, so no claimed speedup. |
+| CA-05 — A | Swedish playback initially produced an audible-output error in desktop Chrome. | Added delayed `voiceschanged` handling and clearer missing-voice/error status; commit `17e32e666`. | Logged browser failure; later user reported speech working. |
+| CA-06 — B | Autonomous original test incorrectly asserted 456 unique written lemmas. Source test stopped CI early. | Corrected to assert 456 records/455 spellings and checked both `sticka` meanings; commit `ea6a6aef3`. | Initial [God Mode CI 38317088266 FAIL](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38317088266); later [38319216764 PASS](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319216764). |
+| CA-07 — B | God Mode's original selection and favorites also used spelling-only identity. | Introduced composite identity `v + "::" + meaning`; commit `113973d7f`. | Independent guest Chromium now selects both `sticka` senses successfully. |
+| CA-08 — C | Specification required authentication, but did **not** require a findable login action on the homepage. | Dated post-release FR-021 and T021–T023; header Sign in; Playwright acceptance added **before** UI fix. | Original browser [38376988433 RED 2/2](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38376988433) → fixed [38377362037 GREEN 3/3](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037). |
+| CA-09 — C | Hosted Google OAuth displayed accounts but returned to `localhost:3000` after account selection. | Supabase Redirect URLs guidance; no unnecessary change to shared Site URL; exact admin values not independently captured. | I later confirmed successful Google sign-in and retained data after re-login; root cause strongly suspected but not forensically proven. |
+| CA-10 — C / infrastructure | Vercel free-plan API deployment quota temporarily blocked new C publication. | Retried after quota availability; separate SDD deployment reached READY. | Historical HTTP 402 retained in convergence log; later actual deployed build/CI and my manual check. |
+
+**Security code audit scope:** The client implementations use publishable Supabase environment variables; a read-only SQL check confirmed `public.learner_states` RLS is enabled and policies for authenticated read/insert/update/delete require `auth.uid()=user_id`. This is **not** proof that a complete repository-history secret scan or penetration test was performed. Neither a developer's Git commit nor a red/green UI test demonstrates encryption, legal privacy compliance or exhaustive security.
+
+### 5.3 Evaluation, limitations and validation lessons
+
+The strongest observed distinction is **the meaning of “a verb”**: original A and initial B treated it as a spelling; C defined a *sense*. A's UI failure and B's recovery were independently reproduced. This illustrates how clarifying identity constraints early may prevent both defective tests and defective UI selection logic—but C had knowledge carryover from earlier conditions.
+
+A second distinction is **integration testing**. C had formal requirements, a successful build and a functioning Google button, yet real user acceptance failed twice: missing discoverable entry and incorrect hosted OAuth return. Neither flaw was exposed by source-count tests. Only explicit browser/user checks demonstrated the missing behavior, triggering dated requirement amendments and corrective work.
+
+No single score for overall code quality, measured programming speed, maintainability or pedagogical effectiveness can be inferred from this one project. The evaluator covers a **narrow, documented subset** and evidence classifications must remain as in the shared matrix.
+
 
 ## 6. Project Management, AI Toolchains and Git (3 marks)
 
