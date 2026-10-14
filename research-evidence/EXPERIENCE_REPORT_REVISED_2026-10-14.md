@@ -120,6 +120,9 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 | **Vercel** | Independent projects for each method. | Preview/production web deployment; caused actual Git-branch target, quota and provider-host issues. |
 | **GitHub Spec Kit CLI** | **v1.1.3**, executed and committed in C. | A visible template/process for constitution → spec → clarify → plan → tasks → analyze → implement. |
 | **ChatGPT (OpenAI)** | **GPT-6, High thinking effort**, confirmed by me on 14 October 2026; connected GitHub, Vercel and Supabase tools. The per-run model picker was **not independently archived**. | Generated substantial code, draft prompts/agent instructions, tests, workflow artifacts and documentation under my product direction. |
+| **Claude (Anthropic)** | External reviewer of the academic report and GitHub evidence during post-implementation revision; its exact model/configuration is not archived here. | Critiqued report completeness, assignment-template alignment and evidence provenance. I compared its suggestions with the actual repo and logs; Claude was **not** one of the three implementation conditions. |
+
+**AI review disclosure:** I also used Claude to critique the report after the three implementation conditions were completed. ChatGPT assisted with subsequent revisions, and I checked the criticisms against my project evidence instead of treating either assistant as the course assessor.
 
 **AI/Copilot distinction:** The Spec Kit CLI was initialized with `--integration copilot`, which creates compatible *templates/skills*. **This does not mean GitHub Copilot itself performed the coding**, nor that all `/speckit-*` commands were executed by a Copilot agent. Documentation was generated through ChatGPT-assisted stages. The GPT-6 / High identification comes from my explicit retrospective confirmation, **not** a contemporaneous model-picker audit for each past prompt.
 
@@ -139,9 +142,9 @@ flowchart LR
   UI --> L[Guest localStorage]
 ```
 
-The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; I separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
+The same frozen four-level content is used by all conditions; code is independent. The level-specific API avoids shipping every record in the initial browser bundle. In A, the first explorer module accidentally imported helper types from a module that also imported all source JSON files; a ChatGPT-assisted code revision separated lightweight `lib/verb-types.ts` from server-side `lib/verb-library.ts`. This is an observed architectural correction, **not** a measured JavaScript-size benchmark.
 
-For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. Diagram source is preserved in the C `plan.md`; a PDF/Word submission needs a rendered image.
+For signed-in accounts, each condition uses a distinct JSONB namespace in the existing `learner_states` table (e.g. C: `nordljud_sdd_v1`), rather than replacing other experiments' saved state. For guests, browser local storage retains progress locally; it is not silently merged into a newly authenticated account. The diagram source is preserved in C's `plan.md`; I will present it as a readable rendered figure in the submitted report.
 
 **External interface and API contract.** I distinguish the public teaching-content endpoint from authenticated per-user storage:
 
@@ -464,6 +467,8 @@ In this one study, specification helped make a sense-identity requirement explic
 
 **How my responsibilities shifted.** In A I mainly described visible functions, tested the page and requested corrections. In C I increasingly acted as product owner, spec reviewer and acceptance auditor: I set priorities, required traceability, examined ambiguous decisions, tested the real learner journey and reported errors. ChatGPT generated substantial code and engineering documentation; my contribution was directing and critically verifying that work, not pretending I manually authored every commit.
 
+**AI-assisted report review.** After the original A/B/C implementations, I used Claude to critique my academic report's evidence and alignment with the assignment. I evaluated the suggestions, then used ChatGPT to revise the report; this was not part of the coding experiment itself.
+
 **Prompt integration.** Only verified real prompt texts are included or linked. The [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) separates verbatim messages I wrote, the stored assistant-drafted God Mode master input, translations/after-the-fact logs and missing original messages. Prompt text is not inferred from commit titles. The SDD `.specify` scaffold was installed using the official CLI; initial `--integration copilot` did not itself execute every Copilot slash command.
 
 **Exact, observable Git timeline (UTC):**
@@ -490,7 +495,7 @@ In this one study, specification helped make a sense-identity requirement explic
 
 **Issues/PRs, with dates:** During the original A/B/C development, the repo used **direct branch commits and Markdown defect logs**, not a GitHub Issue/PR review workflow. On my 14 October review, the repository initially had **0 Issues and 0 PRs**. I subsequently opened two **genuine prospective** tickets: [Issue #1 — post-experiment Vibe homograph maintenance](https://github.com/alikhalessi/nordljud-software-construction/issues/1) and [Issue #2 — God Mode hosted OAuth/two-account acceptance](https://github.com/alikhalessi/nordljud-software-construction/issues/2). These tickets were created **after** the experiment and are not falsely counted as historical teamwork or planning. **No Pull Requests were used during the original A/B/C implementation.** Any later report-review PR belongs to the post-experiment evidence-improvement stage, not the historical coding workflow. The §5.2 Issue/Resolution log describes observed engineering issues, not past issue-thread discussions.
 
-**Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I do not assume a teacher can open protected links without access or change the repository to Public without consent.
+**Repository access constraint:** The repo is **private**. Access for the course grader must be explicitly arranged and verified; the administrative checklist is tracked separately in [submission readiness](./SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md). I will give the instructor access to this private repository and verify that the code, history and linked CI results can actually be opened.
 
 ### 6.2 Team Contribution Breakdown — individual student project
 
