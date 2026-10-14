@@ -540,7 +540,7 @@ I, **Ali Khalessi**, am the sole student in this project; there are **no student
 | **ChatGPT (OpenAI)** | Assisted with extensive coding, engineering artifacts, prompt drafting, CI, GitHub/Vercel/Supabase workflows, tests, debugging and this report. Model identified by me retrospectively as **GPT-6, High thinking effort**; per-run model-picker proof not archived. |
 | **GitHub Actions bot and CI runners** | Committed generated Spec Kit scaffolding and executed reproducible automated checks; not classmates and not academic coauthors. |
 
-**Administrative status:** I confirmed on 14 October 2026 that my individual project submission has already been approved. The original instructor approval date, approval message and modality have not been supplied for independent verification, so I do not invent them. My student ID will be added before final submission. I will separately grant the grader access to this private repository and verify that the link works.
+**Administrative status:** I confirmed on 14 October 2026 that my individual project submission had already been approved. My confirmation is recorded; the instructor's original approval date or message is not attached, so I do not invent either. My student ID will be inserted before submission, and I will grant and verify the instructor's access to the private GitHub repo. This updated status is recorded in [the 14 October administrative update](./ADMIN_STATUS_UPDATE_2026-10-14.md), which supersedes outdated open-approval notes in the earlier checklist.
 
 
 ## 7. Reflections and a Reusable Process (5 marks)
