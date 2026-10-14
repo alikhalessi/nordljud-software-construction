@@ -8,6 +8,7 @@
 
 **Team Details (individual project):** Ali Khalessi — Student ID: **pending confirmation** — Role: sole student, product owner, requirements decisions, human acceptance and academic submission — Student participation: **100%**. I have confirmed that this individual submission has already been approved; the approval date and written record have not been supplied for independent documentation. This participation percentage does not imply personally typing all AI-generated code.  
 **Study design:** Three AI-assisted construction approaches sharing frozen educational input; independent application code in separate Git branches.  
+**Course report instructions:** The previously supplied Moodle template is preserved as [Course Report Template (user-supplied original text)](./COURSE_REPORT_TEMPLATE_USER_SUPPLIED_2026-08-31.md), including its requirements for sections 1–7. The preserved copy has flattened Moodle table formatting and is not an independent live Moodle fetch.  
 
 ## Executive Summary (200–300 words)
 
@@ -49,7 +50,7 @@ The clarify stage distinguished 456 sense records from 455 uniquely spelled verb
 
 ## 2. Requirements and System Specification (6 marks)
 
-### 2.1 Stakeholders and their rationale
+### 2.1 Stakeholders
 
 | Stakeholder | Relevance to Nordljud | Evidence or boundary |
 |---|---|---|
@@ -61,7 +62,7 @@ The clarify stage distinguished 456 sense records from 455 uniquely spelled verb
 
 These are stakeholder **roles relevant to requirements**, not five interviewed or actively participating people. I did not carry out a formal stakeholder interview study.
 
-### 2.2 Functional requirements — original specification and dated amendment
+### 2.2 Functional Requirements
 
 The following requirements reproduce the numbering and wording of the **actual SDD source specification**, rather than inventing a new list after implementation. `FR-001`–`FR-020` were recorded before application source. **FR-021 was added after the first SDD release**, in response to my observation that login was hidden under My Learning; it must not be counted as pre-code foresight.
 
@@ -91,7 +92,7 @@ The following requirements reproduce the numbering and wording of the **actual S
 
 **Priorities and traceability:** User Stories 1–2 (missions and verb explorer) are P1; Stories 3–4 (accounts and personal storage) are P2 in the original spec. Given/When/Then criteria and edge cases are in the preserved source specification. The defect-triggered **FR-021** adds the P1 discoverability check and links to Playwright RED/GREEN evidence. The common evaluation cases `F01–F14` were written before implementations; the expanded `G01–G05` checks were recorded separately to avoid rewriting the baseline after A began.
 
-### 2.3 Non-functional requirements and measurable acceptance
+### 2.3 Non-Functional Requirements
 
 The earlier spec has quality constraints but no comprehensive numerical NFR catalogue. The tests/criteria below **operationalize the recorded constraints for the report**. Where a threshold was not originally preregistered, it is explicitly a **retrospective proposed check**, not a claim it was met.
 
@@ -108,7 +109,7 @@ The earlier spec has quality constraints but no comprehensive numerical NFR cata
 | NFR-09 | **Performance (proposed target):** first interactive screen ≤ 3 seconds on a defined reference device/network; lexicon request retrieves only one level (456 records), not all four. | Browser performance trace and network payload audit on fixed device/network; selected-level response contract. | Architecture and route verified in C; **three-second target NOT MEASURED**, not a reported result. |
 | NFR-10 | **Reproducibility:** identical frozen data input and independently buildable branch per method with commit SHA and test logs. | Git branch and CI artifact checks. | Demonstrated for A/B/C; human/model total time not instrumented. |
 
-### 2.4 Development tools, versions, selection rationale and AI attribution
+### 2.4 Technology Stack
 
 | Technology or tool | Version/role evidenced by repo | Why it was selected / what it does |
 |---|---|---|
@@ -203,7 +204,7 @@ The preserved CLI command and the stage documents are authentic engineering inpu
 
 ## 3. Vibe Coding Experience (5 marks)
 
-### 3.1 Vibe Coding framework and prompting technique
+### 3.1 Prompting Framework
 
 In this experiment I treated **Vibe Coding as an iterative human–AI development loop**: explain a small product goal in natural language, let ChatGPT propose and write a workable increment, observe the actual browser/build result, and redirect the next increment with specific feedback. Its defining feature here was **interactive feedback**, not deliberately weak prompts or skipping tests. My prompting method was an **agentic workflow**: ChatGPT wrote and committed files via GitHub and interacted with Vercel and Supabase under my direction. I did **not** deliberately ask it to produce a hidden or explicit chain-of-thought transcript. I used the GPT-6 **High thinking-effort setting**, but that setting is not proof that a particular private reasoning trace was saved or can be inspected. The common branch baseline guaranteed the recovered educational source was the same before the methods diverged.
 
@@ -219,7 +220,7 @@ next prompt or corrective instruction → rerun → preserve result
 
 Unlike Condition C, A did not require a precommitted, complete FR/NFR list before the first implementation file. Its advantages included immediate visible progress and concrete user reactions; limitations included discovered-as-you-go assumptions, OAuth dependencies, and untested source interpretation.
 
-### 3.2 Actual prompts, expected responses and refinement provenance
+### 3.2 Master Prompts / System Prompts
 
 **I distinguish my direct original-language instructions from the agent-facing texts drafted with ChatGPT and from summaries written later.** The previous ChatGPT conversation preserves some instructions from initial Vibe planning:
 
@@ -247,7 +248,7 @@ These are recovered conversational passages, **not yet a complete exported, inde
 
 I used a conversational **initial instruction → implementation → observation → refined request → retest** loop. The table distinguishes direct user text (**U**) from an assistant-authored engineering handoff (**A**) or an explanatory paraphrase (**P**). Where a complete original message is unavailable, I describe the correction without inventing a quotation.
 
-| Initial Prompt/Specification | AI Failure Mode / Bug Produced | Refined Prompt/Specification | Resulting Code Quality | What did not happen according to plan | Modified prompt |
+| Initial Prompt/Specification | AI Failure Mode / Bug Produced | Refined Prompt/Specification | Resulting Code Quality | What did not happen according to your plan | Modified Prompt |
 |---|---|---|---|---|---|
 | **U:** “ok let's continue”, after my earlier approval of a four-level Swedish MVP. | First increments produced a scaffold but did not demonstrate browser audio or complete acceptance. | **P, not verbatim:** after a real Chrome playback error, I requested a correction; the agent handled asynchronous voices and better error messages. | Initial UI and content compiled; I later reported sound working. Multi-device coverage was not tested. | I had not completed a full browser audio acceptance or verified multi-device speech playback. | **P (not a verbatim record):** diagnose the Chrome voice failure and handle voice loading/errors; exact typed corrective sentence was not preserved. |
 | **U excerpt:** “من می‌خوام A2 و B1 و B2 و C1 همه توش وجود داشته باشه” (*include all four levels*). | Early proposed scope appeared too focused on A2. | **A:** ChatGPT drafted the later Vibe handoff/common product brief with four level seeds. These inputs were assistant-authored, not my literal manual typing. | A2–C1 missions are present; all four levels pass the later independent guest browser test. | The earlier A2-only sketch did not match my required A2–C1 scope. | **A (AI-drafted handoff):** Nordlyd Vibe baseline expanded missions to A2/B1/B2/C1. Original complete agent-facing text is not in this repository. |
@@ -275,13 +276,13 @@ The table documents **actual outputs and corrections**, not a fictitious ideal p
 
 ## 4. Specification-Driven Development Experience (7 marks)
 
-### 4.1 Toolkit choice and requirement-first rationale
+### 4.1 SDD Tool-kit
 
 I used the **GitHub Spec Kit 1.1.3 scaffold** in Condition C because it offered a concrete, repeatable way to separate *what* the learner needs from *how* the app is written: constitution → specification → clarify → plan → tasks → analyze → implement → converge. This is a useful contrast to Vibe's evolving requirements and to B's voluntary autonomous planning. Its files are version-controlled, allowing the timing and stated decisions to be inspected.
 
 This was not an arbitrary branding exercise: [GitHub Actions run 38319369671](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38319369671) ran the real `specify-cli==1.1.3` CLI and committed official `.specify` templates/scripts/skills. However, I must precisely describe the **integration boundary**: `--integration copilot` initialized Copilot-compatible templates, but the app and specification stages were generated in a **ChatGPT-assisted** workflow; a separate Copilot agent is **not shown** running every `/speckit-*` slash command.
 
-### 4.2 Development environment, IDE evidence, AI tooling
+### 4.2 Development Environment
 
 | Component | Actual recorded environment | Reason/evidence |
 |---|---|---|
@@ -333,7 +334,7 @@ Two human/integration defects must also be counted:
 
 This is an **actual SDD convergence case**, not a perfect first-pass SDD implementation. A passing build or a complete-looking specification cannot replace stakeholder acceptance.
 
-### 4.5 Actual prompts, CLI commands, outputs and refinements
+### 4.5 Prompts
 
 In my development record, I separate **student-typed prompting**, **assistant-authored agent instructions**, and **real CLI usage**. The full [prompt provenance ledger](./PROMPT_PROVENANCE_LEDGER_2026-10-14.md) contains the sources and gaps.
 
