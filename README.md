@@ -28,7 +28,7 @@ The outer CI matrix is configured to continue after a failed individual test so 
 - [SDD actual Spec Kit 1.1.3 workflow and specifications](https://github.com/alikhalessi/nordljud-software-construction/tree/condition/spec-driven/specs/001-nordljud-classroom)
 - [SDD login discoverability failure: RED→GREEN](https://github.com/alikhalessi/nordljud-software-construction/actions/runs/38377362037)
 - [Observed Vibe homograph failure](./evaluation/DEFECT_VIBE_HOMOGRAPH_2026-10-14.md)
-- [Genuine guest screenshots / CI evidence index](./evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md)
+- [Nine permanently archived genuine guest browser PNGs](./evaluation/screenshots/) · [provenance/evidence index](./evaluation/SCREENSHOT_EVIDENCE_INDEX_2026-10-14.md)
 - [Submission readiness and access requirements](./research-evidence/SUBMISSION_READINESS_AND_ACCESS_2026-10-14.md)
 
 ## Honest scope and authorship
